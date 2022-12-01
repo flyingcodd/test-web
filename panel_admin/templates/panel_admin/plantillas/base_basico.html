@@ -1,0 +1,65 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> {% block title %} {% endblock %} </title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'panel_admin/images/favicon.ico' %}" />
+
+    <link rel="stylesheet" href="{% static 'panel_admin/css/backend-plugin.min.css' %}">
+    <link rel="stylesheet" href="{% static 'panel_admin/css/backend.css' %}">
+</head>
+
+<body class="  ">
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+    <!-- loader END -->
+    <!-- Wrapper Start -->
+
+                {% block content %}
+                {% endblock %}
+    <!-- Wrapper End-->
+    <!-- Backend Bundle JavaScript -->
+    <script src="{% static 'panel_admin/js/backend-bundle.min.js' %}"></script>
+    <!-- Chart Custom JavaScript -->
+    <script src="{% static 'panel_admin/js/customizer.js' %}"></script>
+
+    <script src="{% static 'panel_admin/js/sidebar.js' %}"></script>
+
+    <!-- Flextree Javascript-->
+    <script src="{% static 'panel_admin/js/flex-tree.min.js' %}"></script>
+    <script src="{% static 'panel_admin/js/tree.js' %}"></script>
+
+    <!-- Table Treeview JavaScript -->
+    <script src="{% static 'panel_admin/js/table-treeview.js' %}"></script>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="{% static 'panel_admin/js/sweetalert.js' %}"></script>
+
+    <!-- Vectoe Map JavaScript -->
+    <script src="{% static 'panel_admin/js/vector-map-custom.js' %}"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="{% static 'panel_admin/js/chart-custom.js' %}"></script>
+    <script src="{% static 'panel_admin/js/charts/01.js' %}"></script>
+    <script src="{% static 'panel_admin/js/charts/02.js' %}"></script>
+
+    <!-- slider JavaScript -->
+    <script src="{% static 'panel_admin/js/slider.js' %}"></script>
+
+    <!-- Emoji picker -->
+    <script src="{% static 'panel_admin/vendor/emoji-picker-element/index.js' %}" type="module"></script>
+
+
+    <!-- app JavaScript -->
+    <script src="{% static 'panel_admin/js/app.js' %}"></script>
+</body>
+
+</html>

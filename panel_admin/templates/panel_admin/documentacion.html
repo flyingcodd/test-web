@@ -1,0 +1,28 @@
+{% extends "panel_admin/plantillas/base.html" %}
+{% block title %}Reportes{% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-12 col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Documentacion</h4>
+                </div>
+                <!--select-->
+                <div class="card-header d-flex justify-content-between">
+                    <button type="button" class="btn btn-success">Actualizar</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                  <label for="" class="form-label">Ir al front-office: </label>
+                  <button type="button" class="btn btn-info">Home</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

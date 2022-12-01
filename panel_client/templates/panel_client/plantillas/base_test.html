@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link href="#" rel="icon">
+    <title>{% block title %}  {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'panel_client_registro/css/style.css' %}">
+    <!-- font awasome-->
+    <link rel="stylesheet" href="{% static 'panel_client_registro/lib/fontawesome-free-6.2.0/css/all.min.css' %}">
+
+</head>
+<body>
+{% if user.is_authenticated %}
+    <div class="nav canvas-image-blending">
+        <div class="nav__container">
+            <div class="nav__logo">
+                <a href=""><img src="https://th.bing.com/th/id/OIP.kmc-2IzCxrTPiKJ_w0w9uwHaHa?pid=ImgDet&rs=1" alt="logo">SOVIO</a>
+            </div>
+            <!--Nombre del colegio y boton cerrar seccion -->
+            <div class="nav__user">
+                <div class="nav__user__logo">
+                    <img src="https://th.bing.com/th/id/OIP.kmc-2IzCxrTPiKJ_w0w9uwHaHa?pid=ImgDet&rs=1"></img>
+                </div>
+                <div class="nav__user__name">
+                    <h1>{{request.session.nombreColegio}}</h1>
+                    <p>Alumno: {{request.session.nombreAlumno}}</p>
+                </div>
+                <div class="nav__user__button">
+                    <a class="btn" href="{% url 'cerrar_seccion' %}" ><i class="fa-solid fa-power-off"></i> Cerrar seccion</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endif %}
+
+{{col}}
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% extends "panel_admin/plantillas/base.html" %}
+{% block title %}Reportes{% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-12 col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Manual de usuario</h4>
+                </div>
+                <!--select-->
+                <div class="card-header d-flex justify-content-between">
+                    <button type="button" class="btn btn-success">Actualizar</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <!--Cargar un pdf de static-->
+                <embed src="{% static 'panel_admin/storage/manual_usuario.pdf' %}" width="100%" height="600px" />
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

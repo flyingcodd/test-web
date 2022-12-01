@@ -1,0 +1,39 @@
+
+<form class="row g-3 needs-validation" method="post" novalidate >
+    {% csrf_token %}
+    <div class="col-md-6 mb-3">
+        <label for="nombre_pregunta" class="form-label font-weight-bold text-muted text-uppercase">Escriba la pregunta</label>
+        <input type="text" class="form-control" id="nombre_pregunta" name="nombre_pregunta" value="{{pregunta.nombre_pregunta}}" placeholder="Ingrese una pregunta" required>
+        <div class="invalid-tooltip">
+            Por favor, ingrese una pregunta valida.
+        </div>
+    </div>
+    <div class="col-md-6 mb-6">
+        <label for="id_vocacion" class="form-label font-weight-bold text-muted text-uppercase">Aque grupo de vocacion pertenece?</label>
+        <select id="id_vocacion" name="id_vocacion" class="form-select form-control">
+            {% for vocacion in vocaciones %}
+                <option value="{{vocacion.id_vocacion}}" {% if vocacion.id_vocacion.id_vocacion == pregunta.id_vocacion %} selected {% endif %}>{{vocacion.nombre_vocacion}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-6 mb-6">
+        <label for="id_categoria" class="form-label font-weight-bold text-muted text-uppercase">Ingrese la categoria a la que pertenece</label>
+        <select id="id_categoria" name="id_categoria" class="form-select form-control">
+            {% for categoria in categorias %}
+                <option value="{{categoria.id_categoria}}" {% if pregunta.id_categoria.id_categoria == categoria.id_categoria %} selected {% endif %}>{{categoria.nombre_categoria}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="estado_alumno" class="form-label font-weight-bold text-muted text-uppercase">Estado de la pregunta</label>
+        <select id="estado_alumno" name="estado_alumno" class="form-select form-control">
+            <option value="1" >Habilitado</option>
+            <option value="0" >Inhabilitado</option>
+        </select>
+    </div>
+    <div class="d-block justify-content-end mt-3">
+        <button type="submit" class="btn btn-primary">Guardar Informacion</button>
+        <a name="" id="" class="btn btn-secondary" href="{% url 'preguntas' %}" role="button">Cancelar</a>
+    </div>
+    
+</form>

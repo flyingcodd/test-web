@@ -1,0 +1,75 @@
+{% extends "panel_admin/plantillas/base.html" %}
+
+{% block title %}Panel Admin{% endblock %}
+{% load static %}
+<!--Para cargar las imagenes-->
+{% block content %}
+
+<!-- Wrapper Start -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Comunicados</h4>
+                </div>
+                <div class="header-title">
+                    <a href="{% url 'comunicados_crear' %}" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Crear Comunicado
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="acc-edit">
+                    <h5>Lista de Comunicados</h5>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Titulo</th>
+                                    <th scope="col">Descripcion</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Es visible</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Comunicado 1</td>
+                                    <td>
+                                        <img src="https://th.bing.com/th/id/R.540c0df2f46cc52fcf4c0fe8c08bb3b9?rik=0rr7RlkBQasheg&pid=ImgRaw&r=0" alt="" width="200px">
+                                    </td>
+                                    <td>2020-01-01</td>
+                                    <td>SI</td>
+                                    <td>
+                                        <a href="{% url 'comunicados_editar' 1 %}" class="btn btn-primary btn-sm">Editar</a>
+                                        <a href="#" class="btn btn-danger btn-sm">Eliminar</a>
+                                    </td>
+                                </tr>
+                                {% for comunicado in comunicados %}
+                                <tr>
+                                    <td>{{comunicado.nombre_comunicado}}</td>
+                                    <td>
+                                        <img src="{{comunicado.img_comunicado}}" alt="" width="200px">
+                                    </td>
+                                    <td>{{comunicado.fecha_comunicado}}</td>
+                                    <td>{{comunicado.estado_comunicado}}</td>
+                                    <td>
+                                        <a href="{% url 'comunicados_editar' comunicado.id_comunicado %}" class="btn btn-primary btn-sm">Editar</a>
+                                        <a href="{% url 'comunicados_eliminar' comunicado.id_comunicado %}" class="btn btn-danger btn-sm">Eliminar</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Wrapper End-->
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "panel_client/plantillas/base_test.html" %}
+
+{% block title %}SOVIO{% endblock %}
+
+{% block content %}
+    <div class="container__resultados">
+        <h1>Bienvenido: {{nombreAlumno}}</h1>
+        <div class="container__resultados__body">
+            <h1>Lo tuyo, lo tuyo, son los temas relacionados con "{{nombreVocacion}}"</h1>
+            <p>Las Carreras recomendadas son:</p>
+            <ul>
+                <!--Imprimindo tabla del proce almacenado-->
+                {% for carrera in carreras %}
+                    <li>{{carrera.nombre_carrera}}</li>
+                {% endfor %}
+            </ul>
+            <div class="btn-descargar">
+                <a class="btn" href="{% url 'generar_pdf' id_vocacion %}"><i class="fa-solid fa-cloud-arrow-down"></i> Descargar Ficha</a>
+            </div>
+        </div>
+    </div>
+    <canvas id="my-canvas"></canvas>
+
+    {% load static %}
+    <script src="{% static 'panel_client_registro/lib/confetti-js/dist/index.min.js' %}"></script>
+    <script>
+        var confettiSettings = { target: 'my-canvas', rotate : true}
+        var confetti = new ConfettiGenerator(confettiSettings);
+        confetti.render();
+    </script>
+{% endblock %}

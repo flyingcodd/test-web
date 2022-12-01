@@ -1,0 +1,47 @@
+
+<form class="row g-3 needs-validation" method="post" novalidate >
+    {% csrf_token %}
+    <div class="col-md-6 mb-3">
+        <label for="nombre_alumno" class="form-label font-weight-bold text-muted text-uppercase">Nombre del Alumno</label>
+        <input type="text" class="form-control" id="nombre_alumno" name="nombre_alumno" value="{{alumno.nombre_alumno}}" placeholder="Ingrese Nombre del alumno" required>
+        <div class="invalid-tooltip">
+            Por favor, ingrese un nombre de alumno válido.
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="apellido_alumno" class="form-label font-weight-bold text-muted text-uppercase">Apellidos del alumno</label>
+        <input type="text" class="form-control" id="apellido_alumno" name="apellido_alumno" value="{{alumno.apellido_alumno}}" placeholder="Ingrese Apellidos del alumno">
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="dni_alumno" class="form-label font-weight-bold text-muted text-uppercase">DNI</label>
+        <input type="text" class="form-control" id="dni_alumno" name="dni_alumno" value="{{alumno.dni_alumno}}" placeholder="Ingrese DNI">
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="fecha_nacimiento_alumno" class="form-label font-weight-bold text-muted text-uppercase">Fecha de nacimiento</label>
+        <input type="date" class="form-control" id="fecha_nacimiento_alumno" name="fecha_nacimiento_alumno" value="{{alumno.fecha_nacimiento_alumno}}">
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="grado_alumno" class="form-label font-weight-bold text-muted text-uppercase">Grado</label>
+        <input type="number" class="form-control" id="grado_alumno" name="grado_alumno" value="{{alumno.grado_alumno}}" placeholder="Ingrese el grado del alumno">
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="estado_alumno" class="form-label font-weight-bold text-muted text-uppercase">Estado del alumno</label>
+        <select id="estado_alumno" name="estado_alumno" class="form-select form-control">
+            <option value="1" {% if alumno.estado_alumno == 1 %} selected {% endif %}>Habilitado</option>
+            <option value="0" {% if alumno.estado_alumno == 0 %} selected {% endif %}>Inhabilitado</option>
+        </select>
+    </div>
+    <div class="col-md-12 mb-6">
+        <label for="id_colegio" class="form-label font-weight-bold text-muted text-uppercase">Colegio del Alumno</label>
+        <select id="id_colegio" name="id_colegio" class="form-select form-control">
+            {% for colegio in colegios %}
+                <option value="{{colegio.id_colegio}}" {% if alumno.id_colegio == colegio.id_colegio %} selected {% endif %}>{{colegio.nombre_colegio}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="d-block justify-content-end mt-3">
+        <button type="submit" class="btn btn-primary">Guardar Informacion</button>
+        <a name="" id="" class="btn btn-secondary" href="{% url 'alumnos' %}" role="button">Cancelar</a>
+    </div>
+    
+</form>

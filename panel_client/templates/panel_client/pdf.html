@@ -1,0 +1,215 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe - {{alumno.dni_alumno}}</title>
+
+    <style>
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+
+        .contenedor {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .contenedor .logo {
+            width: 100%;
+            height: 100%;
+        }
+
+        .contenedor .logo img {
+            width: 220px;
+            height: 50px;
+            background-color: aqua;
+        }
+
+        .contenedor .titulo {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 2rem 0;
+        }
+
+        .contenedor .formulario {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .contenedor .formulario .form-group {
+            width: 100%;
+            display: block;
+            margin: 1cm;
+            margin-right: 0;
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+
+        .contenedor .formulario .form-group label {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: regular;
+            color: rgb(0, 0, 0);
+            margin: 1rem 0;
+        }
+
+        .contenedor .formulario .form-group .res {
+            color: rgb(0, 0, 0);
+            /* propiedades de xhtml2pdf */
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            border: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contenedor">
+        <div class="logo">
+            <img src="{{url_logo}}" alt="logo.jpg">
+        </div>
+        <div class="titulo">
+            INFORME CONFIDENCIAL DE SOVIO
+        </div>
+        <div class="formulario" style="margin-top: -2cm;">
+            <div class="form-group">
+                <label for="name">Nombre: </label>
+                <label class="res" for="">{{alumno.nombre_alumno}}</label>
+            </div>
+            <div class="form-group">
+                <label for="name">Apellido: </label>
+                <label class="res" for="" style="border: 10px;">{{alumno.apellido_alumno}}</label>
+            </div>
+            <div class="form-group">
+                <label for="name">Dni: </label>
+                <label class="res" for="" style="border: 10px;">{{alumno.dni_alumno}}</label>
+            </div>
+            <div class="form-group">
+                <label for="name">Edad: </label>
+                <label class="res" for="" style="border: 10px;">{{edad}} años</label>
+            </div>
+            <div class="form-group">
+                <label for="name">Genero: </label>
+                <label class="res" for="" style="border: 10px;">
+                {% if alumno.genero_alumno == 1 %}
+                    Masculino
+                {% else %}
+                    Femenino
+                {% endif %}
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="name">Grado de instruccion: </label>
+                <label class="res" for="" style="border: 10px;">{{alumno.grado_alumno}}ª</label>
+            </div>
+            <div class="form-group">
+                <label for="name">Inst. Educativa: </label>
+                <label class="res" for="" style="border: 10px;">{{alumno.id_colegio.nombre_colegio}}</label>
+            </div>
+        </div>
+        <h1>I. Descripcion de las areas medidas</h1>
+        <h2>>Habilidades </h2>
+
+        <div>
+            <h2 style="display: flex;">1.- Atencion: </h2>
+            <p style="display: inline;">Capacidad de atención y concentración a detalles.</p>
+        </div>
+
+        <div>
+            <h2 style="display: flex;">2.- Habilidad Numerica: </h2>
+            <p style="display: inline;">Capacidad de raciocinio y cálculo numérico para resolver problemas aritméticos.
+            </p>
+        </div>
+
+        <div>
+            <h2 style="display: flex;">3.- Razonamiento: </h2>
+            <p style="display: inline;">: Capacidad para discriminar entre conceptos y encontrar relaciones verbales y
+                numéricas.</p>
+        </div>
+
+        <div>
+            <h2 style="display: flex;">4.- Vocabulario: </h2>
+            <p style="display: inline;">Bagaje verbal y capacidad de identificación de sinónimos.</p>
+        </div>
+
+        <div>
+            <h2 style="display: flex;">5.- Area Espacial: </h2>
+            <p style="display: inline;">Capacidad para ubicarse en el espacio y manipular imágenes de manera mental.</p>
+        </div>
+
+        <h2>>Tipificación vocacional (Estilo personal y preferencia ocupacional)</h2>
+        <div>
+            <h2 style="display: flex;">1.- Tipo Liderazgo: </h2>
+            <p style="display: inline;">
+                Caracteriza a personas dominantes, ambiciosas y seguras de sí mismas. Se interesan comúnmente por
+                actividades que impliquen un rol directivo y de manejo de personas. Por ello, suelen tener habilidades
+                para organizar y dirigir a personas, así como capacidad de persuasión y de concertación.
+            </p>
+        </div>
+        <div>
+            <h2 style="display: flex;">2.- Tipo Técnico - mecánico: </h2>
+            <p style="display: inline;">
+                Caracteriza a personas con interés en actividades relacionadas a la manipulación de objetos,
+                instrumentos, máquinas, etc. Suele tener habilidades manuales y mecánicas, así como destreza física.
+            </p>
+        </div>
+        <div>
+            <h2 style="display: flex;">3.- Area Espacial: </h2>
+            <p style="display: inline;">Capacidad para ubicarse en el espacio y manipular imágenes de manera mental.</p>
+        </div>
+        <div>
+            <h2 style="display: flex;">4.- Tipo Social: </h2>
+            <p style="display: inline;">Caracteriza a personas cooperativas, serviciales y sociables. Muestran
+                comúnmente interés en actividades que involucren educar, curar o servir a otras personas. Por ello,
+                usualmente poseen habilidades para ejercer un rol instructivo, de apoyo o atención a otras personas.
+            </p>
+        </div>
+        <div>
+            <h2 style="display: flex;">5.- Tipo Artístico: </h2>
+            <p style="display: inline;">Caracteriza a personas creativas y originales. Suelen mostrar interés por
+                actividades que involucran la creación e imaginación. Comúnmente las personas de este tipo poseen
+                habilidades artísticas ya sea en la música, en la pintura o en otras expresiones artísticas.
+            </p>
+        </div>
+        <div>
+            <h2 style="display: flex;">6.- Tipo Investigativo: </h2>
+            <p style="display: inline;">Caracteriza a personas intelectuales, metódicas y curiosas. Suelen interesarse
+                por actividades que involucran el recojo sistemático y el análisis de información, así como en la
+                comprensión de fenómenos naturales y/o sociales. Las personas de este tipo comúnmente tienen capacidad
+                de observación, análisis y de aprendizaje constante.
+            </p>
+        </div>
+        <div>
+            <h2 style="display: flex;">7.- Tipo Emprendedor: </h2>
+            <p style="display: inline;">Las personas de este tipo tienen interés en actividades que implican tomar la
+                iniciativa, iniciar nuevas empresas y/o negocios. Por ello, tienen capacidades para vender, publicitar
+                productos y negociar.
+            </p>
+        </div>
+
+        <h1>II. Resultados</h1>
+        <p>De acuerdo a los resultados obtenidos podemos mencionar que el alumno puede Desarrollar sus
+            habilidades dentro de los tipos vocacionales de <b>{{nombreVocacion}}</b> y dentro de las carreras
+            opcionales como primera opción:
+            {% for carrera in carreras %}
+            <b>{{ carrera.nombre_carrera }}</b>,
+            {% endfor %}etc.
+        </p>
+    </div>
+
+</body>
+
+</html>

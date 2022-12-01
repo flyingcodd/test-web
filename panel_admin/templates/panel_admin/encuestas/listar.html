@@ -1,0 +1,116 @@
+{% extends "panel_admin/plantillas/base.html" %}
+
+{% block title %}Listado de Encuestas{% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="d-flex flex-wrap align-items-center justify-content-between my-schedule mb-4">
+            <div class="d-flex align-items-center justify-content-between">
+                <h4 class="font-weight-bold">Test de alumnos por estado</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-block card-stretch">
+                    <div class="card-body p-0">
+                        <div class="d-flex justify-content-between align-items-center p-3">
+                            <h5 class="font-weight-bold">Lista de Carreras</h5>
+                            <button class="btn btn-secondary btn-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="mr-1" width="20" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                Exportar
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="data_table" class="table data-table mb-0 table-hover">
+                                <thead class="table-color-heading">
+                                    <tr class="text-secondary">
+                                        <th scope="col">Fecha</th>
+                                        <th scope="col">Hora</th>
+                                        <th scope="col">Alumno</th>
+                                        <th scope="col">Colegio</th>
+                                        <th scope="col">Estado</th>
+                                        <th scope="col" class="text-right">Preguntas respondidas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for alumnos_encuesta in alumnos_encuestas %}
+                                    <tr class="white-space-no-wrap">
+                                        <td>{{alumnos_encuesta.fecha}}</td>
+                                        <td>{{alumnos_encuesta.hora}}</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-45 mr-2">
+                                                    <img src="{% static 'panel_admin/images/user/2.jpg' %}"
+                                                        class="img-fluid rounded-circle" alt="image">
+                                                </div>
+                                                <div>{{alumnos_encuesta.nombre}}</div>
+                                            </div>
+                                        </td>
+                                        <td>{{alumnos_encuesta.colegio}}</td>
+                                        <td>
+                                            {% if alumnos_encuesta.estado == 1 %}
+                                            <p
+                                                class="mb-0 text-success d-flex justify-content-start align-items-center">
+                                                <small><svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="18"
+                                                        viewBox="0 0 24 24" fill="none">
+                                                        <circle cx="12" cy="12" r="8" fill="#3cb72c"></circle>
+                                                    </svg>
+                                                </small> Completado
+                                            </p>
+                                            {% else %}
+                                            <p
+                                                class="mb-0 text-warning d-flex justify-content-start align-items-center">
+                                                <small><svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="18"
+                                                        viewBox="0 0 24 24" fill="none">
+                                                        <circle cx="12" cy="12" r="8" fill="#db7e06"></circle>
+                                                    </svg>
+                                                </small>Pendiente
+                                            </p>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-right">{{alumnos_encuesta.cantidad}} /
+                                            <strong>{{alumnos_encuesta.total}}</strong></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+    crossorigin="anonymous"></script>
+<script>
+    // data table poner de forma descendente
+    $(document).ready(function () {
+        $('#data_table').DataTable({
+            order: [[0, 'desc']],
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "No se encontraron registros",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay registros disponibles",
+                "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                "search": "Buscar:",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+            }
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "panel_client/plantillas/base_test.html" %}
+
+{% block title %}SOVIO{% endblock %}
+
+{% block content %}
+    <div class="container_quiz">
+        <div class="quiz">
+
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="id_alumno" value="{{id_alumno}}">
+                <div class="quiz_header">
+                    <div class="quiz_header_title">
+                        <h1>Categoria: {{pregunta.id_categoria.nombre_categoria}}</h1>
+                    </div>
+                    <div class="quiz_header_timer">
+                        <h1>{{contador_pregunta}} de {{cantidad_preguntas}}</h1>
+                    </div>
+                </div>
+                <div class="quiz_body">
+                    <div class="quiz_body_question">
+                        
+                        <h1><i class="fa-solid fa-circle-question fa-xl"></i> {{pregunta.nombre_pregunta}}</h1>
+                        <p>{{pregunta.id_categoria.pregunta_categoria}}</p>
+                    </div>
+                    <!--Solo dos opciones radio Button -->
+                    <div class="quiz_body_options">
+                        {% if respuesta.valor_respuesta == 1 %}
+                        <div class="quiz_body_options_option active">
+                            <input type="radio" name="option" id="option1" value="1">
+                            <label for="option1">Si</label>
+                        </div>
+                        <div class="quiz_body_options_option">
+                            <input type="radio" name="option" id="option2" value="0">
+                            <label for="option2">No</label>
+                        </div>
+                        {% elif respuesta.valor_respuesta == 0 %}
+                        <div class="quiz_body_options_option">
+                            <input type="radio" name="option" id="option1" value="1">
+                            <label for="option1">Si</label>
+                        </div>
+                        <div class="quiz_body_options_option active">
+                            <input type="radio" name="option" id="option2" value="0">
+                            <label for="option2">No</label>
+                        </div>
+                        {% else %}
+                        <div class="quiz_body_options_option">
+                            <input type="radio" name="option" id="option1" value="1">
+                            <label for="option1">Si</label>
+                        </div>
+                        <div class="quiz_body_options_option">
+                            <input type="radio" name="option" id="option2" value="0">
+                            <label for="option2">No</label>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="quiz_footer">
+                    <div class="quiz_footer_button">
+                        <!--<a class="btn" href="" ><i class="fa-solid fa-chevron-left"></i> Anterior</a>-->
+                        <a class="btn" href="javascript: history.go(-1)"><i class="fa-solid fa-chevron-left"></i> Anterior</a>
+                    </div>
+                    <!--<div class="quiz_footer_button">
+                        siguiente pregunta-->
+                        <!--<button type="submit" class="btn">Siguiente <i class="fa-solid fa-chevron-right"></i></button>
+                    </div>-->
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        // resaltar la opcion seleccionada
+        const options = document.querySelectorAll(".quiz_body_options_option");
+        options.forEach(option => {
+            option.addEventListener("click", () => {
+                options.forEach(option => {
+                    option.classList.remove("active");
+                });
+                option.classList.add("active");
+            });
+        });
+
+        // hacer un submit al seleccionar una opcion
+        const form = document.querySelector("form");
+        const inputs = document.querySelectorAll("input");
+        inputs.forEach(input => {
+            input.addEventListener("click", () => {
+                form.submit();
+            });
+        });
+
+    </script>
+{% endblock %}

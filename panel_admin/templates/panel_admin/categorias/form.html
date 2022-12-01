@@ -1,0 +1,80 @@
+
+<form class="row g-3 needs-validation" method="post" novalidate >
+    {% csrf_token %}
+    <div class="col-md-6 mb-3">
+        <label for="nombre_categoria" class="form-label font-weight-bold text-muted text-uppercase">Nombre de la categoria</label>
+        <input type="text" class="form-control" id="nombre_categoria" name="nombre_categoria" value="{{categoria.nombre_categoria}}" placeholder="Ingrese Nombre de la categoria" required>
+        <div class="invalid-tooltip">
+            Por favor, ingrese un nombre de la categoria válida.
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="estado_categoria" class="form-label font-weight-bold text-muted text-uppercase">Estado del categoria</label>
+        <select id="estado_categoria" name="estado_categoria" class="form-select form-control">
+            <option value="1" {% if categoria.estado_categoria == 1 %} selected {% endif %}>Habilitado</option>
+            <option value="0" {% if categoria.estado_categoria == 0 %} selected {% endif %}>Inhabilitado</option>
+        </select>
+    </div>
+    <div class="d-block justify-content-end mt-3">
+        <button type="submit" class="btn btn-primary">Guardar Informacion</button>
+        <a name="" id="" class="btn btn-secondary" href="{% url 'categorias' %}" role="button">Cancelar</a>
+    </div>
+    
+</form>
+<!--<form class="row g-3">
+    <div class="col-md-6 mb-3">
+        <label for="Text1" class="form-label font-weight-bold text-muted text-uppercase">Product Name</label>
+        <input type="text" class="form-control" id="Text1" placeholder="Enter Product Name">
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="inputState" class="form-label font-weight-bold text-muted text-uppercase">Category</label>
+        <select id="inputState" class="form-select form-control choicesjs">
+            <option value="selected">Select Category</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Applications">Applications</option>
+            <option value="Gadgets">Gadgets</option>
+        </select>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Text2" class="form-label font-weight-bold text-muted text-uppercase">Product Code</label>
+        <input type="text" class="form-control" id="Text2" placeholder="Enter Product Code">
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Text3" class="form-label font-weight-bold text-muted text-uppercase">Product Sku</label>
+        <input type="text" class="form-control" id="Text3" placeholder="Enter Product SKU">
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Text4" class="form-label font-weight-bold text-muted text-uppercase">manufacturer</label>
+        <input type="text" class="form-control" id="Text4" placeholder="Enter Manufacturer">
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Text5" class="form-label font-weight-bold text-muted text-uppercase">Quantity</label>
+        <input type="text" class="form-control" id="Text5" placeholder="Enter Quantity">
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Text6" class="form-label font-weight-bold text-muted text-uppercase">Price</label>
+        <input type="text" class="form-control" id="Text6" placeholder="Enter Price">
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Text7" class="form-label font-weight-bold text-muted text-uppercase">Tax</label>
+        <input type="text" class="form-control" id="Text7" placeholder="Enter Tax">
+    </div>
+    <div class="col-md-12 mb-3">
+        <label for="Text8" class="form-label font-weight-bold text-muted text-uppercase">Tag</label>
+        <select id="Text8" class="multipleSelect2 form-control choicesjs" multiple="true">
+            <option selected value="1">Excellent</option>
+            <option value="2">Very Good</option>
+            <option value="3">Good</option>
+            <option value="4">Not Bad</option>
+            <option value="5">Bad</option>
+            <option value="6">Very Bad</option>
+        </select>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label for="Text9" class="form-label font-weight-bold text-muted text-uppercase">Description</label>
+        <textarea class="form-control" id="Text9" rows="2" placeholder="Enter Description"></textarea>
+    </div>
+    <div class="d-flex justify-content-end mt-3">
+        <button type="submit" class="btn btn-primary">Guardar Informacion</button>
+    </div>
+</form>-->

@@ -1,0 +1,430 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    overflow: hidden;
+    background-image: url(../img/fondo.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+}
+.btn{
+    width: 100%;
+    height: 50px;
+    border: none;
+    background: #0d6efd;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #e9f4fb;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 20px;
+    text-decoration: none;
+    padding: 15px;
+}
+.btn:hover{
+    background: #8e44ad;
+    transition: .4s;
+}
+input[type="date" i]{
+    font-family: sans-serif;
+    color: #28282800;
+}
+input[type="date" i]:valid,
+input[type="date" i]:focus{
+    color: #000 ;
+}
+option {
+    font-family: sans-serif;
+}
+/*alerta*/
+
+
+/******************************* Navegacion Begin **************************************/
+.nav{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: #fff;
+    z-index: 1;
+}
+.nav__container{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+.nav__logo{
+    color: #fff;
+    font-size: 30px;
+    font-weight: 600;
+    text-decoration: none;
+}
+.nav__logo img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.nav__logo a{
+    color: #0d6efd;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+.nav__user{
+    display: flex;
+    align-items: center;
+}
+.nav__user .nav__user__name{
+    color: #000;
+    font-weight: 600;
+    text-decoration: none;
+}
+.nav__user .nav__user__name p{
+    margin-top: -20px;
+    font-size: 15px;
+    color: #8e44ad;
+    border-bottom: 1px solid #8e44ad;
+    text-align: start;
+}
+.nav__user .nav__user__logo img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.nav__user__button{
+    margin-right:50px;
+    margin-left: 20px;
+}
+/* menu para movil */
+@media screen and (max-width: 768px){
+    .nav__container{
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+    }
+    .nav__user__logo{
+        display: none;
+    }
+    .nav{
+        height: 200px;
+    }
+    .nav__user__button{
+        margin-right: 0;
+        margin-left: 10px;
+    }
+}
+/******************************* Navegacion End **************************************/
+
+.center{
+    margin-top: 50px;
+    position: absolute;
+    top: 50% ;
+    left: 50%;
+    transform: translate(-50%, -50%) ;
+    width: 400px;
+    background: white;
+    border-radius: 10px;
+}
+
+.center h1{
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid silver;
+}
+
+.center form{
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+form .txt_field{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 30px 0;
+}
+
+.txt_field input{
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+}
+form .txt_field select{
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+}
+
+
+.txt_field label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: #adadad;
+    transform: translateY(-50%);
+    font-size: 16px;
+    pointer-events: none;
+}
+
+.txt_field span::before{
+    content: '';
+    position: absolute;
+    top: 40px;
+    left: 0%;
+    width: 0%;
+    height: 2px;
+    background: #2991d9;
+    transition: 1s;
+}
+.txt_field input:focus ~ label,
+.txt_field input:valid ~ label{
+    top: -5px;
+    left: 0px;
+    color: #2991d9;
+    transition: 0.4s;
+}
+.txt_field input:focus ~ span::before,
+.txt_field input:valid ~ span::before{
+    width: 100%;
+}
+.pass{
+    margin: -5px 0 20px 5px;
+    color: #a6a6a6;
+    cursor: pointer;
+}
+.pass:hover{
+    text-decoration: underline;
+}
+
+
+/********************************* begin quiz *********************************/
+.container_quiz{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 9px 12px 20px 0px rgb(0 0 0 / 30%)
+}
+.quiz{
+    padding: 30px;
+    box-sizing: border-box;
+}
+.quiz_header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #2991d9;
+}
+.quiz .quiz_body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.quiz_body_question{
+    width: 100%;
+}
+.quiz_body_options{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+/* Opciones de radio */
+.quiz_body_options_option{
+    margin: 30px 50px;
+}
+.quiz_body_options_option.active{
+    background-color: #2991d9;
+    color: white;
+    padding: 20px 0px;
+    border-radius: 50%;
+}
+.quiz_body_options_option input{
+    display: none;
+}
+.quiz_body_options_option label{
+    font-size: 24px;
+    cursor: pointer;
+    position: relative;
+    padding: 20px 30px;
+    border-radius: 50%;
+    border: 2px solid #2991d9;
+}
+.quiz_body_options_option label:hover{
+    color: #2991d9;
+    background-color: yellow;
+}
+/* Opciones de radio */
+.quiz_footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.quiz_footer_button{
+    cursor: pointer;
+}
+@media screen and (max-width: 768px){
+    html{
+        width: 100%;
+    }
+    .container_quiz{
+        width: 100%;
+        margin-top: 90px;
+    }
+    .quiz_body_options_option{
+        margin: 30px 20px;
+    }
+    .quiz_header{
+        flex-direction: column;
+        text-align: center;
+        margin: 0;
+    }
+}
+/********************************* quiz end *********************************/
+
+/********************************** Begin Login *********************************/
+.container_login{
+    background-image: url("../img/fondo.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+}
+.container_login .login{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: #282828e0;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px 20px rgb(0 0 0 / 30%)
+}
+.login_header {
+    text-align: center;
+    padding: 0 0 20px 0;
+}
+.login_header .login_header_silueta img{
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.login_body{
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+.login_body .login_body_form{
+    margin-top: 80px;
+}
+.login_body .login_body_form_group{
+    margin: 30px 0;
+    display: flex;
+    align-items: center;
+}
+.login_body .login_body_form_group i{
+    position: absolute;
+    left: 60px;
+    color: #adadad;
+}
+.login_body .login_body_form_group input{
+    width: 100%;
+    padding: 5px 5px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: 700;
+    border: 1px solid #adadad;
+    background: none;
+    outline: none;
+    padding-left: 60px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+.login_body .span{
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: #ff0000;
+}
+/********************************** End Login *********************************/
+
+/********************************** Begin Resultados *********************************/
+.container__resultados{
+    position: absolute;
+    top: 50% ;
+    left: 50%;
+    transform: translate(-50%, -50%) ;
+    width: 1000px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 9px 12px 20px 0px rgb(0 0 0 / 30%);
+}
+.container__resultados h1{
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 2px solid #0d6efd;
+}
+.container__resultados .container__resultados__body{
+    padding: 0 30px
+}
+.container__resultados .container__resultados__body h1,p{
+    text-align: center;
+    border: none;
+    font-size: 24px;
+}
+.container__resultados .container__resultados__body h1{
+    color: #0d6efd;
+}
+.container__resultados .container__resultados__body p{
+    color: #000;
+    font-weight: bold;
+}
+.container__resultados .container__resultados__body ul{
+    list-style: lower-alpha;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-evenly;
+    color: #000;
+    font-size: 20px;
+}
+.btn-descargar{
+    display: block;
+    text-align: center;
+    margin: 40px auto;
+}
+@media screen and (max-width: 768px){
+    .container__resultados{
+        width: 100%;
+        margin-top: 90px;
+    }
+}
+/********************************** End Resultados *********************************/

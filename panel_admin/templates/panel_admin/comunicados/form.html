@@ -1,0 +1,56 @@
+
+<form class="row g-3 needs-validation" method="post" novalidate >
+    {% csrf_token %}
+    <div class="col-md-6 mb-3">
+        <label for="nombre_comunicado" class="form-label font-weight-bold text-muted text-uppercase">Nombre del comunicado</label>
+        <input type="text" class="form-control" id="nombre_comunicado" name="nombre_comunicado" value="{{comunicado.nombre_comunicado}}" placeholder="Ingrese un nombre" required>
+        <div class="invalid-tooltip">
+            Por favor, ingrese un nombre del comunicado válida.
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="fecha_comunicado" class="form-label font-weight-bold text-muted text-uppercase">Fecha de subida al servidor</label>
+        <input type="date" class="form-control" id="fecha_comunicado" name="fecha_comunicado">
+        <div class="invalid-tooltip">
+            Por favor, suba un archivo válido.
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="nombre_categoria" class="form-label font-weight-bold text-muted text-uppercase">Suba el comunicado</label>
+        <div class="custom-file mb-3">
+            <input type="file" class="custom-file-input" id="img_comunicado" name="img_comunicado">
+            <label class="custom-file-label" for="img_comunicado">Elija el archivo</label>
+        </div>
+        <div class="invalid-tooltip">
+            Por favor, ingrese una fecha válida.
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="estado_comunicado" class="form-label font-weight-bold text-muted text-uppercase">Estado del comunicado</label>
+        <select id="estado_comunicado" name="estado_comunicado" class="form-select form-control">
+            <option value="1" {% if comunicado.estado_comunicado == 1 %} selected {% endif %}>Visible</option>
+            <option value="0" {% if comunicado.estado_comunicado == 0 %} selected {% endif %}>No Visible</option>
+        </select>
+    </div>
+    <div class="d-block justify-content-end mt-3">
+        <button type="submit" class="btn btn-primary">Guardar Informacion</button>
+        <a name="" id="" class="btn btn-secondary" href="{% url 'comunicados' %}" role="button">Cancelar</a>
+    </div>
+    
+</form>
+<script>
+    // fecha actual
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd
+    }
+    if(mm<10){
+        mm='0'+mm
+    }
+    today = yyyy+'-'+mm+'-'+dd;
+    document.getElementById("fecha_comunicado").value = today;
+
+</script>

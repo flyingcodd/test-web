@@ -1,0 +1,131 @@
+{% extends "panel_client/plantillas/base_test.html" %}
+
+{% block title %}SOVIO{% endblock %}
+
+{% block content %}
+
+    <!-- Login Start -->
+    <div class="container_login">
+        <a href="{% url 'index_client' %}"
+            style="color: #fff; text-decoration: none; padding: 10px 10px; background-color: #0d6efd; display: flex; justify-content: center; align-items: center; width: 90px; height: 30px;">
+            <i class="fa-solid fa-house-chimney"></i>
+            -Inicio
+        </a>
+        <div class="login">
+            <div class="login_header">
+                <div class="login_header_silueta">
+                    <img src="https://w7.pngwing.com/pngs/312/283/png-transparent-man-s-face-avatar-computer-icons-user-profile-business-user-avatar-blue-face-heroes.png" alt="">
+                </div>
+            </div>
+            <div class="login_body">
+                <div class="login_body_form">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="login_body_form_group">
+                            <i class="fa-solid fa-id-card"></i>
+                            <input type="text" name="dni_alumno" id="dni_alumno" placeholder="Dni del alumno" required>
+                            <span class="error"></span>
+                        </div>
+                        <div class="login_body_form_group">
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" name="username" id="username" placeholder="Nombre de usuario del colegio" required>
+                            <span class="error"></span>
+                        </div>
+                        <div class="login_body_form_group">
+                            <i class="fa-solid fa-key"></i>
+                            <input type="password" name="password" id="password" placeholder="Contraseña" required>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn"><i class="fa-solid fa-right-to-bracket"></i> Ingresar</button>
+                        </div>
+                        <div class="span">
+                            <span>"No te Olvides de que el usuario y contraseña fueron asignados a los directores de cada colegio"</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Login End -->
+
+    <script>
+        // validaciones de los campos
+        const dni_alumno = document.getElementById('dni_alumno');
+        const username = document.getElementById('username');
+        const password = document.getElementById('password');
+
+        /***************************** inicio de la validacion del dni ******************************/
+        // validacion de dni que solo acepte numeros y que no sea mayor a 8 digitos
+        // y que muestra un mensaje de error
+        dni_alumno.addEventListener('input', function () {
+            if (this.value.length > 8) {
+                this.value = this.value.slice(0, 8);
+                // mostrar mensaje de error
+                mostrarError(dni_alumno, 'El dni no puede tener mas de 8 digitos');
+            } else if (isNaN(this.value)) {
+                this.value = this.value.slice(0, -1);
+                // mostrar mensaje de error
+                mostrarError(dni_alumno, 'El dni solo puede contener numeros');
+            } else {
+                // ocultar mensaje de error
+                ocultarError(dni_alumno);
+            }
+        });
+        mostrarError = (input, mensaje) => {
+            /*const formGroup = input.parentElement;
+            const span = formGroup.querySelector('span');
+            span.innerText = mensaje;
+            formGroup.classList.add('error');*/
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: mensaje,
+            })
+        }
+        ocultarError = (input) => {
+            const formGroup = input.parentElement;
+            formGroup.classList.remove('error');
+        }
+        /***************************** fin de la validacion del dni ******************************/
+        
+        /***************************** inicio de la validacion del username ******************************/
+        // validacion de username que no acepte espacios en blanco ni caracteres especiales
+        // y que muestra un mensaje de error
+        username.addEventListener('input', function () {
+            if (this.value.includes(' ')) {
+                this.value = this.value.slice(0, -1);
+                // mostrar mensaje de error
+                mostrarError(username, 'El nombre de usuario no puede contener espacios en blanco');
+            } else if (this.value.includes('@') || this.value.includes('#') || this.value.includes('$') || this.value.includes('%') || this.value.includes('&') || this.value.includes('*') || this.value.includes('+') || this.value.includes('-') || this.value.includes('/') || this.value.includes(':') || this.value.includes(';') || this.value.includes('<') || this.value.includes('=') || this.value.includes('>') || this.value.includes('?') || this.value.includes('^') || this.value.includes('_') || this.value.includes('`') || this.value.includes('{') || this.value.includes('|') || this.value.includes('}') || this.value.includes('~')) {
+                this.value = this.value.slice(0, -1);
+                // mostrar mensaje de error
+                mostrarError(username, 'El nombre de usuario no puede contener caracteres especiales');
+            } else {
+                // ocultar mensaje de error
+                ocultarError(username);
+            }
+        });
+
+    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script>
+    // mostrando el error de no se pudo iniciar sesion
+    const error = '{{ error }}';
+    if (error) {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'Oops...',
+            text: error,
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+</script>
+{% endblock %}
+
+
+
+

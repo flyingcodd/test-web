@@ -1,0 +1,35 @@
+
+<form class="row g-3 needs-validation" method="post" novalidate >
+    {% csrf_token %}
+    <div class="col-md-6 mb-3">
+        <label for="nombre_carrera" class="form-label font-weight-bold text-muted text-uppercase">Nombre de la nueva carrera</label>
+        <input type="text" class="form-control" id="nombre_carrera" name="nombre_carrera" value="{{carrera.nombre_carrera}}" placeholder="Ingrese nombre de la carrera" required>
+        <div class="invalid-tooltip">
+            Por favor, ingrese un nombre de la carrera válida.
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="id_vocacion" class="form-label font-weight-bold text-muted text-uppercase">A que grupo de vocacion pertenece ?</label>
+        <select id="id_vocacion" name="id_vocacion" class="form-select form-control">
+            <!--Vocaciones-->
+            {% for vocacion in vocaciones %}
+                <option value="{{vocacion.id_vocacion}}" {% if vocacion.id_vocacion == carrera.id_vocacion %} selected {% endif %}>{{vocacion.nombre_vocacion}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="estado_carrera" class="form-label font-weight-bold text-muted text-uppercase">Estado de la carrera</label>
+        <select id="estado_carrera" name="estado_carrera" class="form-select form-control">
+            <option value="1" {% if carrera.estado_carrera == 1 %} selected {% endif %}>Habilitado</option>
+            <option value="0" {% if carrera.estado_carrera == 0 %} selected {% endif %}>Inhabilitado</option>
+        </select>
+    </div>
+    <div class="col-md-6 mb-3">
+        
+    </div>
+    <div class="d-block justify-content-end mt-3">
+        <button type="submit" class="btn btn-primary">Guardar Informacion</button>
+        <a name="" id="" class="btn btn-secondary" href="{% url 'carreras' %}" role="button">Cancelar</a>
+    </div>
+    
+</form>

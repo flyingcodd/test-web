@@ -1,0 +1,63 @@
+
+<form class="row g-3 needs-validation" method="post" novalidate >
+    {% csrf_token %}
+    <div class="col-md-6 mb-3">
+        <label for="nombre_usuario" class="form-label font-weight-bold text-muted text-uppercase">Nombre</label>
+        <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" value="{{usuario.nombre_usuario}}" placeholder="Ingrese los nombres" required>
+        <div class="invalid-tooltip">
+            Por favor, ingrese un nombre valido.
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="apellido_usuario" class="form-label font-weight-bold text-muted text-uppercase">Apellido</label>
+        <input type="text" class="form-control" id="apellido_usuario" name="apellido_usuario" value="{{usuario.apellido_usuario}}" placeholder="Ingrese los apellidos" required>
+        <div class="invalid-tooltip">
+            Por favor, ingrese un apellido valido.
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="dni_usuario" class="form-label font-weight-bold text-muted text-uppercase">DNI:</label>
+        <input type="text" class="form-control" id="dni_usuario" name="dni_usuario" value="{{usuario.dni_usuario}}" placeholder="7*******" required>
+        <div class="invalid-tooltip">
+            Por favor, ingrese un dni valido.
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="username_usuario" class="form-label font-weight-bold text-muted text-uppercase">Username</label>
+        <input type="text" class="form-control" id="username_usuario" name="username_usuario" value="{{usuario.usuario.username}}" placeholder="luis12***" required>
+        <div class="invalid-tooltip">
+            Por favor, ingrese un username valido.
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="password_usuario" class="form-label font-weight-bold text-muted text-uppercase">Password</label>
+        <input type="text" class="form-control" id="password_usuario" name="password_usuario" value="{{usuario.usuario.password}}" placeholder="****" required>
+        <div class="invalid-tooltip">
+            Por favor, ingrese un password valido.
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="estado_usuario" class="form-label font-weight-bold text-muted text-uppercase">Estado del usuario</label>
+        <select id="estado_usuario" name="estado_usuario" class="form-select form-control">
+            <option value="1" {% if usuario.estado_usuario == 1 %} selected {% endif %}>Habilitado</option>
+            <option value="0" {% if usuario.estado_usuario == 0 %} selected {% endif %}>Inhabilitado</option>
+        </select>
+    </div>
+    <!--agregar permisos django-->
+    <div class="col-md-12 mb-3">
+        <label for="permisos_usuario" class="form-label font-weight-bold text-muted text-uppercase">Permisos del usuario</label>
+        <select multiple class="form-control choicesjs" id="id_permiso" name="id_permiso[]" required>
+            {% for permiso in permisos %}
+            <option value="{{permiso.id}}" {% if permiso in usuario.usuario.user_permissions.all %} selected {% endif %}>{{permiso.name}}</option>
+            {% endfor %}
+        </select>
+        <div class="invalid-tooltip">
+            Porfavor selecione algo valido.
+        </div>
+    </div>
+    <div class="d-block justify-content-end mt-3">
+        <button type="submit" class="btn btn-primary">Guardar Informacion</button>
+        <a name="" id="" class="btn btn-secondary" href="{% url 'usuarios' %}" role="button">Cancelar</a>
+    </div>
+    
+</form>

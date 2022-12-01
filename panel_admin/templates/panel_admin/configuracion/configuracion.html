@@ -1,0 +1,87 @@
+{% extends "panel_admin/plantillas/base.html" %}
+
+{% block title %}Panel Admin{% endblock %}
+{% load static %}
+<!--Para cargar las imagenes-->
+{% block content %}
+
+<!-- Wrapper Start -->
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Configuraciones Generales</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="acc-edit">
+                    <form action="{% url 'configuracion' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="telefono_conf">Telefono:</label>
+                            <input type="text" class="form-control" id="telefono_conf" name="telefono_conf" value="{{configuracion.telefono_configuracion}}" placeholder="+51 9** *** ***">
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion_conf">Direccion:</label>
+                            <input type="text" class="form-control" name="direccion_conf" id="direccion_conf" value="{{configuracion.direccion_configuracion}}" placeholder="AV. nro ">
+                        </div>
+                        <div class="form-group">
+                            <label for="correo_conf">Correo:</label>
+                            <input type="email" class="form-control" name="correo_conf" id="correo_conf" value="{{configuracion.correo_configuracion}}" placeholder="email@google.com" >
+                        </div>
+                        <div class="form-group">
+                            <label for="manual_configuracion">Manual de ususario:</label>
+                            <div class="custom-file mb-3">
+                                <input type="file" class="custom-file-input" id="manual_configuracion" name="manual_configuracion">
+                                <label class="custom-file-label" for="manual_configuracion">Elija el archivo</label>
+                             </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                        <button type="reset" class="btn iq-bg-danger">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Redes Sociales</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="acc-edit">
+                    <form>
+                        <div class="form-group">
+                            <label for="facebook">Facebook:</label>
+                            <input type="text" class="form-control" id="facebook" name="facebook" value="facebook" placeholder="www.facebook.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="twitter">Twitter:</label>
+                            <input type="text" class="form-control" id="twitter" name="twitter" value="twitter" placeholder="www.twitter.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="google">Google +:</label>
+                            <input type="text" class="form-control" id="google" name="google" value="google" placeholder="www.google.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="instagram">Instagram:</label>
+                            <input type="text" class="form-control" id="instagram" name="instagram" value="instagram"
+                                placeholder="www.instagram.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="youtube">You Tube:</label>
+                            <input type="text" class="form-control" id="youtube" name="youtube" value="youtube" placeholder="www.youtube.com">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                        <button type="reset" class="btn iq-bg-danger">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Wrapper End-->
+{% endblock %}

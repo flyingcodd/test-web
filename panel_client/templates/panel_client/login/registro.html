@@ -1,0 +1,96 @@
+{% extends "panel_client/plantillas/base_test.html" %}
+
+{% block title %}SOVIO{% endblock %}
+
+{% block content %}
+    <div class="center">
+        <h1>Registra tus datos personales</h1>
+        <!--<form method="post">
+            <div class="txt_field">
+                <input type="text">
+                <span></span>
+                <label for="">Username</label>
+            </div>
+            <div class="txt_field">
+                <input type="password">
+                <span></span>
+                <label for="">Password</label>
+            </div>
+            <div class="pass">Olvide mi contraseña</div>
+            <input type="submit" value="Login">
+            <div class="signup_link">
+                Not remember password? <a href="#">Click here</a>
+            </div>
+        </form>-->
+        <form method="post">
+            {% csrf_token %}
+            <div class="txt_field">
+                <input name="nombre_alumno" id="nombre_alumno" type="text" required>
+                <span></span>
+                <label for="">Nombre</label>
+            </div>
+            <div class="txt_field">
+                <input name="apellido_alumno" id="apellido_alumno" type="text" required>
+                <span></span>
+                <label for="">Apellido</label>
+            </div>
+            <div class="txt_field">
+                <input name="dni_alumno" id="dni_alumno" type="text" value="{{request.session.dniAlumno}}"> 
+                <span></span>
+                <label for="">Dni</label>
+            </div>
+            
+            <div class="txt_field">
+                <input name="fecha_nacimiento_alumno" id="fecha_nacimiento_alumno" type="date" required >
+                <span></span>
+                <label for="">Fecha de nacimiento</label>
+            </div>
+            <!--select-->
+            <div class="txt_field">
+                <select name="grado_alumno" id="grado_alumno" required="">
+                    <option value="" selected disabled>Seleccione el grado</option>
+                    <option value="5">5to grado</option>
+                    <option value="4">4to grado</option>
+                    <option value="3">3er grado</option>
+                    <option value="2">2do grado</option>
+                    <option value="1">1er grado</option>
+                </select>
+                <span></span>
+                <label for=""></label>
+            </div>
+            <!--sexo-->
+            <div class="txt_field">
+                <select name="genero_alumno" id="genero_alumno" required="">
+                    <option value="" selected disabled>Seleccione el sexo</option>
+                    <option value="1">Masculino</option>
+                    <option value="0">Femenino</option>
+                </select>
+                <span></span>
+                <label for=""></label>
+            </div>
+            <div class="pass"></div>
+            <button type="submit" class="btn"><i class="fa-solid fa-play"></i> Iniciar test</button>
+        </form>
+    </div>
+
+    <script>
+        // validacion de campos
+        const nombre_alumno = document.getElementById('nombre_alumno');
+        const apellido_alumno = document.getElementById('apellido_alumno');
+        const dni_alumno = document.getElementById('dni_alumno');
+        const fecha_nacimiento_alumno = document.getElementById('fecha_nacimiento_alumno');
+        const grado_alumno = document.getElementById('grado_alumno');
+
+        // validar nombre que no acpete numeros Y QUE ACEPTEN MAYUSCULAS Y MINUSCULAS
+        nombre_alumno.addEventListener('input', function() {
+            if (this.value.match(/[^a-zA-Z ]/g)) {
+                this.value = this.value.replace(/[^a-zA-Z ]/g, '');
+            }
+        });
+        apellido_alumno.addEventListener('input', function() {
+            if (this.value.match(/[^a-zA-Z ]/g)) {
+                this.value = this.value.replace(/[^a-zA-Z ]/g, '');
+            }
+        });
+    </script>
+{% endblock %}
