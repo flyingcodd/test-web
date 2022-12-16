@@ -207,15 +207,10 @@ def respuesta(request):
                 'nombre_vocacion': i[1],
                 'suma': i[2]
             })
-        print(vocaciones)
         mayor_vocacion = max(vocaciones, key=lambda x: x['suma'])
-        print(mayor_vocacion)
         for i in vocaciones:
             if i['suma'] == mayor_vocacion['suma']:
                 id_vocaciones.append(i['id_vocacion'])
-
-        print('#############################################')
-        print(id_vocaciones)
         vocaciones_carrera = []
         tamaño_vocaciones = len(id_vocaciones)
         for i in id_vocaciones:
@@ -228,9 +223,6 @@ def respuesta(request):
             else:
                 id_carreras = list(TCarrera.objects.filter(id_vocacion=i).values_list('id_carrera', flat=True))[:1]
                 vocaciones_carrera.append({'id_vocacion': i, 'id_carrera': id_carreras})
-        
-        print(id_carreras)
-        print(vocaciones_carrera)
         
         ficha_alumno = TFicha_alumno()
         ficha_alumno.id_ficha_alumno = id_alumno
@@ -248,52 +240,7 @@ def respuesta(request):
         
         return render(request, 'panel_client/preguntas/respuesta.html', {'nombreAlumno': nombreAlumno, 'id_ficha_alumno': id_alumno})
         ###########################################################
-        '''
-        for i in TRespuesta.objects.filter(id_encuesta=id_encuesta):
-            if i.id_vocacion != 0:
-                id_vocaciones.append(i.id_vocacion)
-            if i.id_carrera != 0:
-                id_carreras.append(i.id_carrera)
-        id_vocacion = max(set(id_vocaciones), key=id_vocaciones.count)
-        id_carrera = max(set(id_carreras), key=id_carreras.count)
-        print(id_vocacion)
-        print(id_carrera)'''
-        '''
-        ficha_alumno = TFicha_alumno()
-        ficha_alumno.id_ficha_alumno = id_alumno
-        ficha_alumno.fecha_ficha_alumno = datetime.now()
-        ficha_alumno.hora_ficha_alumno = datetime.now().time()
-        ficha_alumno.save()
-        ficha_alumno_detalle = TFicha_alumno_detalle()
-        ficha_alumno_detalle.id_ficha_alumno = id_alumno
-        ficha_alumno_detalle.id_vocacion = 0
-        ficha_alumno_detalle.id_carrera = 0
-        ficha_alumno_detalle.save()
-        return render(request, 'panel_client/preguntas/respuesta.html', {'nombreAlumno': nombreAlumno})'''
 
-    '''
-    c = connection.cursor()
-    c.callproc('pa_suma', [request.session.get('idAlumno')])
-    tabla = c.fetchall()
-    # pasar a un json
-    vocaciones = []
-    for i in tabla:
-        vocaciones.append({
-            'id_vocacion': i[0],
-            'nombre_vocacion': i[1],
-            'suma': i[2]
-        })
-    # obtner el maximo de la columna suma
-    maximo = max(vocaciones, key=lambda x:x['suma'])
-    id_vocacion_maximo = maximo['id_vocacion']
-    nombreVocacion = TVocacion.objects.get(id_vocacion=id_vocacion_maximo).nombre_vocacion
-    id_vocacion = TVocacion.objects.get(id_vocacion=id_vocacion_maximo).id_vocacion
-    # carreras de la vocacion random
-    carreras = TCarrera.objects.filter(id_vocacion=id_vocacion_maximo).order_by('?')[:3]
-
-    nombreVocacion = nombreVocacion.upper()
-    return render(request, 'panel_client/preguntas/respuesta.html', {'nombreAlumno': nombreAlumno, 'nombreVocacion': nombreVocacion, 'carreras': carreras, 'id_vocacion': id_vocacion})
-    '''
 import os
 from django.conf import settings
 from django.http import HttpResponse

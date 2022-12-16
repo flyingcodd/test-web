@@ -166,7 +166,6 @@ def colegios_editar(request, id_colegio):
         username_colegio = request.POST['username_colegio']
         password_colegio = request.POST['password_colegio']
         colegio.estado_colegio = request.POST['estado_colegio']
-        print(request.FILES == {})
         # request.FILES or None
         if request.FILES != {}:
             if request.FILES['logo_colegio']:
@@ -681,7 +680,6 @@ def reportes(request):
         reporte_g['m'] = row[2]
         reporte_g['f'] = row[3]
         reportes_grafico.append(reporte_g)
-    print(reportes_grafico)
     list_meses = []
     list_alumnos = []
     for reporte in result_grafico:
