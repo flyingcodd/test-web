@@ -143,4 +143,81 @@ insert into t_pregunta value (not null, 'Realizar un inventario o lista de produ
 insert into t_pregunta value (not null, 'Ordenar y clasificar objetos',4,2,1);
 insert into t_pregunta value (not null, 'Llevar un archivo de documentos, libros, etc',4,2,1);
 insert into t_pregunta value (not null, 'Sacar cuentas de manera ordenada (para cobrar o pagar algo).',4,2,1);
+--
+insert into t_pregunta value (not null, 'Componer música y/o cantar',5,2,1);
+insert into t_pregunta value (not null, 'Crear peinados, cortes de cabello, recetas, platillos de comida, etc.',5,2,1);
+insert into t_pregunta value (not null, 'Actuar o bailar en un espectáculo.',5,2,1);
+insert into t_pregunta value (not null, 'Escribir historias, cuentos, poemas.',5,2,1);
+insert into t_pregunta value (not null, 'Diseñar ropa u objetos.',5,2,1);
+insert into t_pregunta value (not null, 'Tocar un instrumento musical.',5,2,1);
+insert into t_pregunta value (not null, 'Dibujar o pintar un cuadro o retrato.',5,2,1);
+insert into t_pregunta value (not null, 'Hacer manualidades (pe origami telares, escultura canastas, cerámica, etc..',5,2,1);
+--
+insert into t_pregunta value (not null, 'Encontrar nuevas oportunidades de negocio o proyectos',6,2,1);
+insert into t_pregunta value (not null, 'Ejecutar ideas o proyectos nuevos. ',6,2,1);
+insert into t_pregunta value (not null, 'Desarrollar un proyecto, negocio o pequeña empresa',6,2,1);
+insert into t_pregunta value (not null, 'Negociar con otras personas para llegar a un acuerdo',6,2,1);
+insert into t_pregunta value (not null, 'Vender un producto',6,2,1);
+insert into t_pregunta value (not null, 'Crear o inventar un producto original',6,2,1);
+insert into t_pregunta value (not null, 'Diseñar la publicidad de un producto ',6,2,1);
+--
+insert into t_pregunta value (not null, 'Recolectar datos sobre un hecho (p.ej, hacer registros, observaciones, entrevistas, etc..)',7,2,1);
+insert into t_pregunta value (not null, 'Explicar los hechos que ocurren alrededor.',7,2,1);
+insert into t_pregunta value (not null, 'Analizar información',7,2,1);
+insert into t_pregunta value (not null, 'Observar minuciosamente lo que sucede alrededor',7,2,1);
+insert into t_pregunta value (not null, 'Trabajar en un proyecto de investigación',7,2,1);
+insert into t_pregunta value (not null, 'Realizar entrevistas y/o encuestas a personas',7,2,1);
+insert into t_pregunta value (not null, 'Usar un microscopio (instrumento para observar objetos demasiado pequeños) ',7,2,1);
+insert into t_pregunta value (not null, 'Hacer experimentos con objetos o sustancias',7,2,1);
+--
+insert into t_pregunta value (not null, 'Ser representante de un grupo frente a otras personas. ',1,3,1);
+insert into t_pregunta value (not null, 'Dirigir equipos de personas para que logren una meta.',1,3,1);
+insert into t_pregunta value (not null, 'Guiar el trabajo de otros.',1,3,1);
+insert into t_pregunta value (not null, 'Influenciar en las opiniones de las personas',1,3,1);
+insert into t_pregunta value (not null, 'Enseñar o instruir a otras personas ',1,3,1);
+insert into t_pregunta value (not null, 'Tomar decisiones importantes en las opiniones de las personas.',1,3,1);
+insert into t_pregunta value (not null, 'Dar ideas creativas en un trabajo de equipo.',1,3,1);
+insert into t_pregunta value (not null, 'Brindar discursos o hablar frente a un grupo de personas.',1,3,1);
+--
+insert into t_pregunta value (not null, 'Arreglar objetos (p. ej. aparatos, instalaciones eléctricas, etc.).',2,3,1);
+insert into t_pregunta value (not null, 'Armar o desarmar aparatos (p. ej televisores, celulares, refrigeradoras, etc.)',2,3,1);
+insert into t_pregunta value (not null, 'Utilizar herramientas manuales y/o maquinarias (p. ej martillo, desarmador, camiones, montacargas, etc',2,3,1);
+insert into t_pregunta value (not null, 'Solucionar problemas de funcionamientos de máquinas ',2,3,1);
+insert into t_pregunta value (not null, 'Ensamblar muebles (un estante, una cama, etc.)',2,3,1);
+--
+insert into t_pregunta value (not null, 'Cuidar niños o personas con dificultades.',3,3,1);
+insert into t_pregunta value (not null, 'Curar a personas.',3,3,1);
+insert into t_pregunta value (not null, 'Trabajar atendiendo al público.',3,3,1);
+insert into t_pregunta value (not null, 'Brindar consejos a otras personas.',3,3,1);
+-- 
+insert into t_pregunta value (not null, 'Llenar formularios o recibos',4,3,1);
+insert into t_pregunta value (not null, 'Realizar un inventario o lista de productos',4,3,1);
+insert into t_pregunta value (not null, 'Llevar un archivo de documentos, libros, etc',4,3,1);
+insert into t_pregunta value (not null, 'Ordenar y clasificar objetos',4,3,1);
+insert into t_pregunta value (not null, 'Utilizar equipos de oficina (p. Ej. calculadora, archivadores, teléfonos, fax, etc.). ',4,3,1);
+insert into t_pregunta value (not null, 'Sacar cuentas de manera ordenada (para cobrar o pagar algo).',4,3,1);
+insert into t_pregunta value (not null, 'Redactar documentos formales (p. ej, solicitudes, constancias, formularios, etc.).',4,3,1);
+--
+insert into t_pregunta value (not null, 'Componer música y/o cantar',5,3,1);
+insert into t_pregunta value (not null, 'Crear peinados, cortes de cabello, recetas, platillos de comida, etc',5,3,1);
+insert into t_pregunta value (not null, 'Tocar un instrumento musical',5,3,1);
+insert into t_pregunta value (not null, 'Actuar o bailar en un espectáculo',5,3,1);
+--
+insert into t_pregunta value (not null, 'Desarrollar un proyecto de negocio a pequeña empresa.',6,3,1);
+insert into t_pregunta value (not null, 'Encontrar nuevas oportunidades de negocio o proyectos ',6,3,1);
+insert into t_pregunta value (not null, 'Ejecutar ideas o proyectos nuevos.',6,3,1);
+insert into t_pregunta value (not null, 'Negociar con otras personas para llegar a un acuerdo',6,3,1);
+insert into t_pregunta value (not null, 'Vender un producto',6,3,1);
+insert into t_pregunta value (not null, 'Diseñar la publicidad de un producto.',6,3,1);
+--
+insert into t_pregunta value (not null, 'Recolectar datos sobre un hecho (p ej hacer registros, observaciones, entrevistas, etc.).',7,3,1);
+insert into t_pregunta value (not null, 'Explicar los hechos que ocurren alrededor. ',7,3,1);
+insert into t_pregunta value (not null, 'Analizar información.',7,3,1);
+insert into t_pregunta value (not null, 'Trabajar en un proyecto de investigación.',7,3,1);
+
+
+
+
+
+
 
