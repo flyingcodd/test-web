@@ -10,19 +10,35 @@
     </div>
     <div class="col-md-6 mb-3">
         <label for="apellido_alumno" class="form-label font-weight-bold text-muted text-uppercase">Apellidos del alumno</label>
-        <input type="text" class="form-control" id="apellido_alumno" name="apellido_alumno" value="{{alumno.apellido_alumno}}" placeholder="Ingrese Apellidos del alumno">
+        <input type="text" class="form-control" id="apellido_alumno" name="apellido_alumno" value="{{alumno.apellido_alumno}}" placeholder="Ingrese Apellidos del alumno" required>
+        <div class="invalid-tooltip">
+            Por favor, ingrese un apellido válido.
+        </div>
     </div>
     <div class="col-md-6 mb-3">
         <label for="dni_alumno" class="form-label font-weight-bold text-muted text-uppercase">DNI</label>
-        <input type="text" class="form-control" id="dni_alumno" name="dni_alumno" value="{{alumno.dni_alumno}}" placeholder="Ingrese DNI">
+        <input type="text" class="form-control" id="dni_alumno" name="dni_alumno" value="{{alumno.dni_alumno}}" placeholder="Ingrese DNI" required>
+        <div class="" id="error_dni" style="color: red;">
+           
+        </div>
     </div>
     <div class="col-md-6 mb-3">
-        <label for="fecha_nacimiento_alumno" class="form-label font-weight-bold text-muted text-uppercase">Fecha de nacimiento</label>
-        <input type="date" class="form-control" id="fecha_nacimiento_alumno" name="fecha_nacimiento_alumno" value="{{alumno.fecha_nacimiento_alumno}}">
+        <label for="fecha_nacimiento_alumno" class="form-label font-weight-bold text-muted text-uppercase" required>Fecha de nacimiento</label>
+        <input type="date" class="form-control" id="fecha_nacimiento_alumno" name="fecha_nacimiento_alumno" value="{{ alumno.fecha_nacimiento_alumno|date:'Y-m-d' }}">
+        <div class="invalid-tooltip">
+            Por favor, ingrese un nombre de alumno válido.
+        </div>
     </div>
     <div class="col-md-6 mb-3">
         <label for="grado_alumno" class="form-label font-weight-bold text-muted text-uppercase">Grado</label>
-        <input type="number" class="form-control" id="grado_alumno" name="grado_alumno" value="{{alumno.grado_alumno}}" placeholder="Ingrese el grado del alumno">
+        <input type="number" class="form-control" id="grado_alumno" name="grado_alumno" value="{{alumno.grado_alumno}}" placeholder="Ingrese el grado del alumno" required>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="genero_alumno" class="form-label font-weight-bold text-muted text-uppercase">Genero del alumno</label>
+        <select id="genero_alumno" name="genero_alumno" class="form-select form-control" required="">
+            <option value="1" {% if alumno.genero_alumno == 1 %} selected {% endif %}>Masculino</option>
+            <option value="0" {% if alumno.genero_alumno == 0 %} selected {% endif %}>Femenino</option>
+        </select>
     </div>
     <div class="col-md-6 mb-3">
         <label for="estado_alumno" class="form-label font-weight-bold text-muted text-uppercase">Estado del alumno</label>
@@ -31,7 +47,7 @@
             <option value="0" {% if alumno.estado_alumno == 0 %} selected {% endif %}>Inhabilitado</option>
         </select>
     </div>
-    <div class="col-md-12 mb-6">
+    <div class="col-md-6 mb-3">
         <label for="id_colegio" class="form-label font-weight-bold text-muted text-uppercase">Colegio del Alumno</label>
         <select id="id_colegio" name="id_colegio" class="form-select form-control">
             {% for colegio in colegios %}
@@ -45,3 +61,26 @@
     </div>
     
 </form>
+<script>
+    dni_alumno = document.getElementById('dni_alumno');
+    error_dni = document.getElementById('error_dni');
+    dni_alumno.addEventListener('input', function() {
+        if (this.value == '') {
+            error_dni.innerHTML = 'El DNI no puede estar vacio'
+        }
+        if (this.value.length > 8) {
+            this.value = this.value.slice(0,8);
+            // notificar que el dni es muy largo
+            error_dni.innerHTML = 'El DNI no puede tener mas de 8 digitos';
+        }
+        // validar que solo sean numeros
+        if (isNaN(this.value)) {
+            this.value = this.value.slice(0,-1);
+            // notificar que el dni es muy largo
+            error_dni.innerHTML = 'El DNI solo puede contener numeros';
+        }
+        if (this.value.length == 8) {
+            error_dni.innerHTML = '';
+        }
+    })
+</script>

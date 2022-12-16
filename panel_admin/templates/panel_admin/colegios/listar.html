@@ -40,22 +40,25 @@
                     <div class="card-body p-0">
                         <div class="d-flex justify-content-between align-items-center p-3">
                             <h5 class="font-weight-bold">Lista de Colegios</h5>
-                            <button class="btn btn-secondary btn-sm">
+                            <button class="btn btn-secondary btn-sm" id="exportar_csv">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="mr-1" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
-                                Exportar
+                                Exportar a CSV
                             </button>
                         </div>
                         <div class="table-responsive">
-                            <table class="table data-table mb-0 table-hover">
+                            <table class="table data-table mb-0 table-hover" id="tabla_colegios">
                                 <thead class="table-color-heading">
                                     <tr class="text-light">
                                         <th scope="col">
                                             <label class="text-muted m-0" >ID</label>
                                         </th>
                                         <th scope="col">
-                                            <label class="text-muted mb-0" >Cod modular</label>
+                                            <label class="text-muted mb-0" >Logo</label>
+                                        </th>
+                                        <th scope="col">
+                                            <label class="text-muted m-0" >Cod</label>
                                         </th>
                                         <th scope="col">
                                             <label class="text-muted mb-0" >Nombre</label>
@@ -84,6 +87,9 @@
                                     {% for colegio in colegios %}
                                     <tr class="white-space-no-wrap">
                                         <td>{{ colegio.id_colegio }}</td>
+                                        <td>
+                                            <img src="{{ colegio.logo_colegio.url }}" alt="" width="50">
+                                        </td>
                                         <td>{{ colegio.codigo_colegio }}</td>
                                         <td>{{ colegio.nombre_colegio }}</td>
                                         <td>{{ colegio.telefono_colegio }}</td>
@@ -123,6 +129,7 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            <small>*Cod = Codigo modular del colegio</small>
                         </div>
                     </div>
                 </div>
@@ -130,5 +137,90 @@
         </div>
     </div>
 </div>
+<script>
+    boton_exportar = document.getElementById("exportar_csv");
+    boton_exportar.addEventListener("click", exportar_csv);
+    function exportar_csv(){
+        var table = document.getElementById("tabla_colegios");
+        var csv = [];
+        for (var i = 0; i < table.rows.length; i++) {
+            var row = [], cols = table.rows[i].querySelectorAll("td, th");
+            for (var j = 0; j < cols.length; j++) 
+                row.push(cols[j].innerText);
+            csv.push(row.join(";"));        
+        }
+        // Download CSV file
+        download_csv(csv.join("\n"), "colegios.csv");
+    }
+    function download_csv(csv, filename) {
+        var csvFile;
+        var downloadLink;
+        // CSV file
+        csvFile = new Blob([csv], {type: "text/csv"});
+        // Download link
+        downloadLink = document.createElement("a");
+        // File name
+        downloadLink.download = filename;
+        // Create a link to the file
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        // Hide download link
+        downloadLink.style.display = "none";
+        // Add the link to DOM
+        document.body.appendChild(downloadLink);
+        // Click download link
+        downloadLink.click();
+    }
+</script>
+
+<!--swal alert :: begin-->
+<script>
+    var boton_eliminar = document.querySelectorAll(".badge.bg-danger");
+    boton_eliminar.forEach(boton => {
+        boton.addEventListener("click", function(e){
+            e.preventDefault();
+            var url = this.getAttribute("href");
+            Swal.fire({
+                title: '¿Estas seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, ¡Borrar!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            })
+        });
+    });
+</script>
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Excelente!',
+            text: '{{ message }}',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+    {% endif %}
+    {% if message.tags == 'error' %}
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: '{{ message }}',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+    {% endif %}
+    {% endfor %}
+{% endif %}
+<!--swal alert :: end-->
 
 {% endblock %}

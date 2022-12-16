@@ -1,5 +1,5 @@
 
-<form class="row g-3 needs-validation" method="post" novalidate >
+<form class="row g-3 needs-validation" method="post" novalidate enctype="multipart/form-data">
     {% csrf_token %}
     <div class="col-md-6 mb-3">
         <label for="nombre_comunicado" class="form-label font-weight-bold text-muted text-uppercase">Nombre del comunicado</label>
@@ -12,17 +12,21 @@
         <label for="fecha_comunicado" class="form-label font-weight-bold text-muted text-uppercase">Fecha de subida al servidor</label>
         <input type="date" class="form-control" id="fecha_comunicado" name="fecha_comunicado">
         <div class="invalid-tooltip">
-            Por favor, suba un archivo válido.
+            Por favor, suba una fecha válida.
         </div>
     </div>
     <div class="col-md-6 mb-3">
         <label for="nombre_categoria" class="form-label font-weight-bold text-muted text-uppercase">Suba el comunicado</label>
         <div class="custom-file mb-3">
-            <input type="file" class="custom-file-input" id="img_comunicado" name="img_comunicado">
+            <input type="file" class="custom-file-input" id="img_comunicado" name="img_comunicado" {% if comunicado.img_comunicado.url == null %} required {% endif %} accept="image/*">
             <label class="custom-file-label" for="img_comunicado">Elija el archivo</label>
+            <div class="invalid-tooltip">
+                Por favor, ingrese un archivo válido.
+            </div>
         </div>
-        <div class="invalid-tooltip">
-            Por favor, ingrese una fecha válida.
+        <div>
+            <h4 class="text-muted">Comunicado actual:</h4>
+            <a href="{{comunicado.img_comunicado.url}}" target="_blank"><img src="{{comunicado.img_comunicado.url}}" alt="" width="100px"></a>
         </div>
     </div>
     <div class="col-md-6 mb-3">

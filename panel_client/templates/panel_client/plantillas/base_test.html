@@ -18,12 +18,12 @@
     <div class="nav canvas-image-blending">
         <div class="nav__container">
             <div class="nav__logo">
-                <a href=""><img src="https://th.bing.com/th/id/OIP.kmc-2IzCxrTPiKJ_w0w9uwHaHa?pid=ImgDet&rs=1" alt="logo">SOVIO</a>
+                <a href="{% url 'menu_preguntas' %}"><img src="{%  static 'panel_client_registro/img/logo1.png'  %}" alt="logo"></a>
             </div>
             <!--Nombre del colegio y boton cerrar seccion -->
             <div class="nav__user">
                 <div class="nav__user__logo">
-                    <img src="https://th.bing.com/th/id/OIP.kmc-2IzCxrTPiKJ_w0w9uwHaHa?pid=ImgDet&rs=1"></img>
+                    <img src="{{request.session.logoColegio}}"></img>
                 </div>
                 <div class="nav__user__name">
                     <h1>{{request.session.nombreColegio}}</h1>
@@ -41,6 +41,28 @@
 {{col}}
     {% block content %}
     {% endblock %}
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        // preguntando para cerrar la seccion swetalert
+        const btnCerrarSeccion = document.querySelector('.nav__user__button');
+        btnCerrarSeccion.addEventListener('click', (e) => {
+            e.preventDefault();
+            Swal.fire({
+                title: '¿Estas seguro?',
+                text: "¡No podras revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, cerrar seccion!',
+                // cambiar el texto del boton cancelar
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = btnCerrarSeccion.children[0].href;
+                }
+            })
+        })
+    </script>
 </body>
 </html>

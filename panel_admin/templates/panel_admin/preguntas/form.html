@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="col-md-6 mb-6">
-        <label for="id_vocacion" class="form-label font-weight-bold text-muted text-uppercase">Aque grupo de vocacion pertenece?</label>
+        <label for="id_vocacion" class="form-label font-weight-bold text-muted text-uppercase">A que grupo de vocacion pertenece?</label>
         <select id="id_vocacion" name="id_vocacion" class="form-select form-control">
             {% for vocacion in vocaciones %}
                 <option value="{{vocacion.id_vocacion}}" {% if vocacion.id_vocacion.id_vocacion == pregunta.id_vocacion %} selected {% endif %}>{{vocacion.nombre_vocacion}}</option>
@@ -25,10 +25,13 @@
         </select>
     </div>
     <div class="col-md-6 mb-3">
-        <label for="estado_alumno" class="form-label font-weight-bold text-muted text-uppercase">Estado de la pregunta</label>
-        <select id="estado_alumno" name="estado_alumno" class="form-select form-control">
-            <option value="1" >Habilitado</option>
-            <option value="0" >Inhabilitado</option>
+        <label for="estado_pregunta" class="form-label font-weight-bold text-muted text-uppercase">Estado de la pregunta</label>
+        <select id="estado_pregunta" name="estado_pregunta" class="form-select form-control">
+            <option value="1" {% if pregunta.estado_pregunta == 1 %} selected {% endif %}>Habilitado</option>
+            <option value="0" {% if pregunta.estado_pregunta == 0 %} selected {% endif %}>Inhabilitado</option>
+            {% if pregunta.estado_pregunta != 1 and  pregunta.estado_pregunta != 0 %}
+                <option value="1" selected>Ocurrio un error, CAMBIE DE ESTADO</option>
+            {% endif %}
         </select>
     </div>
     <div class="d-block justify-content-end mt-3">

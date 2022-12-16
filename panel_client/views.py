@@ -9,19 +9,19 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 
-from panel_admin.models import TColegio, TAlumno, TEncuesta, TPregunta, TRespuesta, TVocacion, TCarrera, TComunicado
+from panel_admin.models import TColegio, TAlumno, TEncuesta, TPregunta, TRespuesta, TVocacion, TCarrera, TComunicado,TCategoria,TFicha_alumno,TFicha_alumno_detalle
 
 from django.db import connection
 # variables globales
 
 # Create your views here.
 def index(request):
-    comunicados = TComunicado.objects.all().order_by('-id_comunicado')
-    if comunicados is not None:
+    comunicados = TComunicado.objects.filter(estado_comunicado=1).order_by('-id_comunicado')
+    if comunicados:
         ids_comunicados = []
         for comunicado in comunicados:
             ids_comunicados.append(comunicado.id_comunicado)
-        
+        # obtener datos de configuraciones
         return render(request, 'panel_client/index.html', {'comunicados': comunicados, 'ids_comunicados': ids_comunicados})
     else:
         return render(request, 'panel_client/index.html')
@@ -32,34 +32,35 @@ def iniciar_seccion(request):
         password_colegio = request.POST.get('password')
         dni_alumno = request.POST.get('dni_alumno')
         user = authenticate(username=username_colegio, password=password_colegio)
-        if user is not None:
-            login(request, user)
-            # Guardar el CORREO en la variable de sesión
-            colegio = TColegio.objects.get(usuario=user.id)
-            request.session['nombreColegio'] = colegio.nombre_colegio
-            request.session['idColegio'] = colegio.id_colegio
-            request.session['dniAlumno'] = dni_alumno
-            # Verificar si el alumno existe
-            if TAlumno.objects.filter(dni_alumno=dni_alumno).exists():
-                request.session['idAlumno'] = TAlumno.objects.get(dni_alumno=dni_alumno).id_alumno
-                request.session['nombreAlumno'] = TAlumno.objects.get(dni_alumno=dni_alumno).nombre_alumno + ', ' + TAlumno.objects.get(dni_alumno=dni_alumno).apellido_alumno
-                if TEncuesta.objects.filter(id_alumno=request.session['idAlumno']).exists():
-                    id_encuesta=TEncuesta.objects.get(id_alumno=request.session['idAlumno']).id_encuesta
-                    id_ultima_respuesta = TRespuesta.objects.filter(id_encuesta=id_encuesta).order_by('-id_pregunta')[0]
-                    id_ultima_pregunta = id_ultima_respuesta.id_pregunta.id_pregunta
-                    if id_ultima_pregunta == TPregunta.objects.all().order_by('-id_pregunta')[0].id_pregunta:
-                        # actualizar el estado de la encuesta
-                        encuesta = TEncuesta.objects.get(id_alumno=request.session['idAlumno'])
-                        encuesta.estado_encuesta = 1
-                        encuesta.save()
-                        return redirect('respuesta')
-                    contador_pregunta = TRespuesta.objects.filter(id_encuesta=id_encuesta).count()
-                    return redirect('pregunta', id=id_ultima_pregunta,contador_pregunta=contador_pregunta)
+        if user is not None and TColegio.objects.filter(usuario=user.id).exists() and TAlumno.objects.filter(dni_alumno=dni_alumno).exists():
+            id_colegio = TColegio.objects.get(usuario=user.id).id_colegio
+            id_alumno = TAlumno.objects.get(dni_alumno=dni_alumno).id_alumno
+            if TAlumno.objects.get(id_alumno=id_alumno).id_colegio.id_colegio == id_colegio:
+                login(request, user)
+                # Guardar el CORREO en la variable de sesión
+                colegio = TColegio.objects.get(usuario=user.id)
+                request.session['nombreColegio'] = colegio.nombre_colegio
+                request.session['logoColegio'] = colegio.logo_colegio.url
+                request.session['idColegio'] = colegio.id_colegio
+                request.session['dniAlumno'] = dni_alumno
+                # Verificar si el alumno existe
+                if TAlumno.objects.filter(dni_alumno=dni_alumno).exists():
+                    request.session['idAlumno'] = TAlumno.objects.get(dni_alumno=dni_alumno).id_alumno
+                    request.session['nombreAlumno'] = TAlumno.objects.get(dni_alumno=dni_alumno).nombre_alumno + ', ' + TAlumno.objects.get(dni_alumno=dni_alumno).apellido_alumno
+                    ''' if TEncuesta.objects.filter(id_alumno=request.session['idAlumno']).exists():
+                        id_encuesta=TEncuesta.objects.get(id_alumno=request.session['idAlumno']).id_encuesta
+                        id_ultima_respuesta = TRespuesta.objects.filter(id_encuesta=id_encuesta).order_by('-id_pregunta')[0]
+                        id_ultima_pregunta = id_ultima_respuesta.id_pregunta.id_pregunta
+                        if id_ultima_pregunta == TPregunta.objects.all().order_by('-id_pregunta')[0].id_pregunta:
+                            # actualizar el estado de la encuesta
+                            encuesta = TEncuesta.objects.get(id_alumno=request.session['idAlumno'])
+                            encuesta.estado_encuesta = 1
+                            encuesta.save()'''
+                    return redirect('menu_preguntas')
                 else:
-                    primer_id_pregunta = TPregunta.objects.all().first().id_pregunta
-                    return redirect('pregunta', id=primer_id_pregunta,contador_pregunta=1)
+                    return redirect('registro')
             else:
-                return redirect('registro')
+                return render(request, 'panel_client/login/iniciar_seccion.html', {'error': 'El DNI no pertenece a este colegio'})
         else:
             return render(request, 'panel_client/login/iniciar_seccion.html', {'error': 'Usuario o contraseña incorrectos'})
     else:
@@ -91,41 +92,23 @@ def registro(request):
         # retornando con mensaje de exito
         request.session['idAlumno'] = alumno.id_alumno
         request.session['nombreAlumno'] = alumno.nombre_alumno + ', ' + alumno.apellido_alumno
-        primer_id_pregunta = TPregunta.objects.all().first().id_pregunta
-        return redirect('pregunta', id=primer_id_pregunta, contador_pregunta=1)
+        return redirect('menu_preguntas')
     else:
         # Verificar si el alumno ya se registro
         dni_alumno = request.session.get('dniAlumno')
         if TAlumno.objects.filter(dni_alumno=dni_alumno).exists():
-
-                
-                if TEncuesta.objects.filter(id_alumno=request.session['idAlumno']).exists():
-                    id_encuesta=TEncuesta.objects.get(id_alumno=request.session['idAlumno']).id_encuesta
-                    id_ultima_respuesta = TRespuesta.objects.filter(id_encuesta=id_encuesta).order_by('-id_pregunta')[0]
-                    id_ultima_pregunta = id_ultima_respuesta.id_pregunta.id_pregunta
-                    if id_ultima_pregunta == TPregunta.objects.all().order_by('-id_pregunta')[0].id_pregunta:
-                        encuesta = TEncuesta.objects.get(id_alumno=request.session['idAlumno'])
-                        encuesta.estado_encuesta = 1
-                        encuesta.save()
-                        return redirect('respuesta')
-                    contador_pregunta = TRespuesta.objects.filter(id_encuesta=id_encuesta).count()
-                    return redirect('pregunta', id=id_ultima_pregunta,contador_pregunta=contador_pregunta)
-                else:
-                    primer_id_pregunta = TPregunta.objects.all().first().id_pregunta
-                    return redirect('pregunta', id=primer_id_pregunta,contador_pregunta=1)
-
+            return redirect('menu_preguntas')
         else:
             return render(request, 'panel_client/login/registro.html')
 
 
 @login_required
-def preguntas(request, id, contador_pregunta=0):
+def preguntas(request,id_categoria, id_pregunta, contador_pregunta=0):
     # verificar si existe la pregunta
     if request.method == 'POST':
         id_alumno = request.session.get('idAlumno')
         if TEncuesta.objects.filter(id_alumno=id_alumno).exists():
             id_encuesta = TEncuesta.objects.get(id_alumno=id_alumno).id_encuesta
-            # Verificar si la pregunta existe
         else :
             # fecha actual formato: 2020-05-05
             fecha_actual = datetime.now().strftime('%Y-%m-%d')
@@ -138,86 +121,157 @@ def preguntas(request, id, contador_pregunta=0):
             encuesta.estado_encuesta = '0'
             encuesta.save()
             id_encuesta = encuesta.id_encuesta
-            
-        id_siguiente = id + 1
-        contador = 0
-        cantidad_preguntas = TPregunta.objects.all().count()
-        while True:
-            contador += 1
-            if TPregunta.objects.filter(id_pregunta=id_siguiente).exists():
-                break
-            elif contador == cantidad_preguntas:
-                if TRespuesta.objects.filter(id_pregunta = id, id_encuesta=id_encuesta).exists():
-                    respuesta = TRespuesta.objects.get(id_pregunta = id, id_encuesta=id_encuesta)
-                    # actualizar respuesta
-                    respuesta.valor_respuesta = request.POST['option']
-                    respuesta.save()
-                    encuesta = TEncuesta.objects.get(id_alumno=request.session['idAlumno'])
-                    encuesta.estado_encuesta = 1
-                    encuesta.save()
-                    return redirect('respuesta')
-                else :
-                    # Guardar las respuestas
-                    respuesta = TRespuesta()
-                    respuesta.valor_respuesta = request.POST['option']
-                    respuesta.id_encuesta = TEncuesta.objects.get(id_encuesta=id_encuesta)
-                    respuesta.id_pregunta = TPregunta.objects.get(id_pregunta=id)
-                    respuesta.save()
-                    encuesta = TEncuesta.objects.get(id_alumno=request.session['idAlumno'])
-                    encuesta.estado_encuesta = 1
-                    encuesta.save()
-                    # redirect con parametro id
-                    return redirect('respuesta')
-            else:
-                id_siguiente = id_siguiente + 1
-        # cantidad de preguntas
-        
-        if TRespuesta.objects.filter(id_pregunta = id, id_encuesta=id_encuesta).exists():
-            respuesta = TRespuesta.objects.get(id_pregunta = id, id_encuesta=id_encuesta)
-            # actualizar respuesta
+
+        if TRespuesta.objects.filter(id_encuesta=id_encuesta, id_pregunta=id_pregunta).exists():
+            respuesta = TRespuesta.objects.get(id_encuesta=id_encuesta, id_pregunta=id_pregunta)
             respuesta.valor_respuesta = request.POST['option']
             respuesta.save()
-        else :
-            # Guardar las respuestas
+        else:
             respuesta = TRespuesta()
             respuesta.valor_respuesta = request.POST['option']
             respuesta.id_encuesta = TEncuesta.objects.get(id_encuesta=id_encuesta)
-            respuesta.id_pregunta = TPregunta.objects.get(id_pregunta=id)
+            respuesta.id_pregunta = TPregunta.objects.get(id_pregunta=id_pregunta)
             respuesta.save()
+        # contador_pre
         contador_pregunta = contador_pregunta + 1
-        # redirect con el id de la siguiente pregunta y ademas enviar el contador
-        return redirect('pregunta', id = id_siguiente, contador_pregunta=contador_pregunta)
-    else:
-        pregunta = TPregunta.objects.get(id_pregunta=id)
-        #contador = contador + 1
-        cantidad_preguntas = TPregunta.objects.all().count()
-        if TEncuesta.objects.filter(id_alumno=request.session.get('idAlumno')).exists():
-            id_encuesta = TEncuesta.objects.get(id_alumno=request.session.get('idAlumno')).id_encuesta
-            if TRespuesta.objects.filter(id_pregunta=id, id_encuesta=id_encuesta).exists():
-                respuesta = TRespuesta.objects.get(id_pregunta=id, id_encuesta=id_encuesta)
-                return render(request, 'panel_client/preguntas/preguntas.html', {'pregunta': pregunta, 'respuesta': respuesta,'contador_pregunta':contador_pregunta, 'cantidad_preguntas': cantidad_preguntas})
-            else:
-                return render(request, 'panel_client/preguntas/preguntas.html', {'pregunta': pregunta,'contador_pregunta':contador_pregunta, 'cantidad_preguntas': cantidad_preguntas})
+
+        if contador_pregunta == TPregunta.objects.filter(id_categoria=id_categoria).count():
+            return redirect('menu_preguntas')
         else:
-            return render(request, 'panel_client/preguntas/preguntas.html', {'pregunta': pregunta})
+            # hallando la id_pregunta siguiente a la actual sin sumar 1
+            id_pregunta_siguiente = TPregunta.objects.filter(id_pregunta__gt=id_pregunta).first().id_pregunta
+            # redirect con el id de la siguiente pregunta y ademas enviar el contador
+            return redirect('pregunta', id_categoria = id_categoria, id_pregunta=id_pregunta_siguiente, contador_pregunta=contador_pregunta)
+    else:
+        pregunta = TPregunta.objects.get(id_pregunta=id_pregunta)
+        #contador = contador + 1
+        cantidad_preguntas_categoria = TPregunta.objects.filter(id_categoria=id_categoria).count()
+        contador_pregunta = contador_pregunta + 0
+        id_encuesta = TEncuesta.objects.get(id_alumno=request.session['idAlumno']).id_encuesta
+        if TRespuesta.objects.filter(id_pregunta=id_pregunta, id_encuesta=id_encuesta).exists():
+            respuesta = TRespuesta.objects.get(id_pregunta=id_pregunta, id_encuesta=id_encuesta)
+            return render(request, 'panel_client/preguntas/preguntas.html', {'pregunta': pregunta, 'respuesta': respuesta,'contador_pregunta':contador_pregunta, 'cantidad_preguntas_categoria': cantidad_preguntas_categoria})
+        else:
+            '''
+            if TEncuesta.objects.filter(id_alumno=request.session.get('idAlumno')).exists():
+                id_encuesta = TEncuesta.objects.get(id_alumno=request.session.get('idAlumno')).id_encuesta
+                if TRespuesta.objects.filter(id_pregunta=id, id_encuesta=id_encuesta).exists():
+                    respuesta = TRespuesta.objects.get(id_pregunta=id, id_encuesta=id_encuesta)
+                    return render(request, 'panel_client/preguntas/preguntas.html', {'pregunta': pregunta, 'respuesta': respuesta,'contador_pregunta':contador_pregunta, 'cantidad_preguntas': cantidad_preguntas})
+                else:
+                    return render(request, 'panel_client/preguntas/preguntas.html', {'pregunta': pregunta,'contador_pregunta':contador_pregunta, 'cantidad_preguntas': cantidad_preguntas})
+            else:
+                return render(request, 'panel_client/preguntas/preguntas.html', {'pregunta': pregunta})'''
+            return render(request, 'panel_client/preguntas/preguntas.html', {'pregunta': pregunta, 'contador_pregunta':contador_pregunta, 'cantidad_preguntas_categoria': cantidad_preguntas_categoria})
         
         
 @login_required
 def respuesta(request):
     dni_alumno = request.session.get('dniAlumno')
     nombreAlumno = TAlumno.objects.get(dni_alumno=dni_alumno).nombre_alumno + ', ' + TAlumno.objects.get(dni_alumno=dni_alumno).apellido_alumno
-    # select p.id_vocacion,v.nombre_vocacion,count(r.id_respuesta) as suma from t_respuesta as r
-    # inner join t_encuesta as e on e.id_encuesta = r.id_encuesta
-    # inner join t_pregunta as p on p.id_pregunta = r.id_pregunta
-    # inner join t_vocacion as v on v.id_vocacion = p.id_vocacion
-    # where r.valor_respuesta = 1 and e.id_alumno=1
-    # group by p.id_vocacion
-    # pasar al orm de django
-    #tabla = TRespuesta.objects.raw('select p.id_vocacion,v.nombre_vocacion,count(r.id_respuesta) as suma from t_respuesta as r inner join t_encuesta as e on e.id_encuesta = r.id_encuesta inner join t_pregunta as p on p.id_pregunta = r.id_pregunta inner join t_vocacion as v on v.id_vocacion = p.id_vocacion where r.valor_respuesta = 1 and e.id_alumno=%s group by p.id_vocacion', [request.session.get('idAlumno')])[0]
-    # imprimir tabla
-    #print(tabla)
-    # llamar a un procedimiento almacenado
-    #pa = TRespuesta.objects.raw('call sp_vocacion(%s)', [request.session.get('idAlumno')])[0]
+    id_alumno = request.session.get('idAlumno')
+    if TFicha_alumno.objects.filter(id_ficha_alumno=id_alumno).exists():
+        id_ficha_alumno = TFicha_alumno.objects.get(id_ficha_alumno=id_alumno).id_ficha_alumno
+        ficha_alumno_detalle = TFicha_alumno_detalle.objects.filter(id_ficha_alumno=id_ficha_alumno)
+        # imprimir solo una vez
+        carreras = []
+        for i in ficha_alumno_detalle:
+            carreras.append(i.id_carrera)
+        # eliminar duplicados
+        carreras = list(dict.fromkeys(carreras))
+        vocaciones = []
+        for i in ficha_alumno_detalle:
+            vocaciones.append(i.id_vocacion)
+        # eliminar duplicados
+        vocaciones = list(dict.fromkeys(vocaciones))
+        context = {
+            'nombre_completo': ficha_alumno_detalle[0].id_ficha_alumno.id_alumno.nombre_alumno + ' ' + ficha_alumno_detalle[0].id_ficha_alumno.id_alumno.apellido_alumno,
+            'vocaciones': vocaciones,
+            'carreras': carreras,
+            'id_ficha_alumno': id_ficha_alumno,
+        }
+        return render(request, 'panel_client/preguntas/respuesta.html', context)
+    else:
+        id_vocaciones = []
+        id_carreras = []
+
+        ###########################################################
+        c = connection.cursor()
+        c.callproc('pa_suma', [id_alumno])
+        tabla = c.fetchall()
+        # pasar a un json
+        vocaciones = []
+        for i in tabla:
+            vocaciones.append({
+                'id_vocacion': i[0],
+                'nombre_vocacion': i[1],
+                'suma': i[2]
+            })
+        print(vocaciones)
+        mayor_vocacion = max(vocaciones, key=lambda x: x['suma'])
+        print(mayor_vocacion)
+        for i in vocaciones:
+            if i['suma'] == mayor_vocacion['suma']:
+                id_vocaciones.append(i['id_vocacion'])
+
+        print('#############################################')
+        print(id_vocaciones)
+        vocaciones_carrera = []
+        tamaño_vocaciones = len(id_vocaciones)
+        for i in id_vocaciones:
+            if tamaño_vocaciones == 1:
+                id_carreras = list(TCarrera.objects.filter(id_vocacion=i).values_list('id_carrera', flat=True))[:4]
+                vocaciones_carrera.append({'id_vocacion': i, 'id_carrera': id_carreras})
+            elif tamaño_vocaciones == 2:
+                id_carreras = list(TCarrera.objects.filter(id_vocacion=i).values_list('id_carrera', flat=True))[:2]
+                vocaciones_carrera.append({'id_vocacion': i, 'id_carrera': id_carreras})
+            else:
+                id_carreras = list(TCarrera.objects.filter(id_vocacion=i).values_list('id_carrera', flat=True))[:1]
+                vocaciones_carrera.append({'id_vocacion': i, 'id_carrera': id_carreras})
+        
+        print(id_carreras)
+        print(vocaciones_carrera)
+        
+        ficha_alumno = TFicha_alumno()
+        ficha_alumno.id_ficha_alumno = id_alumno
+        ficha_alumno.id_alumno = TAlumno.objects.get(id_alumno=id_alumno)
+        ficha_alumno.fecha_ficha_alumno = datetime.now().strftime('%Y-%m-%d')
+        ficha_alumno.hora_ficha_alumno = datetime.now().strftime('%H:%M:%S')
+        ficha_alumno.save()
+        for i in vocaciones_carrera:
+            for j in i['id_carrera']:
+                ficha_alumno_detalle = TFicha_alumno_detalle()
+                ficha_alumno_detalle.id_ficha_alumno = TFicha_alumno.objects.get(id_ficha_alumno=id_alumno)
+                ficha_alumno_detalle.id_vocacion = TVocacion.objects.get(id_vocacion=i['id_vocacion'])
+                ficha_alumno_detalle.id_carrera = TCarrera.objects.get(id_carrera=j)
+                ficha_alumno_detalle.save()
+        
+        return render(request, 'panel_client/preguntas/respuesta.html', {'nombreAlumno': nombreAlumno, 'id_ficha_alumno': id_alumno})
+        ###########################################################
+        '''
+        for i in TRespuesta.objects.filter(id_encuesta=id_encuesta):
+            if i.id_vocacion != 0:
+                id_vocaciones.append(i.id_vocacion)
+            if i.id_carrera != 0:
+                id_carreras.append(i.id_carrera)
+        id_vocacion = max(set(id_vocaciones), key=id_vocaciones.count)
+        id_carrera = max(set(id_carreras), key=id_carreras.count)
+        print(id_vocacion)
+        print(id_carrera)'''
+        '''
+        ficha_alumno = TFicha_alumno()
+        ficha_alumno.id_ficha_alumno = id_alumno
+        ficha_alumno.fecha_ficha_alumno = datetime.now()
+        ficha_alumno.hora_ficha_alumno = datetime.now().time()
+        ficha_alumno.save()
+        ficha_alumno_detalle = TFicha_alumno_detalle()
+        ficha_alumno_detalle.id_ficha_alumno = id_alumno
+        ficha_alumno_detalle.id_vocacion = 0
+        ficha_alumno_detalle.id_carrera = 0
+        ficha_alumno_detalle.save()
+        return render(request, 'panel_client/preguntas/respuesta.html', {'nombreAlumno': nombreAlumno})'''
+
+    '''
     c = connection.cursor()
     c.callproc('pa_suma', [request.session.get('idAlumno')])
     tabla = c.fetchall()
@@ -232,16 +286,14 @@ def respuesta(request):
     # obtner el maximo de la columna suma
     maximo = max(vocaciones, key=lambda x:x['suma'])
     id_vocacion_maximo = maximo['id_vocacion']
-
     nombreVocacion = TVocacion.objects.get(id_vocacion=id_vocacion_maximo).nombre_vocacion
     id_vocacion = TVocacion.objects.get(id_vocacion=id_vocacion_maximo).id_vocacion
     # carreras de la vocacion random
-
     carreras = TCarrera.objects.filter(id_vocacion=id_vocacion_maximo).order_by('?')[:3]
+
     nombreVocacion = nombreVocacion.upper()
     return render(request, 'panel_client/preguntas/respuesta.html', {'nombreAlumno': nombreAlumno, 'nombreVocacion': nombreVocacion, 'carreras': carreras, 'id_vocacion': id_vocacion})
-
-
+    '''
 import os
 from django.conf import settings
 from django.http import HttpResponse
@@ -252,23 +304,40 @@ from django.contrib.staticfiles import finders
 
 
 @login_required
-def generar_pdf(request, id_vocacion):
+def generar_pdf(request, id_ficha_alumno):
     template_path = 'panel_client/pdf.html'
     # Begin::Datos de la tabla
-    carreras = TCarrera.objects.filter(id_vocacion=id_vocacion)
-    # mayusculas
-    nombreVocacion = TVocacion.objects.get(id_vocacion=id_vocacion).nombre_vocacion.upper()
-    alumno = TAlumno.objects.get(id_alumno=request.session.get('idAlumno'))
+    ficha_alumno = TFicha_alumno.objects.get(id_ficha_alumno=id_ficha_alumno)
+    ficha_alumno_detalle = TFicha_alumno_detalle.objects.filter(id_ficha_alumno=id_ficha_alumno)
+    # imprimir solo una vez
+    carreras = []
+    for i in ficha_alumno_detalle:
+        carreras.append(i.id_carrera)
+    # eliminar duplicados
+    carreras = list(dict.fromkeys(carreras))
+    vocaciones = []
+    for i in ficha_alumno_detalle:
+        vocaciones.append(i.id_vocacion)
+    # eliminar duplicados
+    vocaciones = list(dict.fromkeys(vocaciones))
+    context = {
+        'ficha_alumno': ficha_alumno,
+        'vocaciones': vocaciones,
+        'carreras': carreras,
+        'id_ficha_alumno': id_ficha_alumno,
+    }
+    
     url_logo = "http://" + request.get_host() + "/static/panel_client_registro/img/logo-ministerio.jpg"
-    edad = (datetime.now().year)-(alumno.fecha_nacimiento_alumno.year)
+    edad = (datetime.now().year)-(ficha_alumno.id_alumno.fecha_nacimiento_alumno.year)
     # End::Datos de la tabla
     context = {
+        'ficha_alumno': ficha_alumno,
+        'vocaciones': vocaciones,
         'carreras': carreras,
-        'alumno': alumno,
-        'url_logo': url_logo,
-        'nombreVocacion': nombreVocacion,
-        'edad': edad
-        }
+        'id_ficha_alumno': id_ficha_alumno,
+        'edad': edad,
+        'url_logo': url_logo
+    }
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="report.pdf"'
@@ -314,3 +383,70 @@ def link_callback(uri, rel):
                             'media URI must start with %s or %s' % (sUrl, mUrl)
                     )
             return path
+
+def menu_preguntas(request):
+    if request.method == 'POST':
+        categoria = request.POST.get('categoria')
+        # convertir en diccionario
+        categoria = categoria.replace("'", '"')
+        categoria = json.loads(categoria)
+
+        id_pregunta = TPregunta.objects.filter(id_categoria=categoria['id_categoria'])[int(categoria['cantidad_respuestas'])].id_pregunta
+        return redirect('pregunta', id_categoria=categoria['id_categoria'], id_pregunta=id_pregunta, contador_pregunta=categoria['cantidad_respuestas'])
+    else:
+        if TEncuesta.objects.filter(id_alumno=request.session.get('idAlumno')).exists():
+            categorias = TCategoria.objects.all()
+            id_encuesta = TEncuesta.objects.get(id_alumno=request.session.get('idAlumno')).id_encuesta
+            id_alumno = request.session.get('idAlumno')
+            boton_activado = False
+            if TPregunta.objects.all().count() == TRespuesta.objects.filter(id_encuesta=id_encuesta).count():
+                boton_activado = True
+                # actualizar el estado de la encuesta
+                encuesta = TEncuesta.objects.get(id_alumno=id_alumno)
+                encuesta.estado_encuesta = 1
+                encuesta.save()
+            cantidad_preguntas_categoria = []
+            for i in categorias:
+                cantidad_preguntas_categoria.append({
+                    'id_categoria': i.id_categoria,
+                    'nombre_categoria': i.nombre_categoria,
+                    'imagen_categoria': i.imagen_categoria,
+                    'cantidad_preguntas': TPregunta.objects.filter(id_categoria=i.id_categoria).count(),
+                    'cantidad_respuestas': TRespuesta.objects.filter(id_encuesta=id_encuesta, id_pregunta__id_categoria=i.id_categoria).count()
+                })
+            return render(request, 'panel_client/preguntas/menu-preguntas.html', 
+            {
+            'cantidad_preguntas_categoria': cantidad_preguntas_categoria, 
+            'boton_activado': boton_activado
+            })
+            
+        else:
+            id_alumno = request.session.get('idAlumno')
+            # fecha actual formato: 2020-05-05
+            fecha_actual = datetime.now().strftime('%Y-%m-%d')
+            # hora actual formato: 12:00:00
+            hora_actual = datetime.now().strftime('%H:%M:%S')
+            encuesta = TEncuesta()
+            encuesta.fecha_encuesta = fecha_actual
+            encuesta.hora_encuesta = hora_actual
+            encuesta.id_alumno = TAlumno.objects.get(id_alumno=id_alumno)
+            encuesta.estado_encuesta = '0'
+            encuesta.save()
+            id_encuesta = encuesta.id_encuesta
+            categorias = TCategoria.objects.all()
+            boton_activado = False
+            if TPregunta.objects.all().count() == TRespuesta.objects.filter(id_encuesta=id_encuesta).count():
+                boton_activado = True
+                # actualizar el estado de la encuesta
+                encuesta = TEncuesta.objects.get(id_alumno=id_alumno)
+                encuesta.estado_encuesta = 1
+                encuesta.save()
+            cantidad_preguntas_categoria = []
+            for i in categorias:
+                cantidad_preguntas_categoria.append({
+                    'id_categoria': i.id_categoria,
+                    'nombre_categoria': i.nombre_categoria,
+                    'cantidad_preguntas': TPregunta.objects.filter(id_categoria=i.id_categoria).count(),
+                    'cantidad_respuestas': TRespuesta.objects.filter(id_encuesta=id_encuesta, id_pregunta__id_categoria=i.id_categoria).count()
+                })
+            return render(request, 'panel_client/preguntas/menu-preguntas.html', {'cantidad_preguntas_categoria': cantidad_preguntas_categoria})

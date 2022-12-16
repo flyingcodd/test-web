@@ -9,6 +9,22 @@
         </div>
     </div>
     <div class="col-md-6 mb-3">
+        <label for="pregunta_categoria" class="form-label font-weight-bold text-muted text-uppercase">Pregunta</label>
+        <input type="text" class="form-control" id="pregunta_categoria" name="pregunta_categoria" value="{{categoria.pregunta_categoria}}" placeholder="Ingrese una pregunta" required>
+        <small id="emailHelp" class="form-text text-muted">Ejemplo: <b>¿Se parece a mi?</b>, Esta pregunta aparecera debajo de las preguntas del test</small>
+        <div class="invalid-tooltip">
+            Por favor, ingrese una pregunta válida.
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="imagen_categoria" class="form-label font-weight-bold text-muted text-uppercase">Ingrese la url de la imagen</label>
+        <input type="text" class="form-control" id="imagen_categoria" name="imagen_categoria" value="{{categoria.imagen_categoria}}" placeholder="Ingrese la url de la imagen" required>
+        <small id="emailHelp" class="form-text text-muted">Ejemplo: <b>https://imagen-ejemplo.com</b>, Esta url debe de ser de una imagen de la web</small>
+        <div class="invalid-tooltip">
+            Por favor, ingrese una pregunta válida.
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
         <label for="estado_categoria" class="form-label font-weight-bold text-muted text-uppercase">Estado del categoria</label>
         <select id="estado_categoria" name="estado_categoria" class="form-select form-control">
             <option value="1" {% if categoria.estado_categoria == 1 %} selected {% endif %}>Habilitado</option>

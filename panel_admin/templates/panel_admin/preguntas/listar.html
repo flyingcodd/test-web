@@ -78,7 +78,27 @@
                                         <td>{{ pregunta.nombre_pregunta }}</td>
                                         <td>{{ pregunta.id_vocacion.nombre_vocacion }}</td>
                                         <td>{{ pregunta.id_categoria.nombre_categoria }}</td>
-                                        <td>ESTADO :v</td>
+                                        <td>
+                                            {% if pregunta.estado_pregunta == 1 %}
+                                            <p class="mb-0 text-success font-weight-bold d-flex justify-content-start align-items-center">
+                                                <small><svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="18" viewBox="0 0 24 24" fill="none">                                                
+                                                <circle cx="12" cy="12" r="8" fill="#3cb72c"></circle></svg>
+                                                </small>Habilitado
+                                            </p>
+                                            {% elif pregunta.estado_pregunta == 0 %}
+                                            <p class="mb-0 text-danger font-weight-bold d-flex justify-content-start align-items-center">
+                                                <small><svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="18" viewBox="0 0 24 24" fill="none">                                                
+                                                <circle cx="12" cy="12" r="8" fill="#F42B3D"></circle></svg>
+                                                </small>Inhabilitado
+                                            </p>
+                                            {% else %}
+                                            <p class="mb-0 text-warning font-weight-bold d-flex justify-content-start align-items-center">
+                                                <small><svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="18" viewBox="0 0 24 24" fill="none">                                                
+                                                <circle cx="12" cy="12" r="8" fill="#F4B33D"></circle></svg>
+                                                </small>En espera :: Error
+                                            </p>
+                                            {% endif %}
+                                        </td>
                                         <td>
                                             <div class="d-flex justify-content-end align-items-center">
                                                 <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" href="{% url 'preguntas_editar' pregunta.id_pregunta %}">
@@ -104,5 +124,55 @@
         </div>
     </div>
 </div>
+<!--swal alert :: begin-->
+<script>
+    var boton_eliminar = document.querySelectorAll(".badge.bg-danger");
+    boton_eliminar.forEach(boton => {
+        boton.addEventListener("click", function(e){
+            e.preventDefault();
+            var url = this.getAttribute("href");
+            Swal.fire({
+                title: '¿Estas seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, ¡Borrar!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            })
+        });
+    });
+</script>
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Excelente!',
+            text: '{{ message }}',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+    {% endif %}
+    {% if message.tags == 'error' %}
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: '{{ message }}',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+    {% endif %}
+    {% endfor %}
+{% endif %}
+<!--swal alert :: end-->
 
 {% endblock %}

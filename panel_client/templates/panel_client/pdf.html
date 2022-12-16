@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informe - {{alumno.dni_alumno}}</title>
+    <title>Informe - {{ficha_alumno.id_alumno.nombre_alumno}}</title>
 
     <style>
         @page {
@@ -32,14 +32,13 @@
         .contenedor .logo img {
             width: 220px;
             height: 50px;
-            background-color: aqua;
         }
 
         .contenedor .titulo {
             text-align: center;
             font-size: 2rem;
             font-weight: bold;
-            margin: 2rem 0;
+            margin: 1rem 0;
         }
 
         .contenedor .formulario {
@@ -80,22 +79,26 @@
     <div class="contenedor">
         <div class="logo">
             <img src="{{url_logo}}" alt="logo.jpg">
+            <div style="margin-left: 13cm; margin-bottom: 0cm;">
+                <h5>{{ficha_alumno.hora_ficha_alumno}} - {{ficha_alumno.fecha_ficha_alumno.day}} de {{ficha_alumno.fecha_ficha_alumno|date:"F"}} del {{ficha_alumno.fecha_ficha_alumno.year}}</h5>
+            </div>
         </div>
+        
         <div class="titulo">
             INFORME CONFIDENCIAL DE SOVIO
         </div>
         <div class="formulario" style="margin-top: -2cm;">
             <div class="form-group">
                 <label for="name">Nombre: </label>
-                <label class="res" for="">{{alumno.nombre_alumno}}</label>
+                <label class="res" for="">{{ficha_alumno.id_alumno.nombre_alumno}}</label>
             </div>
             <div class="form-group">
                 <label for="name">Apellido: </label>
-                <label class="res" for="" style="border: 10px;">{{alumno.apellido_alumno}}</label>
+                <label class="res" for="" style="border: 10px;">{{ficha_alumno.id_alumno.apellido_alumno}}</label>
             </div>
             <div class="form-group">
                 <label for="name">Dni: </label>
-                <label class="res" for="" style="border: 10px;">{{alumno.dni_alumno}}</label>
+                <label class="res" for="" style="border: 10px;">{{ficha_alumno.id_alumno.dni_alumno}}</label>
             </div>
             <div class="form-group">
                 <label for="name">Edad: </label>
@@ -104,20 +107,23 @@
             <div class="form-group">
                 <label for="name">Genero: </label>
                 <label class="res" for="" style="border: 10px;">
-                {% if alumno.genero_alumno == 1 %}
+                    {% if ficha_alumno.id_alumno.genero_alumno == 1 %}
                     Masculino
-                {% else %}
+                    {% elif ficha_alumno.id_alumno.genero_alumno == 0 %}
                     Femenino
-                {% endif %}
+                    {% else %}
+                    Otro
+                    {% endif %}
                 </label>
             </div>
             <div class="form-group">
                 <label for="name">Grado de instruccion: </label>
-                <label class="res" for="" style="border: 10px;">{{alumno.grado_alumno}}ª</label>
+                <label class="res" for="" style="border: 10px;">{{ficha_alumno.id_alumno.grado_alumno}}º</label>
             </div>
             <div class="form-group">
                 <label for="name">Inst. Educativa: </label>
-                <label class="res" for="" style="border: 10px;">{{alumno.id_colegio.nombre_colegio}}</label>
+                <label class="res" for=""
+                    style="border: 10px;">{{ficha_alumno.id_alumno.id_colegio.nombre_colegio}}</label>
             </div>
         </div>
         <h1>I. Descripcion de las areas medidas</h1>
@@ -202,11 +208,26 @@
 
         <h1>II. Resultados</h1>
         <p>De acuerdo a los resultados obtenidos podemos mencionar que el alumno puede Desarrollar sus
-            habilidades dentro de los tipos vocacionales de <b>{{nombreVocacion}}</b> y dentro de las carreras
+            habilidades dentro de los tipos vocacionales de
+            <b>
+                {% for vocacion in vocaciones %}
+                {{ vocacion.nombre_vocacion.upper }}
+                {% if forloop.last %}
+
+                {% else %}
+                ,
+                {% endif %}
+                {% endfor %}
+            </b> y dentro de las carreras
             opcionales como primera opción:
             {% for carrera in carreras %}
-            <b>{{ carrera.nombre_carrera }}</b>,
-            {% endfor %}etc.
+            <b>{{ carrera.nombre_carrera }}
+                {% if forloop.last %}
+                {% else %}
+                ,
+                {% endif %}
+            </b>
+            {% endfor %}
         </p>
     </div>
 

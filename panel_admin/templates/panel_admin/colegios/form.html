@@ -1,5 +1,5 @@
 
-<form class="row g-3 needs-validation" method="post" novalidate >
+<form class="row g-3 needs-validation" method="post" novalidate enctype="multipart/form-data">
     {% csrf_token %}
     <div class="col-md-6 mb-3">
         <label for="nombre_colegio" class="form-label font-weight-bold text-muted text-uppercase">Nombre del colegio</label>
@@ -17,7 +17,7 @@
     </div>
     <div class="col-md-6 mb-3">
         <label for="codigo_colegio" class="form-label font-weight-bold text-muted text-uppercase">Codigo modular</label>
-        <input type="text" class="form-control" id="codigo_colegio" name="codigo_colegio" value="{{colegio.nombre_colegio}}" placeholder="Ingrese Codigo modular">
+        <input type="text" class="form-control" id="codigo_colegio" name="codigo_colegio" value="{{colegio.codigo_colegio}}" placeholder="Ingrese Codigo modular">
     </div>
     <div class="col-md-6 mb-3">
         <label for="telefono_colegio" class="form-label font-weight-bold text-muted text-uppercase">Telefono</label>
@@ -32,12 +32,25 @@
         <input type="text" class="form-control" id="username_colegio" name="username_colegio" value="{{colegio.usuario.username}}" placeholder="Ingrese Username">
     </div>
     <div class="col-md-6 mb-3">
-        <label for="password_colegio" class="form-label font-weight-bold text-muted text-uppercase">Password</label>
-        <input type="text" class="form-control" id="password_colegio" name="password_colegio" value="{{colegio.usuario.password}}" placeholder="Ingrese Password">
+        <label for="password_colegio" class="form-label font-weight-bold text-muted text-uppercase">Nueva Contraseña</label>
+        <input type="text" class="form-control" id="password_colegio" name="password_colegio" value="" placeholder="Ingrese Nueva contraseña">
+        <small id="passwordHelpBlock" class="form-text text-muted">
+            Dejar en blanco si no desea cambiar la contraseña.
+        </small>
     </div>
     <div class="col-md-12 mb-3">
-        <label for="descripcion_colegio" class="form-label font-weight-bold text-muted text-uppercase">Descripcion</label>
-        <textarea class="form-control" id="descripcion_colegio" name="descripcion_colegio" rows="2" placeholder="Ingrese una pequeña descripcion"></textarea>
+        <label for="logo_colegio" class="form-label font-weight-bold text-muted text-uppercase">Logo del colegio(opcional)</label>
+        <div class="custom-file mb-3">
+            <input type="file" class="custom-file-input" id="logo_colegio" name="logo_colegio" accept="image/*">
+            <label class="custom-file-label" for="logo_colegio">Elija una imagen</label>
+        </div>
+        <div class="invalid-tooltip">
+            Por favor, ingrese un archivo válido.
+        </div>
+        <div>
+            <h4 class="text-muted">Logo actual:</h4>
+            <a href="{{colegio.logo_colegio.url}}" target="_blank"><img src="{{colegio.logo_colegio.url}}" alt="" width="100px"></a>
+        </div>
     </div>
     <div class="d-block justify-content-end mt-3">
         <button type="submit" class="btn btn-primary">Guardar Informacion</button>
@@ -45,60 +58,3 @@
     </div>
     
 </form>
-<!--<form class="row g-3">
-    <div class="col-md-6 mb-3">
-        <label for="Text1" class="form-label font-weight-bold text-muted text-uppercase">Product Name</label>
-        <input type="text" class="form-control" id="Text1" placeholder="Enter Product Name">
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="inputState" class="form-label font-weight-bold text-muted text-uppercase">Category</label>
-        <select id="inputState" class="form-select form-control choicesjs">
-            <option value="selected">Select Category</option>
-            <option value="Electronics">Electronics</option>
-            <option value="Applications">Applications</option>
-            <option value="Gadgets">Gadgets</option>
-        </select>
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="Text2" class="form-label font-weight-bold text-muted text-uppercase">Product Code</label>
-        <input type="text" class="form-control" id="Text2" placeholder="Enter Product Code">
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="Text3" class="form-label font-weight-bold text-muted text-uppercase">Product Sku</label>
-        <input type="text" class="form-control" id="Text3" placeholder="Enter Product SKU">
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="Text4" class="form-label font-weight-bold text-muted text-uppercase">manufacturer</label>
-        <input type="text" class="form-control" id="Text4" placeholder="Enter Manufacturer">
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="Text5" class="form-label font-weight-bold text-muted text-uppercase">Quantity</label>
-        <input type="text" class="form-control" id="Text5" placeholder="Enter Quantity">
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="Text6" class="form-label font-weight-bold text-muted text-uppercase">Price</label>
-        <input type="text" class="form-control" id="Text6" placeholder="Enter Price">
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="Text7" class="form-label font-weight-bold text-muted text-uppercase">Tax</label>
-        <input type="text" class="form-control" id="Text7" placeholder="Enter Tax">
-    </div>
-    <div class="col-md-12 mb-3">
-        <label for="Text8" class="form-label font-weight-bold text-muted text-uppercase">Tag</label>
-        <select id="Text8" class="multipleSelect2 form-control choicesjs" multiple="true">
-            <option selected value="1">Excellent</option>
-            <option value="2">Very Good</option>
-            <option value="3">Good</option>
-            <option value="4">Not Bad</option>
-            <option value="5">Bad</option>
-            <option value="6">Very Bad</option>
-        </select>
-    </div>
-    <div class="col-md-12 mb-3">
-        <label for="Text9" class="form-label font-weight-bold text-muted text-uppercase">Description</label>
-        <textarea class="form-control" id="Text9" rows="2" placeholder="Enter Description"></textarea>
-    </div>
-    <div class="d-flex justify-content-end mt-3">
-        <button type="submit" class="btn btn-primary">Guardar Informacion</button>
-    </div>
-</form>-->

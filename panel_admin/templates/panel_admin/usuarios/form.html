@@ -17,7 +17,7 @@
     </div>
     <div class="col-md-6 mb-3">
         <label for="dni_usuario" class="form-label font-weight-bold text-muted text-uppercase">DNI:</label>
-        <input type="text" class="form-control" id="dni_usuario" name="dni_usuario" value="{{usuario.dni_usuario}}" placeholder="7*******" required>
+        <input type="number" class="form-control" id="dni_usuario" name="dni_usuario" value="{{usuario.dni_usuario}}" placeholder="7*******" required>
         <div class="invalid-tooltip">
             Por favor, ingrese un dni valido.
         </div>
@@ -30,10 +30,15 @@
         </div>
     </div>
     <div class="col-md-6 mb-3">
-        <label for="password_usuario" class="form-label font-weight-bold text-muted text-uppercase">Password</label>
-        <input type="text" class="form-control" id="password_usuario" name="password_usuario" value="{{usuario.usuario.password}}" placeholder="****" required>
+        <label for="password_usuario" class="form-label font-weight-bold text-muted text-uppercase">{% if usuario.id_usuario %} Nueva {% endif %} Contraseña</label>
+        <input type="text" class="form-control" id="password_usuario" name="password_usuario" value="" placeholder="Ingrese {% if usuario.id_usuario %} Nueva {% endif %} contraseña" {% if not usuario.id_usuario %} required {% endif %}>
+        {% if usuario.id_usuario %}
+        <small id="passwordHelpBlock" class="form-text text-muted">
+            Dejar en blanco si no desea cambiar la contraseña.
+        </small>
+        {% endif %}
         <div class="invalid-tooltip">
-            Por favor, ingrese un password valido.
+            Por favor, ingrese una contraseña valida.
         </div>
     </div>
     <div class="col-md-6 mb-3">
@@ -42,6 +47,22 @@
             <option value="1" {% if usuario.estado_usuario == 1 %} selected {% endif %}>Habilitado</option>
             <option value="0" {% if usuario.estado_usuario == 0 %} selected {% endif %}>Inhabilitado</option>
         </select>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="is_superuser" class="form-label font-weight-bold text-muted text-uppercase">Super Usuario</label>
+        <!--radio buton es super usuario-->
+        <div class="form-check">
+            <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
+                <input type="radio" id="customRadio-1" name="customRadio-10" class="custom-control-input bg-primary">
+                <label class="custom-control-label" for="customRadio-1"> SI </label>
+             </div>
+             <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
+                <input type="radio" id="customRadio-2" name="customRadio-10" class="custom-control-input bg-success">
+                <label class="custom-control-label" for="customRadio-2"> NO </label>
+             </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
     </div>
     <!--agregar permisos django-->
     <div class="col-md-12 mb-3">

@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
-                    <h4 class="card-title">Reporte General</h4>
+                    <h4 class="card-title">Reporte de colegios</h4>
                 </div>
                 <!--select-->
                 <form action="" method="post" id="form">{% csrf_token %}
@@ -23,9 +23,6 @@
                                         <option value="{{reporte.mes}}" {% if ultimo_mes == reporte.mes %} selected {% endif %}>{{reporte.mes}}</option>
                                         {% endfor %}
                                     </select>
-                                    <script>
-                                        console.log("{{ultimo_mes}}");
-                                    </script>
                                 </div>
                             </div>
                         </div>
@@ -102,24 +99,13 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12 col-lg-12">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between">
-                <div class="header-title">
-                    <h4 class="card-title">Evolucion de test realizados</h4>
-                </div>
-            </div>
-            <div class="card-body">
-                <div id="asd"></div>
-            </div>
-        </div>
-    </div>
+    
     <!--reportes por sexo-->
     <div class="col-sm-12 col-lg-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
-                    <h4 class="card-title">Reporte general por mes y sexo</h4>
+                    <h4 class="card-title">Reporte de test evaludados por mes</h4>
                 </div>
                 <!--select-->
                 <div class="card-header d-flex justify-content-between">
@@ -178,8 +164,21 @@
                 </div>
 
             </div>
+            <div class="col-sm-12 col-lg-12">
+                <div class="a">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">Evolucion de test realizados por mes</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="asd"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    
 </div>
 <script
   src="https://code.jquery.com/jquery-3.6.1.js"

@@ -1,6 +1,6 @@
 {% extends "panel_admin/plantillas/base.html" %}
 {% block title %}Reportes{% endblock %}
-{% load static %}
+
 {% block content %}
 
 <div class="row">
@@ -12,12 +12,12 @@
                 </div>
                 <!--select-->
                 <div class="card-header d-flex justify-content-between">
-                    <button type="button" class="btn btn-success">Actualizar</button>
+                    <a class="btn btn-success" href="{{ manual_usuario.url }}" type="button" class="btn btn-success" target="_blank">Ver manual</a>
                 </div>
             </div>
             <div class="card-body">
-                <!--Cargar un pdf de static-->
-                <embed src="{% static 'panel_admin/storage/manual_usuario.pdf' %}" width="100%" height="600px" />
+                <!--cargar pdf en la pantalla actual-->
+                <embed src="{{ manual_usuario.url }}" type="application/pdf" width="100%" height="600px" />
             </div>
         </div>
     </div>

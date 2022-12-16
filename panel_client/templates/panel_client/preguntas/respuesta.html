@@ -4,9 +4,17 @@
 
 {% block content %}
     <div class="container__resultados">
-        <h1>Bienvenido: {{nombreAlumno}}</h1>
+        <h1>Felicidades: {{nombre_completo}}</h1>
         <div class="container__resultados__body">
-            <h1>Lo tuyo, lo tuyo, son los temas relacionados con "{{nombreVocacion}}"</h1>
+            <h1>Lo tuyo, lo tuyo, es el tipo de vocacion: "
+                {% for vocacion in vocaciones %}
+                        {{vocacion.nombre_vocacion}}
+                        {% if forloop.last %}
+                        {% else %}
+                            , 
+                        {% endif %}
+                {% endfor %}
+            "</h1>
             <p>Las Carreras recomendadas son:</p>
             <ul>
                 <!--Imprimindo tabla del proce almacenado-->
@@ -15,7 +23,7 @@
                 {% endfor %}
             </ul>
             <div class="btn-descargar">
-                <a class="btn" href="{% url 'generar_pdf' id_vocacion %}"><i class="fa-solid fa-cloud-arrow-down"></i> Descargar Ficha</a>
+                <a class="btn" href="{% url 'generar_pdf' id_ficha_alumno %}"><i class="fa-solid fa-cloud-arrow-down"></i> Descargar Ficha</a>
             </div>
         </div>
     </div>

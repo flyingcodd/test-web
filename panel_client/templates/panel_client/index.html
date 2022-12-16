@@ -5,19 +5,26 @@
 {% block content %}
 <section id="inicio">
     <!-- Carousel Start -->
-    <div class="container-fluid p-0 mb-5" >
+    <div class="container-fluid p-0 mb-5">
         <div class="owl-carousel header-carousel position-relative">
             <div class="owl-carousel-item position-relative">
                 <img class="img-fluid" src="{% static 'panel_client/img/carousel-1.jpg' %}" alt="">
-                <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(24, 29, 56, .7);">
+                <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center"
+                    style="background: rgba(24, 29, 56, .7);">
                     <div class="container">
                         <div class="row justify-content-start">
                             <div class="col-sm-10 col-lg-8">
-                                <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Servicio Principal</h5>
-                                <h1 class="display-3 text-white animated slideInDown">Servicio de orientacion vocacional e informacion ocupacional</h1>
-                                <p class="fs-5 text-white mb-4 pb-2">Es un servicio gratuito que se brinda a nivel nacional que busca promover en los jóvenes el logro de sus metas de formación y empleo que forman parte de su proyecto de vida.</p>
-                                <a href="#nosotros" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Saber Mas</a>
-                                <a href="{% url 'iniciar_seccion' %}" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Inciar Test</a>
+                                <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Servicio Principal
+                                </h5>
+                                <h1 class="display-3 text-white animated slideInDown">Servicio de orientacion vocacional
+                                    e informacion ocupacional</h1>
+                                <p class="fs-5 text-white mb-4 pb-2">Es un servicio gratuito que se brinda a nivel
+                                    nacional que busca promover en los jóvenes el logro de sus metas de formación y
+                                    empleo que forman parte de su proyecto de vida.</p>
+                                <a href="#nosotros"
+                                    class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Saber Mas</a>
+                                <a href="{% url 'iniciar_seccion' %}"
+                                    class="btn btn-light py-md-3 px-md-5 animated slideInRight">Inciar Test</a>
                             </div>
                         </div>
                     </div>
@@ -25,15 +32,19 @@
             </div>
             <div class="owl-carousel-item position-relative">
                 <img class="img-fluid" src="{% static 'panel_client/img/carousel-2.jpg' %}" alt="">
-                <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(24, 29, 56, .7);">
+                <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center"
+                    style="background: rgba(24, 29, 56, .7);">
                     <div class="container">
                         <div class="row justify-content-start">
                             <div class="col-sm-10 col-lg-8">
-                                <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Servicios secundarios</h5>
+                                <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Servicios secundarios
+                                </h5>
                                 <h1 class="display-3 text-white animated slideInDown">Servicio de Orientacion</h1>
-                                <p class="fs-5 text-white mb-4 pb-2">Servicios que son brindados gratuitamente previa cordinacion con la direccion regional de trabajo de cusco.</p>
-                                <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Saber Mas</a>
-                                <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Iniciar Test</a>
+                                <p class="fs-5 text-white mb-4 pb-2">Servicios que son brindados gratuitamente previa
+                                    cordinacion con la direccion regional de trabajo de cusco.</p>
+                                <a href="#nosotros" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Saber
+                                    Mas</a>
+                                <a href="{% url 'iniciar_seccion' %}" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Iniciar Test</a>
                             </div>
                         </div>
                     </div>
@@ -42,9 +53,9 @@
         </div>
     </div>
 </section>
-    <!-- Carousel End -->
+<!-- Carousel End -->
 
-    <section  id="servicios">
+<section id="servicios">
     <!-- Service Start -->
     <div class="container-xxl py-5">
         <div class="container">
@@ -55,9 +66,12 @@
                             <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
                             <h5 class="mb-3">Evaluacion - Orientacion Vocacional</h5>
                             <p>
-                                El servicio disponible de herramientas pedagógicas e instrumentos psicológicos para desarrollar
-                                un proceso integral, puntual y especializado en la identificacion de las preferencias Profesionales
-                                y caracteristicas personales, orientado de mejor manera a la toma de decisiones, informada y responsable
+                                El servicio disponible de herramientas pedagógicas e instrumentos psicológicos para
+                                desarrollar
+                                un proceso integral, puntual y especializado en la identificacion de las preferencias
+                                Profesionales
+                                y caracteristicas personales, orientado de mejor manera a la toma de decisiones,
+                                informada y responsable
                                 de un caracter profesional, tecnica u ocupacional.
                             </p>
                         </div>
@@ -69,8 +83,10 @@
                             <i class="fa fa-3x fa-globe text-primary mb-4"></i>
                             <h5 class="mb-3">Ferias laborales y de orientacion vocacional desentralizados</h5>
                             <p>
-                                Eventos donde se agrupan las principales instituciones formativas que existen en la region
-                                las que exponen de forma directa y en un solo lugar las diversas carreras universitarias,
+                                Eventos donde se agrupan las principales instituciones formativas que existen en la
+                                region
+                                las que exponen de forma directa y en un solo lugar las diversas carreras
+                                universitarias,
                                 tecnica y ocupacionales que ofrecen.
                             </p>
                         </div>
@@ -83,8 +99,8 @@
                             <h5 class="mb-3">Planes Profesionales</h5>
                             <p>
                                 Espacio donde se comparten temas de interes vinculados a la vocacion, las
-                                 carreras profesionales, la situacion de las ocupaciones en el mercado de trabajo,
-                                 consejos para elegir una carrera profesional exitosa, entre otras.
+                                carreras profesionales, la situacion de las ocupaciones en el mercado de trabajo,
+                                consejos para elegir una carrera profesional exitosa, entre otras.
                             </p>
                         </div>
                     </div>
@@ -95,8 +111,9 @@
                             <i class="fa fa-3x fa-book-open text-primary mb-4"></i>
                             <h5 class="mb-3">Visitas guiadas a empresas</h5>
                             <p>
-                                Brindan la opurtunidad de conocer de cerca el desarrollo de una ocupacion a travez de 
-                                visitas a empresas representativas de las actividades economicas y productivas que destacan en la region.
+                                Brindan la opurtunidad de conocer de cerca el desarrollo de una ocupacion a travez de
+                                visitas a empresas representativas de las actividades economicas y productivas que
+                                destacan en la region.
                             </p>
                         </div>
                     </div>
@@ -107,23 +124,27 @@
     <!-- Service End -->
 </section>
 
-<section  id="nosotros">
+<section id="nosotros">
     <!-- About Start -->
     <div class="container-xxl py-5">
         <div class="container">
             <div class="row g-5">
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
                     <div class="position-relative h-100">
-                        <img class="img-fluid position-absolute w-100 h-100" src="{% static 'panel_client/img/about.jpg' %}" alt="" style="object-fit: cover;">
+                        <img class="img-fluid position-absolute w-100 h-100"
+                            src="{% static 'panel_client/img/about.jpg' %}" alt="" style="object-fit: cover;">
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
                     <h6 class="section-title bg-white text-start text-primary pe-3">Acerca de Nosotros</h6>
                     <h1 class="mb-4">Bienvenido a SOVIO</h1>
-                    <p class="mb-4">SOVIO es un servicio <strong>GRATUITO</strong> que busca orientar y facilitar la eleccion de la carrera profesional, tecnica
-                    u ocupacional que podrian seguir los jovenes al egresar de la etapa escolar</p>
-                    <p class="mb-4">Su objetivo es intervenir de manera oportuna en un proceso decisorio vocacional procurando una eleccion eficiente que mejore sus
-                    posibilidades futuras de insercion en el mercado laboral,lo que a su vez contribuye al ajuste ocupacional de la region </p>
+                    <p class="mb-4">SOVIO es un servicio <strong>GRATUITO</strong> que busca orientar y facilitar la
+                        eleccion de la carrera profesional, tecnica
+                        u ocupacional que podrian seguir los jovenes al egresar de la etapa escolar</p>
+                    <p class="mb-4">Su objetivo es intervenir de manera oportuna en un proceso decisorio vocacional
+                        procurando una eleccion eficiente que mejore sus
+                        posibilidades futuras de insercion en el mercado laboral,lo que a su vez contribuye al ajuste
+                        ocupacional de la region </p>
                     </p>
                     <div class="row gy-2 gx-4 mb-4">
                         <div class="col-sm-6">
@@ -144,8 +165,8 @@
     <!-- About End -->
 </section>
 
-    <!-- Categories Start -->
-    <!--
+<!-- Categories Start -->
+<!--
     <div class="container-xxl py-5 category">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -197,71 +218,76 @@
         </div>
     </div>
     -->
-    <!-- Categories Start -->
+<!-- Categories Start -->
 
-    <section id="orientador">
-        <!-- Courses Start -->
-        <div class="container-xxl py-5">
-            <div class="container">
-                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h6 class="section-title bg-white text-center text-primary px-3">Orientador</h6>
-                    <h1 class="mb-5">Que brindamos ?</h1>
+<section id="orientador">
+    <!-- Courses Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Orientador</h6>
+                <h1 class="mb-5">Que brindamos ?</h1>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="course-item bg-lightm p-2">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid"
+                                src="https://th.bing.com/th/id/OIP.fi49FWk1vsLp4Tm2ouraggHaHa?pid=ImgDet&rs=1" alt="">
+                        </div>
+                        <div class="text-center p-4 pb-0">
+                            <h3 class="mb-0">Orientacion</h3>
+                            <p class="mb-4">Para descubrir tu vocacion y construir tu proyecto de vida</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="row g-4 justify-content-center">
-                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="course-item bg-lightm p-2">
-                            <div class="position-relative overflow-hidden">
-                                <img class="img-fluid" src="https://th.bing.com/th/id/OIP.fi49FWk1vsLp4Tm2ouraggHaHa?pid=ImgDet&rs=1" alt="">
-                            </div>
-                            <div class="text-center p-4 pb-0">
-                                <h3 class="mb-0">Orientacion</h3>
-                                <p class="mb-4">Para descubrir tu vocacion y construir tu proyecto de vida</p>
-                            </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="course-item bg-lightm p-2">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid"
+                                src="https://th.bing.com/th/id/OIP.GwkZaeSfjpDewkuy48wgbgHaD4?pid=ImgDet&rs=1" alt="">
+                        </div>
+                        <div class="text-center p-4 pb-0">
+                            <h3 class="mb-0">Informacion</h3>
+                            <p class="mb-4">Del mercado formativo laboral</p>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="course-item bg-lightm p-2">
-                            <div class="position-relative overflow-hidden">
-                                <img class="img-fluid" src="https://th.bing.com/th/id/OIP.GwkZaeSfjpDewkuy48wgbgHaD4?pid=ImgDet&rs=1" alt="">
-                            </div>
-                            <div class="text-center p-4 pb-0">
-                                <h3 class="mb-0">Informacion</h3>
-                                <p class="mb-4">Del mercado formativo laboral</p>
-                            </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="course-item bg-lightm p-2">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid"
+                                src="https://th.bing.com/th/id/OIP.53xQ1owywqKzXo19NlbhbgAAAA?pid=ImgDet&rs=1" alt="">
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="course-item bg-lightm p-2">
-                            <div class="position-relative overflow-hidden">
-                                <img class="img-fluid" src="https://th.bing.com/th/id/OIP.53xQ1owywqKzXo19NlbhbgAAAA?pid=ImgDet&rs=1" alt="">
-                            </div>
-                            <div class="text-center p-4 pb-0">
-                                <h3 class="mb-0">Evaluacion y asesoria</h3>
-                                <p class="mb-4">Para la decision vocacional</p>
-                            </div>
+                        <div class="text-center p-4 pb-0">
+                            <h3 class="mb-0">Evaluacion y asesoria</h3>
+                            <p class="mb-4">Para la decision vocacional</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Courses End -->
-       </section>
+    </div>
+    <!-- Courses End -->
+</section>
 
-       <section id="plataformas">
+<section id="plataformas">
     <!-- Courses Start -->
     <div class="container-xxl py-5">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center text-primary px-3">Plataformas</h6>
-                <h1 class="mb-5">Plataformas Populares</h1>
+                <h1 class="mb-5">Plataformas Aliadas</h1>
             </div>
             <div class="row g-4 justify-content-center">
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="course-item bg-light">
                         <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="{% static 'panel_client/img/course-1.jpg' %}" alt="">
+                            <img class="img-fluid" src="{% static 'panel_client/img/plataform-1.jpg' %}" alt="">
                             <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 " style="border-radius: 30px;">Visitar</a>
+                                <a href="http://proyectatufuturo.trabajo.gob.pe/" target="_blank"
+                                    class="flex-shrink-0 btn btn-sm btn-primary px-3 "
+                                    style="border-radius: 30px;">Visitar</a>
                             </div>
                         </div>
                         <div class="text-center p-4 pb-0">
@@ -271,7 +297,8 @@
                         <div class="d-flex border-top">
                             <small class="flex-fill text-center border-end py-2">
                                 <i class="fas fa-external-link-alt text-primary me-2"></i>
-                                <a href="www.proyectatufuturo.com">www.proyectatufuturo.com</a>
+                                <a href="http://proyectatufuturo.trabajo.gob.pe/"
+                                    target="_blank">proyectatufuturo.trabajo.gob.pe</a>
                             </small>
                         </div>
                     </div>
@@ -279,9 +306,11 @@
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="course-item bg-light">
                         <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="{% static 'panel_client/img/course-1.jpg' %}" alt="">
+                            <img class="img-fluid" src="{% static 'panel_client/img/plataform-2.jpg' %}" alt="">
                             <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 " style="border-radius: 30px;">Visitar</a>
+                                <a href="https://www.ponteencarrera.pe/pec-portal-web/" target="_blank"
+                                    class="flex-shrink-0 btn btn-sm btn-primary px-3 "
+                                    style="border-radius: 30px;">Visitar</a>
                             </div>
                         </div>
                         <div class="text-center p-4 pb-0">
@@ -291,7 +320,8 @@
                         <div class="d-flex border-top">
                             <small class="flex-fill text-center border-end py-2">
                                 <i class="fas fa-external-link-alt text-primary me-2"></i>
-                                <a href="www.ponteencarrera.com">www.ponteencarrera.com</a>
+                                <a href="https://www.ponteencarrera.pe/pec-portal-web/"
+                                    target="_blank">www.ponteencarrera.pe</a>
                             </small>
                         </div>
                     </div>
@@ -299,9 +329,26 @@
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="course-item bg-light">
                         <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="{% static 'panel_client/img/course-1.jpg' %}" alt="">
+                            <style>
+                                #sovio-logo-cat {
+                                    padding: 65px 30px;
+                                    background-color: #181d38;
+                                }
+                                @media screen and (max-width: 1400px ) {
+                                    #sovio-logo-cat {
+                                        padding: 58px 30px;
+                                    }
+                                }
+                                @media screen and (max-width: 1200px) {
+                                    #sovio-logo-cat {
+                                        padding: 50px 30px;
+                                    }
+                                }
+                            </style>
+                            <img class="img-fluid" src="{% static 'panel_client_registro/img/logo2.png' %}" alt="" id="sovio-logo-cat">
                             <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 " style="border-radius: 30px;">Visitar</a>
+                                <a href="{% url 'index_client' %}" class="flex-shrink-0 btn btn-sm btn-primary px-3 "
+                                    style="border-radius: 30px;">Visitar</a>
                             </div>
                         </div>
                         <div class="text-center p-4 pb-0">
@@ -311,7 +358,7 @@
                         <div class="d-flex border-top">
                             <small class="flex-fill text-center border-end py-2">
                                 <i class="fas fa-external-link-alt text-primary me-2"></i>
-                                <a href="www.sovio-cusco.com">www.sovio-cusco.com</a>
+                                <a href="{% url 'index_client' %}">sovio-cusco.com.pe</a>
                             </small>
                         </div>
                     </div>
@@ -322,8 +369,8 @@
     <!-- Courses End -->
 </section>
 
-    <!-- Team Start -->
-    <!--<div class="container-xxl py-5">
+<!-- Team Start -->
+<!--<div class="container-xxl py-5">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center text-primary px-3">Instructors</h6>
@@ -405,11 +452,11 @@
             </div>
         </div>
     </div>-->
-    <!-- Team End -->
+<!-- Team End -->
 
 
-    <!-- Testimonial Start -->
-    <!--<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+<!-- Testimonial Start -->
+<!--<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
         <div class="container">
             <div class="text-center">
                 <h6 class="section-title bg-white text-center text-primary px-3">Testimonial</h6>
@@ -451,9 +498,9 @@
             </div>
         </div>
     </div>-->
-    <!-- Testimonial End -->
+<!-- Testimonial End -->
 
-    <section  id="enlaces">
+<section id="enlaces">
     <!--Logos Start-->
     <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
         <div class="container">
@@ -464,31 +511,38 @@
             <div class="owl-carousel logos-carousel position-relative">
                 <!--boton anterior-->
                 <div class="logo-item text-center">
-                    <a href="#"><img class="img-fluid" src="https://th.bing.com/th/id/OIP.uNt2_sJw2QYT5GaPpsP5cgHaDt?pid=ImgDet&rs=1" alt=""></a>
+                    <a href="https://www.gob.pe/regioncusco" target="_blank"><img class="img-fluid"
+                            src="{% static 'panel_client/img/logo-gorecusco.png' %}" alt="logo-gorecusco.png"></a>
                 </div>
                 <div class="logo-item text-center">
-                    <a href="#"><img class="img-fluid" src="https://th.bing.com/th/id/OIP.Smjv3BoThDWjpf9t_PRGlgHaBn?pid=ImgDet&rs=1" alt=""></a>
+                    <a href="https://www.gob.pe/minedu" target="_blank"><img class="img-fluid"
+                            src="{% static 'panel_client/img/logo-minedu.png' %}" alt="logo-minedu.png"></a>
                 </div>
                 <div class="logo-item text-center">
-                    <a href="#"><img class="img-fluid" src="https://www.unamba.edu.pe/images/2019/11/06/dircetur.png" alt=""></a>
+                    <a href="https://www.gob.pe/mtpe" target="_blank"><img class="img-fluid"
+                            src="{% static 'panel_client/img/logo-mtpe.png' %}" alt="logo-mtpe.png"></a>
                 </div>
                 <div class="logo-item text-center">
-                    <a href="#"><img class="img-fluid" src="https://www.unamba.edu.pe/images/2019/11/06/dircetur.png" alt=""></a>
+                    <a href="https://drtpe.regioncusco.gob.pe/" target="_blank"><img class="img-fluid"
+                            src="{% static 'panel_client/img/logo-trabajocusco.png' %}" alt="logo-trabajocusco.png"></a>
                 </div>
                 <div class="logo-item text-center">
-                    <a href="#"><img class="img-fluid" src="https://www.unamba.edu.pe/images/2019/11/06/dircetur.png" alt=""></a>
+                    <a href="http://www.unsaac.edu.pe/" target="_blank"><img class="img-fluid"
+                            src="{% static 'panel_client/img/logo-unsaac.jpg' %}" alt="logo-unsaac.jpg"></a>
                 </div>
                 <div class="logo-item text-center">
-                    <a href="#"><img class="img-fluid" src="https://www.unamba.edu.pe/images/2019/11/06/dircetur.png" alt=""></a>
+                    <a href="https://www.gereducusco.gob.pe/" target="_blank"><img class="img-fluid"
+                            src="{% static 'panel_client/img/logo-geredcusco.png' %}" alt="logo-geredcusco.png"></a>
                 </div>
                 <div class="logo-item text-center">
-                    <a href="#"><img class="img-fluid" src="https://www.unamba.edu.pe/images/2019/11/06/dircetur.png" alt=""></a>
+                    <a href="#"><img class="img-fluid" src="https://www.unamba.edu.pe/images/2019/11/06/dircetur.png"
+                            alt=""></a>
                 </div>
             </div>
         </div>
     </div>
     <!--Logos End-->
-    </section>
+</section>
 
 
-    {% endblock %}
+{% endblock %}

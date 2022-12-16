@@ -1,0 +1,113 @@
+{% extends "panel_client/plantillas/base_test.html" %}
+
+{% block title %}SOVIO{% endblock %}
+
+{% block content %}
+<!-- style pooper :: begin -->
+<style>
+    #tooltip {
+        background-color: #333;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 13px;
+        display: none;
+    }
+    #tooltip[data-show] {
+        display: block;
+    }
+</style>
+<!-- style pooper :: end -->
+<div class="container_quiz">
+    <div class="quiz">
+        <div class="row-ajust">
+
+            {% for categoria in cantidad_preguntas_categoria %}
+            <form method="post" style="display: contents;">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-header">
+                        <span>{{categoria.nombre_categoria}}</span>
+                    </div>
+                    <div class="card-body">
+                        <img src="{{ categoria.imagen_categoria }}"
+                            alt="imagen_categoria">
+                    </div>
+                    <div class="card-footer">
+                        {% if categoria.cantidad_respuestas == categoria.cantidad_preguntas %}
+                        <button class="btn btn-disabled " disabled>
+                            Iniciar {{categoria.cantidad_respuestas}}/{{categoria.cantidad_preguntas}}
+                        </button>
+                        <span>Estado completado</span>
+                        {% else %}
+                        <input type="hidden" value="{{categoria}}" name="categoria">
+                        <button type="submit" class="btn">
+                            Iniciar {{categoria.cantidad_respuestas}}/{{categoria.cantidad_preguntas}}
+                        </button>
+                        <span>Estado pendiente</span>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </form>
+            {% endfor %}
+        </div>
+        <div class="colum-center">
+            {% if boton_activado %}
+            <a href="{% url 'respuesta' %}" class="btn">Ver resultados</a>
+            {% else %}
+            <a id="button" class="btn btn-disabled">Ver resultados</a>
+            {% endif %}
+            <div id="tooltip" role="tooltip">Complete toda las preguntas, para ver su resultado</div>
+        </div>
+    </div>
+</div>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script>
+    //||||||||||||||\\ BEGIN::POOPER //||||||||||||||\\
+    const button = document.querySelector('#button');
+    const tooltip = document.querySelector('#tooltip');
+    const popperInstance = Popper.createPopper(button, tooltip, {
+        modifiers: [
+          {
+            name: 'offset',
+            options: {
+              offset: [0, 8],
+            },
+          },
+        ],
+      });
+    function show() {
+        tooltip.setAttribute('data-show', '');
+        popperInstance.update();
+    }
+    function hide() {
+        tooltip.removeAttribute('data-show');
+    }
+    const showEvents = ['mouseenter', 'focus'];
+    const hideEvents = ['mouseleave', 'blur'];
+    if (showEvents.length) {
+        showEvents.forEach((event) => {
+        button.addEventListener(event, show);
+        });
+    } else {
+        show();
+    }
+    if (hideEvents.length) {
+        hideEvents.forEach((event) => {
+        button.addEventListener(event, hide);
+        });
+    } else {
+        hide();
+    }
+    //||||||||||||||\\ END::POOPER //||||||||||||||\\
+</script>
+<script>
+    // bloquear y deshabilitar atras y adelante en el navegador
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
+</script>
+
+{% endblock %}

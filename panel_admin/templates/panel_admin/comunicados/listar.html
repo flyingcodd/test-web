@@ -37,26 +37,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Comunicado 1</td>
-                                    <td>
-                                        <img src="https://th.bing.com/th/id/R.540c0df2f46cc52fcf4c0fe8c08bb3b9?rik=0rr7RlkBQasheg&pid=ImgRaw&r=0" alt="" width="200px">
-                                    </td>
-                                    <td>2020-01-01</td>
-                                    <td>SI</td>
-                                    <td>
-                                        <a href="{% url 'comunicados_editar' 1 %}" class="btn btn-primary btn-sm">Editar</a>
-                                        <a href="#" class="btn btn-danger btn-sm">Eliminar</a>
-                                    </td>
-                                </tr>
                                 {% for comunicado in comunicados %}
                                 <tr>
                                     <td>{{comunicado.nombre_comunicado}}</td>
                                     <td>
-                                        <img src="{{comunicado.img_comunicado}}" alt="" width="200px">
+                                        <img src="{{comunicado.img_comunicado.url}}" alt="" width="200px">
                                     </td>
                                     <td>{{comunicado.fecha_comunicado}}</td>
-                                    <td>{{comunicado.estado_comunicado}}</td>
+                                    <td>
+                                        {% if comunicado.estado_comunicado %}
+                                        <span class="badge badge-success btn-sm">SI</span>
+                                        {% else %}
+                                        <span class="badge badge-danger btn-sm">NO</span>
+                                        {% endif %}
+                                    </td>
                                     <td>
                                         <a href="{% url 'comunicados_editar' comunicado.id_comunicado %}" class="btn btn-primary btn-sm">Editar</a>
                                         <a href="{% url 'comunicados_eliminar' comunicado.id_comunicado %}" class="btn btn-danger btn-sm">Eliminar</a>
@@ -72,4 +66,55 @@
     </div>
 </div>
 <!-- Wrapper End-->
+<!--swal alert :: begin-->
+<script>
+    var boton_eliminar = document.querySelectorAll(".badge.bg-danger");
+    boton_eliminar.forEach(boton => {
+        boton.addEventListener("click", function(e){
+            e.preventDefault();
+            var url = this.getAttribute("href");
+            Swal.fire({
+                title: '¿Estas seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, ¡Borrar!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            })
+        });
+    });
+</script>
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Excelente!',
+            text: '{{ message }}',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+    {% endif %}
+    {% if message.tags == 'error' %}
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: '{{ message }}',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+    {% endif %}
+    {% endfor %}
+{% endif %}
+<!--swal alert :: end-->
+
 {% endblock %}

@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'panel_admin',
     'panel_client',
 ]
-
+X_FRAME_OPTIONS = 'SAMEORIGIN' # esto es para que no me de error de seguridad al cargar el iframe
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -132,3 +132,7 @@ LOGIN_URL = 'iniciar_seccion'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+## media root
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

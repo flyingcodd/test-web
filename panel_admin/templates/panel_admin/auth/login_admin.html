@@ -5,7 +5,7 @@
 <!--Para cargar las imagenes-->
 {% block content %}
 
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.15/dist/sweetalert2.all.min.js"></script>
 <div class="wrapper">
     <section class="login-content">
         <div class="container h-100">
@@ -26,13 +26,6 @@
                                     <span class="line-around-1">Iniciar sesión con su Usuario</span>
                                 </p>
                             </div>
-                            {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
                             <form method="post">
                                 {% csrf_token %}
                                 <div class="row">
@@ -64,5 +57,30 @@
         </div>
     </section>
 </div>
-
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Excelente!',
+            text: '{{ message }}',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+    {% endif %}
+    {% if message.tags == 'error' %}
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: '{{ message }}',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+    {% endif %}
+    {% endfor %}
+{% endif %}
 {% endblock %}

@@ -32,6 +32,7 @@ class TCarrera(models.Model):
 
 class TCategoria(models.Model):
     id_categoria = models.AutoField(primary_key=True)
+    imagen_categoria = models.CharField(max_length=450, blank=True, null=True)
     nombre_categoria = models.CharField(max_length=50)
     estado_categoria = models.IntegerField()
     pregunta_categoria = models.CharField(max_length=45)
@@ -53,6 +54,7 @@ class TColegio(models.Model):
     nombre_colegio = models.CharField(max_length=50)
     telefono_colegio = models.CharField(max_length=12, blank=True, null=True)
     direccion_colegio = models.CharField(max_length=30, blank=True, null=True)
+    logo_colegio = models.ImageField(upload_to='logos_colegio/', blank=True, null=True)
     estado_colegio = models.IntegerField()
     usuario = models.ForeignKey(User, models.DO_NOTHING, db_column='usuario', blank=True, null=True)
 
@@ -88,7 +90,7 @@ class TAlumno(models.Model):
 class TComunicado(models.Model):
     id_comunicado = models.AutoField(primary_key=True)
     nombre_comunicado = models.CharField(max_length=50, blank=True, null=True)
-    img_comunicado = models.CharField(max_length=100, blank=True, null=True)
+    img_comunicado = models.ImageField(upload_to='comunicados', blank=True, null=True)
     fecha_comunicado = models.DateField(blank=True, null=True)
     estado_comunicado = models.IntegerField(blank=True, null=True)
 
@@ -108,7 +110,7 @@ class TConfiguracion(models.Model):
     telefono_configuracion = models.CharField(max_length=12, blank=True, null=True)
     direccion_configuracion = models.CharField(max_length=50, blank=True, null=True)
     correo_configuracion = models.CharField(max_length=50, blank=True, null=True)
-    manual_configuracion = models.CharField(max_length=100, blank=True, null=True)
+    manual_configuracion = models.FileField(upload_to='manual/', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -140,6 +142,7 @@ class TEncuesta(models.Model):
 class TPregunta(models.Model):
     id_pregunta = models.AutoField(primary_key=True)
     nombre_pregunta = models.CharField(max_length=50, blank=True, null=True)
+    estado_pregunta = models.IntegerField(blank=True, null=True)
     id_vocacion = models.ForeignKey('TVocacion', models.DO_NOTHING, db_column='id_vocacion')
     id_categoria = models.ForeignKey(TCategoria, models.DO_NOTHING, db_column='id_categoria')
 
@@ -209,3 +212,24 @@ class TVocacion(models.Model):
             ('mispermisos_change_tvocacion', 'Puede editar vocaciones'),
             ('mispermisos_delete_tvocacion', 'Puede eliminar vocaciones'),
         )
+
+############################################################################
+class TFicha_alumno(models.Model):
+    id_ficha_alumno = models.AutoField(primary_key=True)
+    fecha_ficha_alumno = models.DateField()
+    hora_ficha_alumno = models.TimeField()
+    id_alumno = models.ForeignKey(TAlumno, models.DO_NOTHING, db_column='id_alumno')
+
+    class Meta:
+        managed = False
+        db_table = 't_ficha_alumno'
+
+class TFicha_alumno_detalle(models.Model):
+    id_ficha_alumno_detalle = models.AutoField(primary_key=True)
+    id_ficha_alumno = models.ForeignKey(TFicha_alumno, models.DO_NOTHING, db_column='id_ficha_alumno')
+    id_vocacion = models.ForeignKey(TVocacion, models.DO_NOTHING, db_column='id_vocacion')
+    id_carrera = models.ForeignKey(TCarrera, models.DO_NOTHING, db_column='id_carrera')
+
+    class Meta:
+        managed = False
+        db_table = 't_ficha_alumno_detalle'

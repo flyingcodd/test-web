@@ -7,10 +7,10 @@ codigo_colegio varchar(50) unique not null,
 nombre_colegio varchar(50) not null,
 telefono_colegio varchar(12),
 direccion_colegio varchar(30),
+logo_colegio varchar(150),
 estado_colegio tinyint not null  -- 1=habilitar login // 0=no dar permiso
 );
 
--- insert into t_colegio values(not null, 'C001', 'Majesa', '987654321', 'jr. arica', 'majesa1','majesa1',0);
 
 create table t_alumno(
 id_alumno int primary key auto_increment not null,
@@ -24,6 +24,22 @@ estado_alumno tinyint not null,
 id_colegio int not null,
 foreign key (id_colegio) references t_colegio(id_colegio)
  on delete cascade
+);
+create table t_ficha_alumno(
+id_ficha_alumno int primary key not null,
+id_alumno int not null unique,
+fecha_ficha_alumno date not null,
+hora_ficha_alumno time not null,
+foreign key (id_alumno) references t_alumno(id_alumno)
+);
+create table t_ficha_alumno_detalle(
+id_ficha_alumno_detalle int primary key auto_increment not null,
+id_ficha_alumno int not null,
+id_vocacion int not null,
+id_carrera int not null,
+foreign key (id_ficha_alumno) references t_ficha_alumno(id_ficha_alumno),
+foreign key (id_vocacion) references t_vocacion(id_vocacion),
+foreign key (id_carrera) references t_carrera(id_carrera)
 );
 create table t_vocacion(
 id_vocacion int primary key auto_increment not null,
@@ -40,6 +56,7 @@ on delete cascade
 );
 create table t_categoria(
 id_categoria int primary key auto_increment not null,
+imagen_categoria varchar(150) ,
 nombre_categoria varchar(50) not null,
 pregunta_categoria varchar(45),
 estado_categoria tinyint not null
@@ -47,6 +64,7 @@ estado_categoria tinyint not null
 create table t_pregunta(
 id_pregunta int primary key auto_increment not null,
 nombre_pregunta varchar(150),
+estado_pregunta tinyint not null,
 id_vocacion int not null,
 id_categoria int not null,
 foreign key (id_categoria) references t_categoria(id_categoria)
@@ -111,7 +129,7 @@ BEGIN
 	inner join t_encuesta as e on e.id_encuesta = r.id_encuesta
 	inner join t_pregunta as p on p.id_pregunta = r.id_pregunta
 	inner join t_vocacion as v on v.id_vocacion = p.id_vocacion
-	where r.valor_respuesta = 1 and e.id_alumno = idAlumno
+	where r.valor_respuesta = 1 and e.id_alumno = 4
 	group by p.id_vocacion;
 END$$
 DELIMITER $$

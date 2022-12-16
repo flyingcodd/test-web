@@ -49,9 +49,11 @@
 
 
     <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-2">
+    <nav class="navbar navbar-expand-xl bg-white navbar-light shadow sticky-top p-2">
         <a href="#inicio" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>SOVIO</h2>
+            <div>
+                <img src="{% static 'panel_client_registro/img/logo1.png' %}" alt="" width="190">
+            </div>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -72,9 +74,11 @@
                     </div>
                 </div>-->
                 <a href="#enlaces" class="nav-item nav-link">Enlaces</a>
-            </div>
-            <a href="{% url 'iniciar_seccion' %}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Inciar Test<i
+                
+                <a href="{% url 'iniciar_seccion' %}" class="btn btn-primary py-4 px-lg-5">Inciar Test<i
                     class="fa fa-arrow-right ms-3"></i></a>
+            </div>
+            
         </div>
     </nav>
     <!-- Navbar End -->
@@ -88,8 +92,8 @@
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Link de interes</h4>
-                    <a class="btn btn-link" href="">Acerca de nosotros</a>
-                    <a class="btn btn-link" href="">Servicios</a>
+                    <a class="btn btn-link" href="#nosotros">Acerca de nosotros</a>
+                    <a class="btn btn-link" href="#servicios">Servicios</a>
                     <a class="btn btn-link" href="">Politica de Privacidad</a>
                     <a class="btn btn-link" href="">Terminos & Condiciones</a>
                     <a class="btn btn-link" href="">FAQs</a>
@@ -110,27 +114,27 @@
                     <h4 class="text-white mb-3">Galeria</h4>
                     <div class="row g-2 pt-2">
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{% static 'panel_client/img/course-1.jpg' %}"
+                            <img class="img-fluid bg-light p-1" src="{% static 'panel_client/img/plataform-1.jpg' %}"
                                 alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{% static 'panel_client/img/course-2.jpg' %}"
+                            <img class="img-fluid bg-light p-1" src="{% static 'panel_client/img/plataform-2.jpg' %}"
                                 alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{% static 'panel_client/img/course-3.jpg' %}"
+                            <img class="img-fluid bg-light p-1" src="{% static 'panel_client/img/plataform-3.jpg' %}"
                                 alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{% static 'panel_client/img/course-2.jpg' %}"
+                            <img class="img-fluid bg-light p-1" src="{% static 'panel_client/img/logo-gorecusco.png' %}"
                                 alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{% static 'panel_client/img/course-3.jpg' %}"
+                            <img class="img-fluid bg-light p-1" src="{% static 'panel_client/img/logo-unsaac.jpg' %}"
                                 alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{% static 'panel_client/img/course-1.jpg' %}"
+                            <img class="img-fluid bg-light p-1" src="{% static 'panel_client/img/logo-trabajocusco.png' %}"
                                 alt="">
                         </div>
                     </div>
@@ -190,7 +194,7 @@
                 </div>
                 <div class="modal-body">
                     <p>{{comunicado.fecha_comunicado}}</p>
-                    <img src="{{comunicado.img_comunicado}}" alt="" width="100%">
+                    <img src="{{comunicado.img_comunicado.url}}" alt="" width="100%">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -221,21 +225,22 @@
         mostrar_comunicado();
         function mostrar_comunicado() {
             ids = "{{ids_comunicados}}";
-            // eliminar [] de la cadena
-            ids = ids.replace("[", "");
-            ids = ids.replace("]", "");
-            // eliminar espacios en blanco
-            ids = ids.replace(/ /g, "");
-            ids = ids.split(",");
-            // recoreer los ids de los comunicados y mostrar los modales
+            if (ids != "") {
+                // eliminar [] de la cadena
+                ids = ids.replace("[", "");
+                ids = ids.replace("]", "");
+                // eliminar espacios en blanco
+                ids = ids.replace(/ /g, "");
+                ids = ids.split(",");
+                // recoreer los ids de los comunicados y mostrar los modales
 
-            for (let i = 0; i < ids.length; i++) {
-                // mostrar modal
-                console.log(ids[i]);
-                var myModal = new bootstrap.Modal(document.getElementById('Modal' + ids[i]), {
-                    keyboard: true
-                })
-                myModal.show();
+                for (let i = 0; i < ids.length; i++) {
+                    // mostrar modal
+                    var myModal = new bootstrap.Modal(document.getElementById('Modal' + ids[i]), {
+                        keyboard: true
+                    })
+                    myModal.show();
+                }
             }
         }
     </script>

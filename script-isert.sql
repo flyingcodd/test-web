@@ -1,8 +1,8 @@
 use test_db;
 
-insert into t_categoria value(1, 'Estilos personales',1,'¿Se parece a mi?',1);
-insert into t_categoria value(2, 'Actividades de preferencia',1,'¿Soy habil?',1);
-insert into t_categoria value(3, 'Percepción de habilidad',1,'¿Me interesa?',1);
+insert into t_categoria value(1, 'Estilos personales','¿Se parece a mi?',1,NOT NULL);
+insert into t_categoria value(2, 'Actividades de preferencia','¿Soy habil?',1,NOT NULL);
+insert into t_categoria value(3, 'Percepción de habilidad','¿Me interesa?',1,NOT NULL);
 
 insert into t_vocacion value (1, 'Liderazgo', 1);
 insert into t_vocacion value (2, 'Tecnico mecanico', 1);
@@ -114,4 +114,33 @@ insert into t_pregunta value (not null, 'Cuando tiene que hacer una tarea, trata
 insert into t_pregunta value (not null, 'Trata de hacer sus tareas o trabajos lo mejor posible',6,1,1);
 insert into t_pregunta value (not null, 'Cuando hace un trabajo revisa con cuidado los detalles',6,1,1);
 insert into t_pregunta value (not null, 'Se responsabiliza por alcanzar las metas que se plantea',6,1,1);
-insert into t_pregunta value (not null, 'Pone mucha energía para lograr lo que se propone',6,1,1);
+--
+insert into t_pregunta value (not null, 'Pone mucha energía para lograr lo que se propone',1,2,1);
+insert into t_pregunta value (not null, 'Dar ideas creativas en un trabajo de equipo.',1,2,1);
+insert into t_pregunta value (not null, 'Tomar decisiones importantes en el trabajo. ',1,2,1);
+insert into t_pregunta value (not null, 'Dirigir equipos de personas para que logren una meta.',1,2,1);
+insert into t_pregunta value (not null, 'Ser representante de un grupo frente a otras personas',1,2,1);
+insert into t_pregunta value (not null, 'Guiar el trabajo de otros.',1,2,1);
+insert into t_pregunta value (not null, 'Brindar discursos a hablar frente a un grupo de personas.',1,2,1);
+--
+insert into t_pregunta value (not null, 'Arreglar objetos (P. E), aparatos, instalaciones eléctricas, etc.)',2,2,1);
+insert into t_pregunta value (not null, 'Utilizar herramientas manuales y/o maquinarias (p. Ej, martillo, desarmador, camiones, montacargas, etc.)',2,2,1);
+insert into t_pregunta value (not null, 'Armar o desarmar aparatos (p. Ej, televisores, celulares, refrigeradoras, etc.)',2,2,1);
+insert into t_pregunta value (not null, 'Solucionar problemas de funcionamiento de máquinas.',2,2,1);
+insert into t_pregunta value (not null, 'Ensamblar muebles (un estante, una cama, etc)',2,2,1);
+--
+insert into t_pregunta value (not null, 'Cuidar a niños o personas con dificultades',3,2,1);
+insert into t_pregunta value (not null, 'Curar a personas',3,2,1);
+insert into t_pregunta value (not null, 'Trabajar en proyectos de ayuda a la comunidad.',3,2,1);
+insert into t_pregunta value (not null, 'Trabajar atendiendo al público.',3,2,1);
+insert into t_pregunta value (not null, 'Brindar consejos a otras personas',3,2,1);
+insert into t_pregunta value (not null, 'Enseñar o instruir a otras personas.',3,2,1);
+--
+insert into t_pregunta value (not null, 'Llenar formularios o recibos.',4,2,1);
+insert into t_pregunta value (not null, 'Redactar documentos formales (p. Ej.. Solicitudes, constancias, formularios, etc..)',4,2,1);
+insert into t_pregunta value (not null, 'Utilizar equipos de oficina (p. Ej, calculadora, archivadores, teléfonos-fax, etc.)',4,2,1);
+insert into t_pregunta value (not null, 'Realizar un inventario o lista de productos',4,2,1);
+insert into t_pregunta value (not null, 'Ordenar y clasificar objetos',4,2,1);
+insert into t_pregunta value (not null, 'Llevar un archivo de documentos, libros, etc',4,2,1);
+insert into t_pregunta value (not null, 'Sacar cuentas de manera ordenada (para cobrar o pagar algo).',4,2,1);
+

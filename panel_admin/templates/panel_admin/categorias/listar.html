@@ -55,6 +55,9 @@
                                             <label class="text-muted m-0" >ID</label>
                                         </th>
                                         <th scope="col">
+                                            <label class="text-muted m-0" >Imagen</label>
+                                        </th>
+                                        <th scope="col">
                                             <label class="text-muted mb-0" >Nombre de la categoria</label>
                                         </th>
                                         <th scope="col">
@@ -72,6 +75,9 @@
                                     {% for categoria in categorias %}
                                     <tr class="white-space-no-wrap">
                                         <td>{{ categoria.id_categoria }}</td>
+                                        <td>
+                                            <img src="{{ categoria.imagen_categoria }}" alt="imagen_categoria" width="100">
+                                        </td>
                                         <td>{{ categoria.nombre_categoria }}</td>
                                         <td>{{ categoria.pregunta_categoria }}</td>
                                         <td>
@@ -114,5 +120,55 @@
         </div>
     </div>
 </div>
+<!--swal alert :: begin-->
+<script>
+    var boton_eliminar = document.querySelectorAll(".badge.bg-danger");
+    boton_eliminar.forEach(boton => {
+        boton.addEventListener("click", function(e){
+            e.preventDefault();
+            var url = this.getAttribute("href");
+            Swal.fire({
+                title: '¿Estas seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, ¡Borrar!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            })
+        });
+    });
+</script>
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Excelente!',
+            text: '{{ message }}',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+    {% endif %}
+    {% if message.tags == 'error' %}
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: '{{ message }}',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+    {% endif %}
+    {% endfor %}
+{% endif %}
+<!--swal alert :: end-->
 
 {% endblock %}

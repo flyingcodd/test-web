@@ -2,6 +2,9 @@ from django.urls import path
 # import panel_admin.views
 from panel_admin import views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('', views.index, name='index'),
     path('encuestas/', views.encuestas, name='encuestas'),
