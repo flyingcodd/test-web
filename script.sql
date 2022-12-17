@@ -130,7 +130,7 @@ BEGIN
 	inner join t_encuesta as e on e.id_encuesta = r.id_encuesta
 	inner join t_pregunta as p on p.id_pregunta = r.id_pregunta
 	inner join t_vocacion as v on v.id_vocacion = p.id_vocacion
-	where r.valor_respuesta = 1 and e.id_alumno = 4
+	where r.valor_respuesta = 1 and e.id_alumno = idAlumno
 	group by p.id_vocacion;
 END$$
 DELIMITER $$

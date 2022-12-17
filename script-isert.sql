@@ -96,7 +96,7 @@ insert into t_pregunta value (not null, 'Es bueno para descubrir cómo funciona 
 insert into t_pregunta value (not null, 'Es comprensivo fronte a las necesidades de los demás.',1,3,1);
 insert into t_pregunta value (not null, 'Coopera con las personas con las que hace algo. ',1,3,1);
 insert into t_pregunta value (not null, 'Tiene curiosidad por aprender nuevas cosas',1,3,1);
-insert into t_pregunta value (not null, 'Es amigable con los demás' ,,1 3,1);
+insert into t_pregunta value (not null, 'Es amigable con los demás' ,1,3,1);
 insert into t_pregunta value (not null, 'Es servicial, ayuda a los demás',1,3,1);
 insert into t_pregunta value (not null, 'Es organizado para hacer las cosas',1,4,1);
 insert into t_pregunta value (not null, 'Es ordenado, planifica sus acciones',1,4,1);
@@ -115,7 +115,7 @@ insert into t_pregunta value (not null, 'Cuando tiene que hacer una tarea, trata
 insert into t_pregunta value (not null, 'Trata de hacer sus tareas o trabajos lo mejor posible',1,6,1);
 insert into t_pregunta value (not null, 'Cuando hace un trabajo revisa con cuidado los detalles',1,6,1);
 insert into t_pregunta value (not null, 'Se responsabiliza por alcanzar las metas que se plantea',1,6,1);
-insert into t_pregunta value (not null, 'Pone mucha energía para lograr lo que se propone',1,1,2);
+insert into t_pregunta value (not null, 'Pone mucha energía para lograr lo que se propone',1,6,1); --
 --
 insert into t_pregunta value (not null, 'Dar ideas creativas en un trabajo de equipo.',1,1,2);
 insert into t_pregunta value (not null, 'Tomar decisiones importantes en el trabajo. ',1,1,2);

@@ -33,41 +33,41 @@ def iniciar_seccion(request):
         password_colegio = request.POST.get('password')
         dni_alumno = request.POST.get('dni_alumno')
         user = authenticate(username=username_colegio, password=password_colegio)
-        if user is not None and TColegio.objects.filter(usuario=user.id).exists() and TAlumno.objects.filter(dni_alumno=dni_alumno).exists():
+        if user is not None and TColegio.objects.filter(usuario=user.id).exists():# and TAlumno.objects.filter(dni_alumno=dni_alumno).exists():
             id_colegio = TColegio.objects.get(usuario=user.id).id_colegio
-            id_alumno = TAlumno.objects.get(dni_alumno=dni_alumno).id_alumno
-            if TAlumno.objects.get(id_alumno=id_alumno).id_colegio.id_colegio == id_colegio:
-                login(request, user)
+            #id_alumno = TAlumno.objects.get(dni_alumno=dni_alumno).id_alumno
+            #if TAlumno.objects.get(id_alumno=id_alumno).id_colegio.id_colegio == id_colegio:
+            login(request, user)
                 # Guardar el CORREO en la variable de sesión
-                colegio = TColegio.objects.get(usuario=user.id)
-                request.session['nombreColegio'] = colegio.nombre_colegio
-                request.session['logoColegio'] = colegio.logo_colegio.url
-                request.session['idColegio'] = colegio.id_colegio
-                request.session['dniAlumno'] = dni_alumno
+            colegio = TColegio.objects.get(usuario=user.id)
+            request.session['nombreColegio'] = colegio.nombre_colegio
+            request.session['logoColegio'] = colegio.logo_colegio.url
+            request.session['idColegio'] = colegio.id_colegio
+            request.session['dniAlumno'] = dni_alumno
+            if TAlumno.objects.filter(dni_alumno=dni_alumno).exists():
+                request.session['idAlumno'] = TAlumno.objects.get(dni_alumno=dni_alumno).id_alumno
+                request.session['nombreAlumno'] = TAlumno.objects.get(dni_alumno=dni_alumno).nombre_alumno + ', ' + TAlumno.objects.get(dni_alumno=dni_alumno).apellido_alumno
+            return redirect('registro')
                 # Verificar si el alumno existe
+            '''
                 if TAlumno.objects.filter(dni_alumno=dni_alumno).exists():
                     request.session['idAlumno'] = TAlumno.objects.get(dni_alumno=dni_alumno).id_alumno
                     request.session['nombreAlumno'] = TAlumno.objects.get(dni_alumno=dni_alumno).nombre_alumno + ', ' + TAlumno.objects.get(dni_alumno=dni_alumno).apellido_alumno
-                    ''' if TEncuesta.objects.filter(id_alumno=request.session['idAlumno']).exists():
-                        id_encuesta=TEncuesta.objects.get(id_alumno=request.session['idAlumno']).id_encuesta
-                        id_ultima_respuesta = TRespuesta.objects.filter(id_encuesta=id_encuesta).order_by('-id_pregunta')[0]
-                        id_ultima_pregunta = id_ultima_respuesta.id_pregunta.id_pregunta
-                        if id_ultima_pregunta == TPregunta.objects.all().order_by('-id_pregunta')[0].id_pregunta:
-                            # actualizar el estado de la encuesta
-                            encuesta = TEncuesta.objects.get(id_alumno=request.session['idAlumno'])
-                            encuesta.estado_encuesta = 1
-                            encuesta.save()'''
                     return redirect('menu_preguntas')
                 else:
                     return redirect('registro')
-            else:
-                return render(request, 'panel_client/login/iniciar_seccion.html', {'error': 'El DNI no pertenece a este colegio'})
+            '''
+            '''else:
+                return render(request, 'panel_client/login/iniciar_seccion.html', {'error': 'El DNI no pertenece a este colegio'})'''
         else:
             return render(request, 'panel_client/login/iniciar_seccion.html', {'error': 'Usuario o contraseña incorrectos'})
     else:
         # Verificar si el usuario ya inicio sesión
-        if request.user.is_authenticated:
-            return redirect('registro')
+        if request.user.is_authenticated and request.user.is_superuser == False and request.user.is_staff == False:
+            if TAlumno.objects.filter(dni_alumno=request.session.get('dniAlumno')).exists():
+                return redirect('menu_preguntas')
+            else:
+                return redirect('registro')
         else:
             return render(request, 'panel_client/login/iniciar_seccion.html')
 
@@ -78,6 +78,7 @@ def cerrar_seccion(request):
 
 @login_required
 def registro(request):
+    check_login_registro(request)
     if request.method == 'POST':
         id_colegio = request.session.get('idColegio')
         alumno = TAlumno()
@@ -87,12 +88,14 @@ def registro(request):
         alumno.fecha_nacimiento_alumno = request.POST['fecha_nacimiento_alumno']
         alumno.genero_alumno = request.POST['genero_alumno']
         alumno.grado_alumno = request.POST['grado_alumno']
-        alumno.estado_alumno = '1'
+        alumno.estado_alumno = 1
         alumno.id_colegio = TColegio.objects.get(id_colegio=id_colegio)
         alumno.save()
         # retornando con mensaje de exito
         request.session['idAlumno'] = alumno.id_alumno
         request.session['nombreAlumno'] = alumno.nombre_alumno + ', ' + alumno.apellido_alumno
+        dni_alumno = request.session.get('dniAlumno')
+        request.session['idAlumno'] = TAlumno.objects.get(dni_alumno=dni_alumno).id_alumno
         return redirect('menu_preguntas')
     else:
         # Verificar si el alumno ya se registro
@@ -105,6 +108,7 @@ def registro(request):
 
 @login_required
 def preguntas(request,id_categoria, id_pregunta, contador_pregunta=0):
+    check_login_col(request)
     # verificar si existe la pregunta
     if request.method == 'POST':
         id_alumno = request.session.get('idAlumno')
@@ -169,6 +173,7 @@ def preguntas(request,id_categoria, id_pregunta, contador_pregunta=0):
         
 @login_required
 def respuesta(request):
+    check_login_col(request)
     dni_alumno = request.session.get('dniAlumno')
     #nombreAlumno = TAlumno.objects.get(dni_alumno=dni_alumno).nombre_alumno + ', ' + TAlumno.objects.get(dni_alumno=dni_alumno).apellido_alumno
     id_alumno = request.session.get('idAlumno')
@@ -209,6 +214,7 @@ def respuesta(request):
                 'nombre_vocacion': i[1],
                 'suma': i[2]
             })
+        print(vocaciones)
         mayor_vocacion = max(vocaciones, key=lambda x: x['suma'])
         for i in vocaciones:
             if i['suma'] == mayor_vocacion['suma']:
@@ -330,8 +336,9 @@ def link_callback(uri, rel):
                             'media URI must start with %s or %s' % (sUrl, mUrl)
                     )
             return path
-
+@login_required
 def menu_preguntas(request):
+    check_login_col(request)
     if request.method == 'POST':
         categoria = request.POST.get('categoria')
         # convertir en diccionario
@@ -397,3 +404,27 @@ def menu_preguntas(request):
                     'cantidad_respuestas': TRespuesta.objects.filter(id_encuesta=id_encuesta, id_pregunta__id_categoria=i.id_categoria).count()
                 })
             return render(request, 'panel_client/preguntas/menu-preguntas.html', {'cantidad_preguntas_categoria': cantidad_preguntas_categoria})
+
+
+### funciones complementarias ###
+def check_login_col(request):
+    if request.user.is_authenticated:
+        if request.user.is_staff or request.user.is_superuser:
+            logout(request)
+            return redirect('index_client')
+        else:
+            # cerrando sesion
+            return redirect('menu_preguntas')
+    else:
+        return redirect('iniciar_seccion')
+
+def check_login_registro(request):
+    if request.user.is_authenticated:
+        if request.user.is_staff or request.user.is_superuser:
+            logout(request)
+            return redirect('index_client')
+        else:
+            # cerrando sesion
+            return redirect('registro')
+    else:
+        return redirect('iniciar_seccion')

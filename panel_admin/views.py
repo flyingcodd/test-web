@@ -1,5 +1,5 @@
 import datetime
-from http.client import HTTPResponse
+from django.http import HttpResponse
 import json
 from django.db import connection
 from django.shortcuts import render, redirect
@@ -74,17 +74,20 @@ def index(request):
             # grafico de encuestas por sexo FIN
             # imprimr meses
             sexo_alumno = json.dumps(sexo_alumno)
-            return render(request, 'panel_admin/index.html', {
+            context = {
                 'colegios_top': colegios_top,
                 'total_colegios': total_colegios,
                 'total_alumnos': total_alumnos,
                 'total_encuestas': total_encuestas,
                 'alumnos_encuestas': alumnos_encuestas,
-                'sexo_alumno': sexo_alumno
-                })
+                'sexo_alumno': sexo_alumno,
+            }
+            return render(request, 'panel_admin/index.html', context)
+        else:
+            return redirect('index')
     except Exception as e:
         mensaje_try = 'Error en index: ' + str(e) + 'Comuniquese con el administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 def encuestas(request):
     try:
@@ -113,7 +116,7 @@ def encuestas(request):
             return render(request, 'panel_admin/encuestas/listar.html')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + 'Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 
 # Begin colegios
 @login_required(login_url='login_admin')
@@ -125,7 +128,7 @@ def colegios(request):
         return render(request, 'panel_admin/colegios/listar.html', {'colegios': colegios})
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_add_tcolegio', login_url='/admin/')
 def colegios_crear(request):
@@ -163,7 +166,7 @@ def colegios_crear(request):
             return render(request, 'panel_admin/colegios/crear.html')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_change_tcolegio', login_url='/admin/')
 def colegios_editar(request, id_colegio):
@@ -204,7 +207,7 @@ def colegios_editar(request, id_colegio):
             return redirect('colegios')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_delete_tcolegio', login_url='/admin/')
@@ -228,7 +231,7 @@ def colegios_eliminar(request, id_colegio):
         return redirect('colegios')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 # End colegios
 
 
@@ -242,7 +245,7 @@ def alumnos(request):
         return render(request, 'panel_admin/alumnos/listar.html', {'alumnos': alumnos})
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_add_talumno', login_url='/admin/')
 def alumnos_crear(request):
@@ -268,7 +271,7 @@ def alumnos_crear(request):
             return render(request, 'panel_admin/alumnos/crear.html', {'colegios': colegios})
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_change_talumno', login_url='/admin/')
 def alumnos_editar(request, id_alumno):
@@ -295,7 +298,7 @@ def alumnos_editar(request, id_alumno):
             return redirect('alumnos')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_delete_talumno', login_url='/admin/')
@@ -310,7 +313,7 @@ def alumnos_eliminar(request, id_alumno):
         return redirect('alumnos')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 # End Alumnos
 
 
@@ -324,7 +327,7 @@ def categorias(request):
         return render(request, 'panel_admin/categorias/listar.html', {'categorias': categorias})
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_add_tcategoria', login_url='/admin/')
 def categorias_crear(request):
@@ -345,7 +348,7 @@ def categorias_crear(request):
             return render(request, 'panel_admin/categorias/crear.html')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_change_tcategoria', login_url='/admin/')
 def categorias_editar(request, id_categoria):
@@ -366,7 +369,7 @@ def categorias_editar(request, id_categoria):
             return redirect('categorias')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_delete_tcategoria', login_url='/admin/')
 def categorias_eliminar(request, id_categoria):
@@ -380,7 +383,7 @@ def categorias_eliminar(request, id_categoria):
         return redirect('categorias')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 # End Categoria de las preguntas
 
 
@@ -394,7 +397,7 @@ def preguntas(request):
         return render(request, 'panel_admin/preguntas/listar.html', {'preguntas': preguntas})
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_add_tpregunta', login_url='/admin/')
 def preguntas_crear(request):
@@ -417,7 +420,7 @@ def preguntas_crear(request):
             return render(request, 'panel_admin/preguntas/crear.html', {'categorias': categorias, 'vocaciones': vocaciones})
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_change_tpregunta', login_url='/admin/')
 def preguntas_editar(request, id_pregunta):
@@ -440,7 +443,7 @@ def preguntas_editar(request, id_pregunta):
             return redirect('preguntas')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_delete_tpregunta', login_url='/admin/')
 def preguntas_eliminar(request, id_pregunta):
@@ -454,7 +457,7 @@ def preguntas_eliminar(request, id_pregunta):
         return redirect('preguntas')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 # End preguntas
 
 
@@ -500,7 +503,7 @@ def respuestas(request):
             return render(request, 'panel_admin/respuestas/listar.html')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 # End Respuestas
 
 # Begin Configuracion
@@ -549,7 +552,7 @@ def configuracion(request):
                 return render(request, 'panel_admin/configuracion/configuracion.html', {'configuracion': configuracion, 'mensaje': 'Configuracion creada'})
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)      
+        return HttpResponse(mensaje_try)      
 # End Configuracion
 
 # Begin comunicados
@@ -562,7 +565,7 @@ def comunicados(request):
         return render(request, 'panel_admin/comunicados/listar.html', {'comunicados': comunicados})
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_add_tcomunicado', login_url='/admin/')
 def comunicados_crear(request):
@@ -587,7 +590,7 @@ def comunicados_crear(request):
             return render(request, 'panel_admin/comunicados/crear.html')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_change_tcomunicado', login_url='/admin/')
 def comunicados_editar(request, id_comunicado):
@@ -616,7 +619,7 @@ def comunicados_editar(request, id_comunicado):
             return redirect('comunicados')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_delete_tcomunicado', login_url='/admin/')
 def comunicados_eliminar(request, id_comunicado):
@@ -634,7 +637,7 @@ def comunicados_eliminar(request, id_comunicado):
         return redirect('comunicados')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 # End comunicados
 
 
@@ -648,7 +651,7 @@ def carreras(request):
         return render(request, 'panel_admin/carreras/listar.html', {'carreras': carreras})
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_add_tcarrera', login_url='/admin/')
 def carreras_crear(request):
@@ -669,7 +672,7 @@ def carreras_crear(request):
             return render(request, 'panel_admin/carreras/crear.html', {'vocaciones': vocaciones})
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_change_tcarrera', login_url='/admin/')
 def carreras_editar(request, id_carrera):
@@ -690,7 +693,7 @@ def carreras_editar(request, id_carrera):
             return redirect('carreras')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_delete_tcarrera', login_url='/admin/')
 def carreras_eliminar(request, id_carrera):
@@ -704,7 +707,7 @@ def carreras_eliminar(request, id_carrera):
         return redirect('carreras')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 # End Carreras
 
 
@@ -718,7 +721,7 @@ def vocaciones(request):
         return render(request, 'panel_admin/vocaciones/listar.html', {'vocaciones': vocaciones})
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_add_tvocacion', login_url='/admin/')
 def vocaciones_crear(request):
@@ -737,7 +740,7 @@ def vocaciones_crear(request):
             return render(request, 'panel_admin/vocaciones/crear.html')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_change_tvocacion', login_url='/admin/')
 def vocaciones_editar(request, id_vocacion):
@@ -756,7 +759,7 @@ def vocaciones_editar(request, id_vocacion):
             return redirect('vocaciones')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_delete_tvocacion', login_url='/admin/')
 def vocaciones_eliminar(request, id_vocacion):
@@ -770,7 +773,7 @@ def vocaciones_eliminar(request, id_vocacion):
         return redirect('vocaciones')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 # End vocaciones
 
 # Begin reportes
@@ -831,7 +834,7 @@ def reportes(request):
             })
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 # End reportes
 
 # Begin login_admin
@@ -855,7 +858,7 @@ def login_admin(request):
             return render(request, 'panel_admin/auth/login_admin.html')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 
 def logout_admin(request):
     logout(request)
@@ -874,7 +877,7 @@ def usuarios(request):
         return render(request, 'panel_admin/usuarios/listar.html', {'usuarios': usuarios })
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_add_tusuario', login_url='/admin/')
 def usuarios_crear(request):
@@ -908,7 +911,7 @@ def usuarios_crear(request):
             return render(request, 'panel_admin/usuarios/crear.html' , {'permisos': permisos})
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_change_tusuario', login_url='/admin/')
 def usuarios_editar(request, id_usuario):
@@ -945,7 +948,7 @@ def usuarios_editar(request, id_usuario):
             return redirect('usuarios')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 @login_required(login_url='login_admin')
 @permission_required('panel_admin.mispermisos_delete_tusuario', login_url='/admin/')
 def usuarios_eliminar(request, id_usuario):
@@ -959,7 +962,7 @@ def usuarios_eliminar(request, id_usuario):
         return redirect('usuarios')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 # End usuarios
 
 # Begin PAGES EXTRA
@@ -972,7 +975,7 @@ def manual_user(request):
         return render(request, 'panel_admin/pages-extra/manual_user.html', {'manual_usuario': manual_usuario})
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 
 @login_required(login_url='login_admin')
 def doc(request):
@@ -1025,7 +1028,7 @@ def reporte_general(request):
             return JsonResponse({'reportes': reportes})
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
-        return HTTPResponse(mensaje_try)
+        return HttpResponse(mensaje_try)
 
 ##### Inicio de funciones complementarias #####
 def check_login(request):
