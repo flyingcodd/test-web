@@ -9,7 +9,7 @@ telefono_colegio varchar(12),
 direccion_colegio varchar(30),
 logo_colegio varchar(150),
 estado_colegio tinyint not null  -- 1=habilitar login // 0=no dar permiso
-);
+);asdf
 
 
 create table t_alumno(

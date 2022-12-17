@@ -1,4 +1,5 @@
 
-# Ignora los sql
-.sql
-# Ignora los archivos de configuración
+# Ignora los archivos de mysql
+*.sql
+# Ignora los archivos y carpetas de la carpeta de migrations
+/migrations/*
