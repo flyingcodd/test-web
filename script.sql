@@ -32,15 +32,7 @@ fecha_ficha_alumno date not null,
 hora_ficha_alumno time not null,
 foreign key (id_alumno) references t_alumno(id_alumno)
 );
-create table t_ficha_alumno_detalle(
-id_ficha_alumno_detalle int primary key auto_increment not null,
-id_ficha_alumno int not null,
-id_vocacion int not null,
-id_carrera int not null,
-foreign key (id_ficha_alumno) references t_ficha_alumno(id_ficha_alumno),
-foreign key (id_vocacion) references t_vocacion(id_vocacion),
-foreign key (id_carrera) references t_carrera(id_carrera)
-);
+
 create table t_vocacion(
 id_vocacion int primary key auto_increment not null,
 nombre_vocacion varchar(100) not null,
@@ -53,6 +45,15 @@ id_vocacion int not null,
 estado_carrera tinyint not null,
 foreign key (id_vocacion) references t_vocacion(id_vocacion)
 on delete cascade
+);
+create table t_ficha_alumno_detalle(
+id_ficha_alumno_detalle int primary key auto_increment not null,
+id_ficha_alumno int not null,
+id_vocacion int not null,
+id_carrera int not null,
+foreign key (id_ficha_alumno) references t_ficha_alumno(id_ficha_alumno),
+foreign key (id_vocacion) references t_vocacion(id_vocacion),
+foreign key (id_carrera) references t_carrera(id_carrera)
 );
 create table t_categoria(
 id_categoria int primary key auto_increment not null,
