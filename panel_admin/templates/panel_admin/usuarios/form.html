@@ -85,3 +85,26 @@
     </div>
     
 </form>
+
+<!--validaciones :: incio-->
+<script>
+    dni_usuario.addEventListener('input', function (event) {
+        // valor maximo de 8 digitos y minimo de 8 digitos
+        if (dni_usuario.value.length > 8) {
+            dni_usuario.value = dni_usuario.value.slice(0, 8)
+        }
+    });
+    nombre_usuario.addEventListener('input', function (event) {
+        // valor solo letras
+        if (!/^[a-zA-Z ]*$/.test(nombre_usuario.value)) {
+            nombre_usuario.value = nombre_usuario.value.replace(/[^a-zA-Z ]/g, "");
+        }
+    });
+    apellido_usuario.addEventListener('input', function (event) {
+        // valor solo letras
+        if (!/^[a-zA-Z ]*$/.test(apellido_usuario.value)) {
+            apellido_usuario.value = apellido_usuario.value.replace(/[^a-zA-Z ]/g, "");
+        }
+    });
+</script>
+<!--validaciones :: fin-->

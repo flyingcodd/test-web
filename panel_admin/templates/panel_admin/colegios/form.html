@@ -58,3 +58,22 @@
     </div>
     
 </form>
+<!--validaciones :: incio-->
+<script>
+    nombre_colegio.addEventListener('input', function (event) {
+        // valor solo letras, numeros y acentos
+        if (!/^[a-zA-Z0-9áéíóúÁÉÍÓÚ ]*$/.test(nombre_colegio.value)) {
+            nombre_colegio.value = nombre_colegio.value.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚ ]/g, "");
+        }
+    });
+    telefono_colegio.addEventListener('input', function (event) {
+        // valor solo numeros 
+        if (!/^[0-9]*$/.test(telefono_colegio.value)) {
+            telefono_colegio.value = telefono_colegio.value.replace(/[^0-9]/g, "");
+        }
+        if (telefono_colegio.value.length > 9) {
+            telefono_colegio.value = telefono_colegio.value.slice(0, 9);
+        }
+    });
+</script>
+<!--validaciones :: fin-->

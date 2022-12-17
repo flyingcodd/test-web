@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from panel_admin.models import TColegio, TAlumno, TEncuesta, TPregunta, TRespuesta, TVocacion, TCarrera, TComunicado,TCategoria,TFicha_alumno,TFicha_alumno_detalle
 
 from django.db import connection
+from django.contrib import messages
 # variables globales
 
 # Create your views here.
@@ -118,7 +119,7 @@ def preguntas(request,id_categoria, id_pregunta, contador_pregunta=0):
             encuesta.fecha_encuesta = fecha_actual
             encuesta.hora_encuesta = hora_actual
             encuesta.id_alumno = TAlumno.objects.get(id_alumno=id_alumno)
-            encuesta.estado_encuesta = '0'
+            encuesta.estado_encuesta = 0
             encuesta.save()
             id_encuesta = encuesta.id_encuesta
 
@@ -131,21 +132,22 @@ def preguntas(request,id_categoria, id_pregunta, contador_pregunta=0):
             respuesta.valor_respuesta = request.POST['option']
             respuesta.id_encuesta = TEncuesta.objects.get(id_encuesta=id_encuesta)
             respuesta.id_pregunta = TPregunta.objects.get(id_pregunta=id_pregunta)
-            respuesta.save()
+            if TEncuesta.objects.filter(id_encuesta=id_encuesta,estado_encuesta=False).exists():
+                respuesta.save()
         # contador_pre
         contador_pregunta = contador_pregunta + 1
 
-        if contador_pregunta == TPregunta.objects.filter(id_categoria=id_categoria).count():
+        if contador_pregunta == TPregunta.objects.filter(id_categoria=id_categoria,estado_pregunta=True).count():
             return redirect('menu_preguntas')
         else:
             # hallando la id_pregunta siguiente a la actual sin sumar 1
-            id_pregunta_siguiente = TPregunta.objects.filter(id_pregunta__gt=id_pregunta).first().id_pregunta
+            id_pregunta_siguiente = TPregunta.objects.filter(id_pregunta__gt=id_pregunta, estado_pregunta=True).first().id_pregunta
             # redirect con el id de la siguiente pregunta y ademas enviar el contador
             return redirect('pregunta', id_categoria = id_categoria, id_pregunta=id_pregunta_siguiente, contador_pregunta=contador_pregunta)
     else:
         pregunta = TPregunta.objects.get(id_pregunta=id_pregunta)
         #contador = contador + 1
-        cantidad_preguntas_categoria = TPregunta.objects.filter(id_categoria=id_categoria).count()
+        cantidad_preguntas_categoria = TPregunta.objects.filter(id_categoria=id_categoria,estado_pregunta=True).count()
         contador_pregunta = contador_pregunta + 0
         id_encuesta = TEncuesta.objects.get(id_alumno=request.session['idAlumno']).id_encuesta
         if TRespuesta.objects.filter(id_pregunta=id_pregunta, id_encuesta=id_encuesta).exists():
@@ -168,7 +170,7 @@ def preguntas(request,id_categoria, id_pregunta, contador_pregunta=0):
 @login_required
 def respuesta(request):
     dni_alumno = request.session.get('dniAlumno')
-    nombreAlumno = TAlumno.objects.get(dni_alumno=dni_alumno).nombre_alumno + ', ' + TAlumno.objects.get(dni_alumno=dni_alumno).apellido_alumno
+    #nombreAlumno = TAlumno.objects.get(dni_alumno=dni_alumno).nombre_alumno + ', ' + TAlumno.objects.get(dni_alumno=dni_alumno).apellido_alumno
     id_alumno = request.session.get('idAlumno')
     if TFicha_alumno.objects.filter(id_ficha_alumno=id_alumno).exists():
         id_ficha_alumno = TFicha_alumno.objects.get(id_ficha_alumno=id_alumno).id_ficha_alumno
@@ -238,7 +240,7 @@ def respuesta(request):
                 ficha_alumno_detalle.id_carrera = TCarrera.objects.get(id_carrera=j)
                 ficha_alumno_detalle.save()
         
-        return render(request, 'panel_client/preguntas/respuesta.html', {'nombreAlumno': nombreAlumno, 'id_ficha_alumno': id_alumno})
+        return redirect('respuesta')
         ###########################################################
 
 import os
@@ -249,56 +251,54 @@ from xhtml2pdf import pisa
 from django.contrib.staticfiles import finders
 
 
-
 @login_required
 def generar_pdf(request, id_ficha_alumno):
-    template_path = 'panel_client/pdf.html'
-    # Begin::Datos de la tabla
-    ficha_alumno = TFicha_alumno.objects.get(id_ficha_alumno=id_ficha_alumno)
-    ficha_alumno_detalle = TFicha_alumno_detalle.objects.filter(id_ficha_alumno=id_ficha_alumno)
-    # imprimir solo una vez
-    carreras = []
-    for i in ficha_alumno_detalle:
-        carreras.append(i.id_carrera)
-    # eliminar duplicados
-    carreras = list(dict.fromkeys(carreras))
-    vocaciones = []
-    for i in ficha_alumno_detalle:
-        vocaciones.append(i.id_vocacion)
-    # eliminar duplicados
-    vocaciones = list(dict.fromkeys(vocaciones))
-    context = {
-        'ficha_alumno': ficha_alumno,
-        'vocaciones': vocaciones,
-        'carreras': carreras,
-        'id_ficha_alumno': id_ficha_alumno,
-    }
-    
-    url_logo = "http://" + request.get_host() + "/static/panel_client_registro/img/logo-ministerio.jpg"
-    edad = (datetime.now().year)-(ficha_alumno.id_alumno.fecha_nacimiento_alumno.year)
-    # End::Datos de la tabla
-    context = {
-        'ficha_alumno': ficha_alumno,
-        'vocaciones': vocaciones,
-        'carreras': carreras,
-        'id_ficha_alumno': id_ficha_alumno,
-        'edad': edad,
-        'url_logo': url_logo
-    }
-    # Create a Django response object, and specify content_type as pdf
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-    # find the template and render it.
-    template = get_template(template_path)
-    html = template.render(context)
+    if request.method == 'GET' and TFicha_alumno.objects.filter(id_ficha_alumno=id_ficha_alumno).exists():
+        template_path = 'panel_client/pdf.html'
+        # Begin::Datos de la tabla
+        ficha_alumno = TFicha_alumno.objects.get(id_ficha_alumno=id_ficha_alumno)
+        ficha_alumno_detalle = TFicha_alumno_detalle.objects.filter(id_ficha_alumno=id_ficha_alumno)
+        # imprimir solo una vez
+        carreras = []
+        for i in ficha_alumno_detalle:
+            carreras.append(i.id_carrera)
+        # eliminar duplicados
+        carreras = list(dict.fromkeys(carreras))
+        vocaciones = []
+        for i in ficha_alumno_detalle:
+            vocaciones.append(i.id_vocacion)
+        # eliminar duplicados
+        vocaciones = list(dict.fromkeys(vocaciones))
+        
+        url_logo = "http://" + request.get_host() + "/static/panel_client_registro/img/logo-ministerio.jpg"
+        edad = (datetime.now().year)-(ficha_alumno.id_alumno.fecha_nacimiento_alumno.year)
+        # End::Datos de la tabla
+        context = {
+            'ficha_alumno': ficha_alumno,
+            'vocaciones': vocaciones,
+            'carreras': carreras,
+            'id_ficha_alumno': id_ficha_alumno,
+            'edad': edad,
+            'url_logo': url_logo
+        }
+        # Create a Django response object, and specify content_type as pdf
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+        # find the template and render it.
+        template = get_template(template_path)
+        html = template.render(context)
 
-    # create a pdf
-    pisa_status = pisa.CreatePDF(
-       html, dest=response, link_callback=link_callback)
-    # if error then show some funny view
-    if pisa_status.err:
-       return HttpResponse('Ocurrio un error interno, comunicarse con la oficina <pre>' + html + '</pre>')
-    return HttpResponse(response, content_type='application/pdf')
+        # create a pdf
+        pisa_status = pisa.CreatePDF(
+        html, dest=response, link_callback=link_callback)
+        # if error then show some funny view
+        if pisa_status.err:
+            return HttpResponse('Ocurrio un error interno, comunicarse con la oficina <pre>' + html + '</pre>')
+        return HttpResponse(response, content_type='application/pdf')
+    else:
+        messages.error(request, 'No se encontro el registro')
+        # retornar el mensaje error
+        return HttpResponse('No se encontro la ficha del alumno, El error se puede deber a que el test no existe "falta completar" o fue eliminado')
     
 def link_callback(uri, rel):
             """
@@ -346,7 +346,7 @@ def menu_preguntas(request):
             id_encuesta = TEncuesta.objects.get(id_alumno=request.session.get('idAlumno')).id_encuesta
             id_alumno = request.session.get('idAlumno')
             boton_activado = False
-            if TPregunta.objects.all().count() == TRespuesta.objects.filter(id_encuesta=id_encuesta).count():
+            if TPregunta.objects.filter(estado_pregunta=True).count() == TRespuesta.objects.filter(id_encuesta=id_encuesta).count() or TEncuesta.objects.filter(id_alumno=id_alumno,estado_encuesta=True).exists():
                 boton_activado = True
                 # actualizar el estado de la encuesta
                 encuesta = TEncuesta.objects.get(id_alumno=id_alumno)
@@ -358,7 +358,7 @@ def menu_preguntas(request):
                     'id_categoria': i.id_categoria,
                     'nombre_categoria': i.nombre_categoria,
                     'imagen_categoria': i.imagen_categoria,
-                    'cantidad_preguntas': TPregunta.objects.filter(id_categoria=i.id_categoria).count(),
+                    'cantidad_preguntas': TPregunta.objects.filter(id_categoria=i.id_categoria,estado_pregunta=True).count(),
                     'cantidad_respuestas': TRespuesta.objects.filter(id_encuesta=id_encuesta, id_pregunta__id_categoria=i.id_categoria).count()
                 })
             return render(request, 'panel_client/preguntas/menu-preguntas.html', 
@@ -377,12 +377,12 @@ def menu_preguntas(request):
             encuesta.fecha_encuesta = fecha_actual
             encuesta.hora_encuesta = hora_actual
             encuesta.id_alumno = TAlumno.objects.get(id_alumno=id_alumno)
-            encuesta.estado_encuesta = '0'
+            encuesta.estado_encuesta = 0
             encuesta.save()
             id_encuesta = encuesta.id_encuesta
             categorias = TCategoria.objects.all()
             boton_activado = False
-            if TPregunta.objects.all().count() == TRespuesta.objects.filter(id_encuesta=id_encuesta).count():
+            if TPregunta.objects.filter(estado_pregunta=True).count() == TRespuesta.objects.filter(id_encuesta=id_encuesta).count():
                 boton_activado = True
                 # actualizar el estado de la encuesta
                 encuesta = TEncuesta.objects.get(id_alumno=id_alumno)
@@ -393,7 +393,7 @@ def menu_preguntas(request):
                 cantidad_preguntas_categoria.append({
                     'id_categoria': i.id_categoria,
                     'nombre_categoria': i.nombre_categoria,
-                    'cantidad_preguntas': TPregunta.objects.filter(id_categoria=i.id_categoria).count(),
+                    'cantidad_preguntas': TPregunta.objects.filter(id_categoria=i.id_categoria,estado_pregunta=True).count(),
                     'cantidad_respuestas': TRespuesta.objects.filter(id_encuesta=id_encuesta, id_pregunta__id_categoria=i.id_categoria).count()
                 })
             return render(request, 'panel_client/preguntas/menu-preguntas.html', {'cantidad_preguntas_categoria': cantidad_preguntas_categoria})

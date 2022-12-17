@@ -57,8 +57,11 @@ urlpatterns = [
 
     path('login_admin', views.login_admin, name='login_admin'),
     path('logout_admin', views.logout_admin, name='logout_admin'),
+
     path('manual-user', views.manual_user, name='manual_user'),
     path('doc', views.doc, name='doc'),
+    path('policy', views.policy, name='admin_policy'),
+    path('terms', views.terms, name='admin_terms'),
 
     path('reporte_general', views.reporte_general, name='reporte_general'),
 ]

@@ -29,9 +29,6 @@
         <select id="estado_pregunta" name="estado_pregunta" class="form-select form-control">
             <option value="1" {% if pregunta.estado_pregunta == 1 %} selected {% endif %}>Habilitado</option>
             <option value="0" {% if pregunta.estado_pregunta == 0 %} selected {% endif %}>Inhabilitado</option>
-            {% if pregunta.estado_pregunta != 1 and  pregunta.estado_pregunta != 0 %}
-                <option value="1" selected>Ocurrio un error, CAMBIE DE ESTADO</option>
-            {% endif %}
         </select>
     </div>
     <div class="d-block justify-content-end mt-3">

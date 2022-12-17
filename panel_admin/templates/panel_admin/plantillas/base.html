@@ -121,7 +121,7 @@
                             </a>
                             <ul id="app2" class="submenu collapse" data-parent="#iq-sidebar-toggle">
                                 {% if perms.panel_admin.mispermisos_view_tvocacion %}
-                                <li class=" sidebar-layout">
+                                <li class=" sidebar-layout {% if request.resolver_match.url_name == 'vocaciones' %} active {% endif %}">
                                     <a href="{% url 'vocaciones' %}" class="svg-icon">
                                         <i class="">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" stroke-width="2" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
@@ -132,7 +132,7 @@
                                 </li>
                                 {% endif %}
                                 {% if perms.panel_admin.mispermisos_view_tcarrera %}
-                                <li class=" sidebar-layout">
+                                <li class=" sidebar-layout {% if request.resolver_match.url_name == 'carreras' %} active {% endif %}">
                                     <a href="{% url 'carreras' %}" class="svg-icon">
                                         <i class="">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" stroke-width="2" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
@@ -146,7 +146,7 @@
                         </li>
                         {% endif %}
                         {% if perms.panel_admin.mispermisos_view_tcategoria %}
-                        <li class="sidebar-layout  {% if request.resolver_match.url_name == 'categorias' %} active {% endif %}">
+                        <li class="sidebar-layout {% if request.resolver_match.url_name == 'categorias' %} active {% endif %}">
                             <a href="{% url 'categorias' %}" class="svg-icon">
                                 <i class="">
                                     <svg class="svg-icon" id="iq-chart-1" width="18" xmlns="http://www.w3.org/2000/svg"
@@ -196,7 +196,7 @@
                         <li class="px-3 pt-3 pb-2 ">
                             <span class="text-uppercase small font-weight-bold">General</span>
                         </li>
-                        <li class=" sidebar-layout">
+                        <li class=" sidebar-layout {% if request.resolver_match.url_name == 'reportes' %} active {% endif %}">
                             <a href="{% url 'reportes' %}" class="svg-icon ">
                                 <i class="">
                                     <svg class="svg-icon" id="iq-chart-1" width="18" xmlns="http://www.w3.org/2000/svg"
@@ -213,7 +213,7 @@
                             <span class="text-uppercase small font-weight-bold">Configuraciones</span>
                         </li>
                         {% if perms.panel_admin.mispermisos_view_tconfiiguracion %}
-                        <li class=" sidebar-layout">
+                        <li class=" sidebar-layout {% if request.resolver_match.url_name == 'configuracion' %} active {% endif %}">
                             <a href="{% url 'configuracion' %}" class="svg-icon">
                                 <i class="">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" stroke-width="2" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
@@ -227,7 +227,7 @@
                         </li>
                         {% endif %}
                         {% if perms.panel_admin.mispermisos_view_tcomunicado %}
-                        <li class=" sidebar-layout">
+                        <li class=" sidebar-layout {% if request.resolver_match.url_name == 'comunicados' %} active {% endif %}">
                             <a href="{% url 'comunicados' %}" class="svg-icon">
                                 <i class="">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
@@ -251,7 +251,7 @@
                                 </svg>
                             </a>
                             <ul id="app9" class="submenu collapse" data-parent="#iq-sidebar-toggle">                        
-                                <li class=" sidebar-layout">
+                                <li class="sidebar-layout {% if request.resolver_match.url_name == 'doc' %} active {% endif %}">
                                     <a href="{% url 'doc' %}" class="svg-icon">
                                         <i class="">
                                             <svg class="svg-icon" id="iq-ui-1-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -260,7 +260,7 @@
                                         </i><span class="">Front Office</span>
                                     </a>
                                 </li>
-                                <li class=" sidebar-layout">
+                                <li class=" sidebar-layout {% if request.resolver_match.url_name == 'manual_user' %} active {% endif %}">
                                     <a href="{% url 'manual_user' %}" class="svg-icon">
                                         <i class="">
                                             <svg class="svg-icon" width="18" id="iq-ui-1-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -649,8 +649,8 @@
             <div class="row">
                 <div class="col-lg-6">
                     <ul class="list-inline mb-0">
-                        <li class="list-inline-item"><a href="../backend/privacy-policy.html">Privacy Policy</a></li>
-                        <li class="list-inline-item"><a href="../backend/terms-of-service.html">Terms of Use</a></li>
+                        <li class="list-inline-item"><a href="{% url 'admin_policy' %}">Privacy Policy</a></li>
+                        <li class="list-inline-item"><a href="{% url 'admin_terms' %}">Terms of Use</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-6 text-right">

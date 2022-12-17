@@ -24,9 +24,9 @@
     </div>
     <div class="col-md-6 mb-3">
         <label for="fecha_nacimiento_alumno" class="form-label font-weight-bold text-muted text-uppercase" required>Fecha de nacimiento</label>
-        <input type="date" class="form-control" id="fecha_nacimiento_alumno" name="fecha_nacimiento_alumno" value="{{ alumno.fecha_nacimiento_alumno|date:'Y-m-d' }}">
+        <input type="date" class="form-control" id="fecha_nacimiento_alumno" name="fecha_nacimiento_alumno" value="{{ alumno.fecha_nacimiento_alumno|date:'Y-m-d' }}" required>
         <div class="invalid-tooltip">
-            Por favor, ingrese un nombre de alumno válido.
+            Por favor, ingrese una fecha valida
         </div>
     </div>
     <div class="col-md-6 mb-3">
@@ -61,6 +61,7 @@
     </div>
     
 </form>
+<!--validaciones :: incio-->
 <script>
     dni_alumno = document.getElementById('dni_alumno');
     error_dni = document.getElementById('error_dni');
@@ -84,3 +85,28 @@
         }
     })
 </script>
+<script>
+    nombre_alumno.addEventListener('input', function (event) {
+        // valor solo letras y acentos
+        if (!/^[a-zA-ZáéíóúÁÉÍÓÚ ]*$/.test(nombre_alumno.value)) {
+            nombre_alumno.value = nombre_alumno.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚ ]/g, "");
+        }
+    });
+    apellido_alumno.addEventListener('input', function (event) {
+        // valor solo letras y acentos
+        if (!/^[a-zA-ZáéíóúÁÉÍÓÚ ]*$/.test(apellido_alumno.value)) {
+            apellido_alumno.value = apellido_alumno.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚ ]/g, "");
+        }
+    });
+    grado_alumno.addEventListener('input', function (event) {
+        // valor solo de un digito
+        if (this.value.length > 1) {
+            this.value = this.value.slice(0,1);
+        }
+        //valor mayor a 0 y menor a 5
+        if (this.value > 5) {
+            this.value = this.value.slice(0,-1);
+        }
+    });
+</script>
+<!--validaciones :: fin-->
