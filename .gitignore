@@ -10,7 +10,7 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media
-**/migrations/*
+#**/migrations/* #poner esto en el gitignore para que no se suban las migraciones
 script.sql
 script-insert.sql
 
