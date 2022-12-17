@@ -1,3 +1,4 @@
 
 # Ignora los sql
 .sql
+# Ignora los archivos de configuración
