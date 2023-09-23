@@ -93,7 +93,6 @@ def encuestas(request):
     try:
         check_login(request)
         if request.method == 'GET':
-            # alumnos union con encuestas
             alumnos = TAlumno.objects.all()
             alumnos_encuestas = []
             for alumno in alumnos:
@@ -102,18 +101,22 @@ def encuestas(request):
                     alumnos_encuestas.append({
                         'id_alumno': alumno.id_alumno,
                         'fecha': encuestas[0].fecha_encuesta.strftime('%d/%m/%Y'),
-                        'hora' : encuestas[0].hora_encuesta.strftime('%H:%M:%S'),
+                        'hora': encuestas[0].hora_encuesta.strftime('%H:%M:%S'),
+                        'genero': alumno.genero_alumno,
                         'nombre': alumno.nombre_alumno+ ' ' + alumno.apellido_alumno,
                         'colegio': alumno.id_colegio.nombre_colegio,
-                        'genero': alumno.genero_alumno,
                         'estado': encuestas[0].estado_encuesta,
                         'cantidad': TRespuesta.objects.filter(id_encuesta=encuestas[0].id_encuesta).count(),
                         'total': TPregunta.objects.all().count()
                     })
             alumnos_encuestas.sort(key=lambda x: x['fecha'], reverse=True)
-            return render(request, 'panel_admin/encuestas/listar.html', {'alumnos_encuestas': alumnos_encuestas})
+            context = {
+                'alumnos_encuestas': alumnos_encuestas
+            }
+            print(alumnos_encuestas)
+            return render(request, 'panel_admin/encuestas/listar.html', context)
         else:
-            return render(request, 'panel_admin/encuestas/listar.html')
+            return redirect('encuestas')
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + 'Contacte al administrador del sistema'
         return HttpResponse(mensaje_try)
@@ -242,7 +245,12 @@ def alumnos(request):
     try:
         check_login(request)
         alumnos = TAlumno.objects.all()
-        return render(request, 'panel_admin/alumnos/listar.html', {'alumnos': alumnos})
+        encuestas = TEncuesta.objects.all()
+        context = {
+            'alumnos': alumnos,
+            'encuestas': encuestas
+        }
+        return render(request, 'panel_admin/alumnos/listar.html', context)
     except Exception as e:
         mensaje_try = 'Error: ' + str(e) + ', Contacte al administrador del sistema'
         return HttpResponse(mensaje_try)
@@ -521,17 +529,17 @@ def configuracion(request):
                 configuracion.telefono_configuracion = request.POST['telefono_conf']
                 configuracion.correo_configuracion = request.POST['correo_conf']
                 configuracion.direccion_configuracion = request.POST['direccion_conf']
-                # comprobar si se subio una nuevo archivo
-                if request.FILES['manual_configuracion']:
-                    archivo_nuevo = request.FILES['manual_configuracion']
-                    archivo_antiguo = configuracion.manual_configuracion
-                    fs = FileSystemStorage()
-                    # eliminar el archivo anterior
-                    fs.delete(archivo_antiguo.name)
-                    fs.save(f'manual/{archivo_nuevo.name}', archivo_nuevo)
-                    configuracion.manual_configuracion = f'manual/{archivo_nuevo.name}'
+                if request.FILES != {}:
+                    if request.FILES['manual_configuracion']:
+                        archivo_nuevo = request.FILES['manual_configuracion']
+                        archivo_antiguo = configuracion.manual_configuracion
+                        fs = FileSystemStorage()
+                        fs.delete(archivo_antiguo.name)
+                        fs.save(f'manual/{archivo_nuevo.name}', archivo_nuevo)
+                        configuracion.manual_configuracion = f'manual/{archivo_nuevo.name}'
+                else:
+                    configuracion.manual_configuracion = configuracion.manual_configuracion
                 configuracion.save()
-                # retornando con mensaje de exito
                 messages.success(request, 'Configuracion actualizada con exito')
                 return render(request, 'panel_admin/configuracion/configuracion.html', {'configuracion': configuracion, 'mensaje': 'Configuracion actualizada'})
             else:
@@ -847,6 +855,7 @@ def login_admin(request):
             if user is not None:
                 if user.is_active and user.is_staff:
                     login(request, user)
+                    messages.success(request, 'Bienvenido ' + user.username)
                     return redirect('index')
                 else:
                     messages.error(request, 'Usuario no activo')

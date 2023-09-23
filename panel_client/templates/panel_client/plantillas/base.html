@@ -92,11 +92,11 @@
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Link de interes</h4>
-                    <a class="btn btn-link" href="#nosotros">Acerca de nosotros</a>
+                    <a class="btn btn-link" href="#nosotros">Nosotros</a>
                     <a class="btn btn-link" href="#servicios">Servicios</a>
-                    <a class="btn btn-link" href="">Politica de Privacidad</a>
+                    <!-- <a class="btn btn-link" href="">Politica de Privacidad</a>
                     <a class="btn btn-link" href="">Terminos & Condiciones</a>
-                    <a class="btn btn-link" href="">FAQs</a>
+                    <a class="btn btn-link" href="">FAQs</a> -->
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Contacto</h4>
@@ -104,10 +104,10 @@
                     <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+51 967922801</p>
                     <p class="mb-2"><i class="fa fa-envelope me-3"></i>sovio@drtpe.regioncusco.gob.pe</p>
                     <div class="d-flex pt-2">
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                        <!-- <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a> -->
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                        <!-- <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a> -->
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
@@ -170,8 +170,7 @@
                     <div class="col-md-6 text-center text-md-end">
                         <div class="footer-menu">
                             <a href="#inicio">Inicio</a>
-                            <a href="">Ayuda</a>
-                            <a href="">FQAs</a>
+                            <a href="admin/login_admin">Intranet </a>
                         </div>
                     </div>
                 </div>
@@ -193,7 +192,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>{{comunicado.fecha_comunicado}}</p>
+                    <p>Fecha de publicacion: {{comunicado.fecha_comunicado | date:"d-m-Y"}}</p>
                     <img src="{{comunicado.img_comunicado.url}}" alt="" width="100%">
                 </div>
                 <div class="modal-footer">

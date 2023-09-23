@@ -1,0 +1,289 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe - {{ficha_alumno.id_alumno.nombre_alumno}}</title>
+
+    <style>
+        @page {
+            margin: 1cm 1cm 1cm 2.5cm;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .contenedor {
+        }
+        .logo {
+            width: 6cm;
+            height: 1.5cm;
+        }
+        .titulo {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 1cm;
+            margin-bottom: 10px;
+        }
+        .row {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            padding: 10px 0px;
+        }
+        .row-4 {
+            width: 33%;
+            display: flex;
+            flex-direction: row;
+            padding: 10px 0px;
+        }
+        .row-2 {
+            width: 17%;
+            display: flex;
+            flex-direction: row;
+            padding: 10px 0px;
+        }
+        .caja-label {
+            width: 35%;
+        }
+        .caja { 
+            margin-right: 10px;
+            margin-left: 10px;
+            width: 65%;
+            border: 1px solid black;    
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .text-title{
+            font-weight: bold;
+            font-style: italic;
+            text-decoration: underline;
+            text-transform: uppercase;
+            font-size: 1rem;
+        }
+        .text-subtitle{
+            font-weight: bold;
+            font-size: 1rem;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .text{
+            font-size: 1rem;
+            word-spacing: 0px;
+            line-height: 1.1rem;
+        }
+        .text-container{
+            text-align: justify;
+            margin-top: 10px;
+        }
+        .firma{
+            text-align: center;
+            margin-top: 50px;
+        }
+        .firma-logo{
+            width: 6cm;
+            height: 1.5cm;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contenedor">
+        <div class="container_logo">
+            <img class="logo" src="{{url_logo}}" alt="logo.jpg">
+        </div>
+        <div class="titulo">
+            INFORME CONFIDENCIAL DE SOVIO
+        </div>
+        <div class="row">
+            <div class="col-6 caja-label">
+                Nombre del evaluado(a):
+            </div>
+            <div class="col-6 caja">
+                JENIFER JULY ALCCA HUALLPAYUNCA
+            </div>
+        </div>
+        <div class="row">
+            <div class="row-4">
+                <div class="caja-label">
+                    DNI:
+                </div>
+                <div class="caja">
+                    75675675
+                </div>
+            </div>
+            <div class="row-4">
+                <div class="caja-label">
+                    F. eval.:
+                </div>
+                <div class="caja">
+                    12/12/2021
+                </div>
+            </div>
+            <div class="row-2">
+                <div class="caja-label">
+                    Edad:
+                </div>
+                <div class="caja">
+                    12
+                </div>
+            </div>
+            <div class="row-2">
+                <div class="caja-label">
+                    Genero:
+                </div>
+                <div class="caja">
+                    F
+                </div>
+            </div>
+        </div>
+        <!--<div class="formulario">
+            <div class="form-group">
+                <label for="name">Nombre: </label>
+                <label class="res" for="">{{ficha_alumno.id_alumno.nombre_alumno}}</label>
+            </div>
+            <div class="form-group">
+                <label for="name">Apellido: </label>
+                <label class="res" for="" style="border: 10px;">{{ficha_alumno.id_alumno.apellido_alumno}}</label>
+            </div>
+            <div class="form-group">
+                <label for="name">Dni: </label>
+                <label class="res" for="" style="border: 10px;">{{ficha_alumno.id_alumno.dni_alumno}}</label>
+            </div>
+            <div class="form-group">
+                <label for="name">Edad: </label>
+                <label class="res" for="" style="border: 10px;">{{edad}} años</label>
+            </div>
+            <div class="form-group">
+                <label for="name">Genero: </label>
+                <label class="res" for="" style="border: 10px;">
+                    {% if ficha_alumno.id_alumno.genero_alumno == 1 %}
+                    Masculino
+                    {% elif ficha_alumno.id_alumno.genero_alumno == 0 %}
+                    Femenino
+                    {% else %}
+                    Otro
+                    {% endif %}
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="name">Grado de instruccion: </label>
+                <label class="res" for="" style="border: 10px;">{{ficha_alumno.id_alumno.grado_alumno}}º</label>
+            </div>
+            <div class="form-group">
+                <label for="name">Inst. Educativa: </label>
+                <label class="res" for=""
+                    style="border: 10px;">{{ficha_alumno.id_alumno.id_colegio.nombre_colegio}}</label>
+            </div>
+        </div>-->
+        
+        <p class="text-title">I. Descripcion de las areas medidas</p>
+        <p class="text-subtitle">&gt; Habilidades básicas </p>
+        <div class="text-container">
+            <span class="text-subtitle">1 - Atencion: </span>
+            <span class="text">Capacidad de atención y concentración a detalles.</span>
+        </div>
+
+        <div class="text-container">
+            <span class="text-subtitle">2 - Habilidad Numerica:  </span>
+            <span class="text">Capacidad de raciocinio y cálculo numérico para resolver problemas aritméticos.</span>
+        </div>
+
+        <div class="text-container">
+            <span class="text-subtitle">3 - Razonamiento: </span>
+            <span class="text">Capacidad para discriminar entre conceptos y encontrar relaciones verbales y numéricas.</span>
+        </div>
+
+        <div class="text-container">
+            <span class="text-subtitle">4 - Vocabulario: </span>
+            <span class="text">Bagaje verbal y capacidad de identificación de sinónimos.</span>
+        </div>
+
+        <div class="text-container">
+            <span class="text-subtitle">5 - Area Espacial: </span>
+            <span class="text">Capacidad para ubicarse en el espacio y manipular imágenes de manera mental.</span>
+        </div>
+
+        <p class="text-subtitle">&gt; Tipificación vocacional (Estilo personal y preferencia ocupacional)</span>
+        <div  class="text-container">
+            <span class="text-subtitle">1.- Tipo Liderazgo: </span>
+            <span class="text">
+                Caracteriza a personas dominantes, ambiciosas y seguras de sí mismas. Se interesan comúnmente por
+                actividades que impliquen un rol directivo y de manejo de personas. Por ello, suelen tener habilidades
+                para organizar y dirigir a personas, así como capacidad de persuasión y de concertación.
+            </span>
+        </div>
+        <div class="text-container">
+            <span class="text-subtitle">2.- Tipo Técnico - mecánico: </span>
+            <span class="text">
+                Caracteriza a personas con interés en actividades relacionadas a la manipulación de objetos,
+                instrumentos, máquinas, etc. Suele tener habilidades manuales y mecánicas, así como destreza física.
+            </span>
+        </div>
+        <div class="text-container">
+            <span class="text-subtitle">3.- Area Espacial: </span>
+            <span class="text">Capacidad para ubicarse en el espacio y manipular imágenes de manera mental.</span>
+        </div>
+        <div class="text-container">
+            <span class="text-subtitle">4.- Tipo Social: </span>
+            <span class="text">Caracteriza a personas cooperativas, serviciales y sociables. Muestran
+                comúnmente interés en actividades que involucren educar, curar o servir a otras personas. Por ello,
+                usualmente poseen habilidades para ejercer un rol instructivo, de apoyo o atención a otras personas.
+            </span>
+        </div>
+        <div class="text-container">
+            <span class="text-subtitle">5.- Tipo Artístico: </span>
+            <span class="text">Caracteriza a personas creativas y originales. Suelen mostrar interés por
+                actividades que involucran la creación e imaginación. Comúnmente las personas de este tipo poseen
+                habilidades artísticas ya sea en la música, en la pintura o en otras expresiones artísticas.
+            </span>
+        </div>
+        <div class="text-container">
+            <span class="text-subtitle">6.- Tipo Investigativo: </span>
+            <span class="text">Caracteriza a personas intelectuales, metódicas y curiosas. Suelen interesarse
+                por actividades que involucran el recojo sistemático y el análisis de información, así como en la
+                comprensión de fenómenos naturales y/o sociales. Las personas de este tipo comúnmente tienen capacidad
+                de observación, análisis y de aprendizaje constante.
+            </span>
+        </div>
+        <div class="text-container">
+            <span class="text-subtitle">7.- Tipo Emprendedor: </span>
+            <span class="text">Las personas de este tipo tienen interés en actividades que implican tomar la
+                iniciativa, iniciar nuevas empresas y/o negocios. Por ello, tienen capacidades para vender, publicitar
+                productos y negociar.
+            </span>
+        </div>
+
+        <h1 class="text-title">II. Resultados</h1>
+        <p class="text">De acuerdo a los resultados obtenidos podemos mencionar que el alumno puede Desarrollar sus
+            habilidades dentro de los tipos vocacionales de
+            <b>
+                {% for vocacion in vocaciones %}
+                {{ vocacion.nombre_vocacion.upper }}
+                {% if forloop.last %}
+
+                {% else %}
+                ,
+                {% endif %}
+                {% endfor %}
+            </b> y dentro de las carreras
+            opcionales como primera opción:
+            {% for carrera in carreras %}
+            <b>{{ carrera.nombre_carrera }}
+                {% if forloop.last %}
+                {% else %}
+                ,
+                {% endif %}
+            </b>
+            {% endfor %}
+        </p>
+        <div class="firma">
+            <img class="firma-logo" src="{{url_logo}}" alt="firma.jpg">
+        </div>
+    </div>
+
+</body>
+
+</html>

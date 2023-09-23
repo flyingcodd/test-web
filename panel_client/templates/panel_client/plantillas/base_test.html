@@ -39,9 +39,9 @@
 {% endif %}
 
 {{col}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     {% block content %}
     {% endblock %}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         // preguntando para cerrar la session swetalert
         const btnCerrarSeccion = document.querySelector('.nav__user__button');

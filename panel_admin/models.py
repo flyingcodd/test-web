@@ -111,6 +111,8 @@ class TConfiguracion(models.Model):
     direccion_configuracion = models.CharField(max_length=50, blank=True, null=True)
     correo_configuracion = models.CharField(max_length=50, blank=True, null=True)
     manual_configuracion = models.FileField(upload_to='manual/', blank=True, null=True)
+    img_firma_configuracion = models.ImageField(upload_to='firma/', blank=True, null=True)
+    datos_psicologo_configuracion = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         managed = False

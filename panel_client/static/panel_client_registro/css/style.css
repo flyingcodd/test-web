@@ -276,6 +276,10 @@ form .txt_field select{
 .txt_field input:valid ~ span::before{
     width: 100%;
 }
+.isFocus{
+    top: -5px !important;
+    color: #2991d9 !important;
+}
 .pass{
     margin: -5px 0 20px 5px;
     color: #a6a6a6;
@@ -446,7 +450,8 @@ form .txt_field select{
     font-size: 14px;
     text-align: center;
     margin-bottom: 20px;
-    background-color: #ff0000;
+    background-color: #cda700;
+    padding: 10px 0;
 }
 /********************************** End Login *********************************/
 

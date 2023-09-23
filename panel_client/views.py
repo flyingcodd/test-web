@@ -13,6 +13,7 @@ from panel_admin.models import TColegio, TAlumno, TEncuesta, TPregunta, TRespues
 
 from django.db import connection
 from django.contrib import messages
+from weasyprint import HTML, CSS
 # variables globales
 
 # Create your views here.
@@ -48,19 +49,9 @@ def iniciar_seccion(request):
                 request.session['idAlumno'] = TAlumno.objects.get(dni_alumno=dni_alumno).id_alumno
                 request.session['nombreAlumno'] = TAlumno.objects.get(dni_alumno=dni_alumno).nombre_alumno + ', ' + TAlumno.objects.get(dni_alumno=dni_alumno).apellido_alumno
             return redirect('registro')
-                # Verificar si el alumno existe
-            '''
-                if TAlumno.objects.filter(dni_alumno=dni_alumno).exists():
-                    request.session['idAlumno'] = TAlumno.objects.get(dni_alumno=dni_alumno).id_alumno
-                    request.session['nombreAlumno'] = TAlumno.objects.get(dni_alumno=dni_alumno).nombre_alumno + ', ' + TAlumno.objects.get(dni_alumno=dni_alumno).apellido_alumno
-                    return redirect('menu_preguntas')
-                else:
-                    return redirect('registro')
-            '''
-            '''else:
-                return render(request, 'panel_client/login/iniciar_seccion.html', {'error': 'El DNI no pertenece a este colegio'})'''
         else:
-            return render(request, 'panel_client/login/iniciar_seccion.html', {'error': 'Usuario o contraseña incorrectos'})
+            messages.error(request, 'Usuario o contraseña incorrectos')
+            return render(request, 'panel_client/login/iniciar_seccion.html')
     else:
         # Verificar si el usuario ya inicio sesión
         if request.user.is_authenticated and request.user.is_superuser == False and request.user.is_staff == False:
@@ -69,6 +60,7 @@ def iniciar_seccion(request):
             else:
                 return redirect('registro')
         else:
+            cerrar_seccion(request)
             return render(request, 'panel_client/login/iniciar_seccion.html')
 
 def cerrar_seccion(request):
@@ -80,6 +72,7 @@ def cerrar_seccion(request):
 def registro(request):
     check_login_registro(request)
     if request.method == 'POST':
+        print(request.POST)
         id_colegio = request.session.get('idColegio')
         alumno = TAlumno()
         alumno.nombre_alumno = request.POST['nombre_alumno']
@@ -258,9 +251,9 @@ from django.contrib.staticfiles import finders
 
 
 @login_required
-def generar_pdf(request, id_ficha_alumno):
+def generar_pdf1(request, id_ficha_alumno):
     if request.method == 'GET' and TFicha_alumno.objects.filter(id_ficha_alumno=id_ficha_alumno).exists():
-        template_path = 'panel_client/pdf.html'
+        template_path = 'panel_client/pdf2.html'
         # Begin::Datos de la tabla
         ficha_alumno = TFicha_alumno.objects.get(id_ficha_alumno=id_ficha_alumno)
         ficha_alumno_detalle = TFicha_alumno_detalle.objects.filter(id_ficha_alumno=id_ficha_alumno)
@@ -305,7 +298,32 @@ def generar_pdf(request, id_ficha_alumno):
         messages.error(request, 'No se encontro el registro')
         # retornar el mensaje error
         return HttpResponse('No se encontro la ficha del alumno, El error se puede deber a que el test no existe "falta completar" o fue eliminado')
+
+@login_required
+def generar_pdf(request, id_ficha_alumno):
+    #return render(request, 'panel_client/pdf2.html')
+    if request.method == 'GET' and TFicha_alumno.objects.filter(id_ficha_alumno=id_ficha_alumno).exists():
+        template = get_template('panel_client/pdf2.html')
+        url_logo = "http://" + request.get_host() + "/static/panel_client_registro/img/logo-ministerio.jpg"
+        # Begin::Datos de la tabla
+        context = {
+            'nombre': 'd',
+            'fecha': 'd',
+            'url_logo': url_logo
+        }
+        html = template.render(context)
+        string = html.encode(encoding="UTF-8")
+        # tamaño de una  hoja A4 210mm x 297mm
+        pdf = HTML(string=string).write_pdf(stylesheets=[CSS(string='@page { size: A4; margin: 1cm }')])
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'filename="boleta.pdf"'
+        return response
+    else:
+        messages.error(request, 'No se encontro el registro')
+        # retornar el mensaje error
+        return HttpResponse('No se encontro la ficha del alumno, El error se puede deber a que el test no existe "falta completar" o fue eliminado')
     
+
 def link_callback(uri, rel):
             """
             Convert HTML URIs to absolute system paths so xhtml2pdf can access those

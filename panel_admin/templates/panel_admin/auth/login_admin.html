@@ -14,16 +14,16 @@
                     <div class="card p-3">
                         <div class="card-body">
                             <div class="auth-logo">
-                                <img src="{% static 'panel_admin/images/logo.png' %}" class="img-fluid  rounded-normal  darkmode-logo"
-                                    alt="logo">
-                                <img src="{% static 'panel_admin/images/logo-dark.png' %}" class="img-fluid rounded-normal light-logo"
-                                    alt="logo">
+                                <img src="{% static 'panel_admin/images/logo.png' %}"
+                                    class="img-fluid  rounded-normal  darkmode-logo" alt="logo">
+                                <img src="{% static 'panel_admin/images/logo-dark.png' %}"
+                                    class="img-fluid rounded-normal light-logo" alt="logo">
                             </div>
                             <h3 class="mb-3 font-weight-bold text-center">Login</h3>
                             <p class="text-center text-secondary mb-4">Inicie sesión en su cuenta para continuar</p>
                             <div class="mb-5">
                                 <p class="line-around text-secondary mb-0">
-                                    <span class="line-around-1">Iniciar sesión con su Usuario</span>
+                                    <span class="line-around-1">Cuenta Administrativa</span>
                                 </p>
                             </div>
                             <form method="post">
@@ -31,23 +31,29 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label class="text-secondary">Username</label>
-                                            <input class="form-control" type="text" name="username" placeholder="Ingrese su usario">
+                                            <label class="text-secondary">Usuario</label>
+                                            <input class="form-control" type="text" name="username"
+                                                placeholder="Ingrese su usuario" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 mt-2">
                                         <div class="form-group">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <label class="text-secondary">Contraseña</label>
-                                                <label><a href="auth-recover-pwd.html">Olvide mi contraseña?</a></label>
+                                                <label>
+                                                    <a href="" type="button" data-toggle="modal" data-target="#exampleModalCenter">Olvide mi contraseña?</a>
+                                                </label>
                                             </div>
-                                            <input class="form-control" type="password" name="password" placeholder="Ingrese su contraseña">
+                                            <input class="form-control" type="password" name="password"
+                                                placeholder="Ingrese su contraseña" required>
                                         </div>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-block mt-2">Iniciar sesión</button>
                                 <div class="col-lg-12 mt-3">
-                                    <p class="mb-0 text-center">no tengo una cuenta? <a href="{% url 'index' %}">Registrarme</a></p>
+                                    <p class="mb-0 text-center">Comunicate con el administrador, 
+                                        <a href="" type="button" data-toggle="modal" data-target="#exampleModalCenter">Ayuda</a>
+                                    </p>
                                 </div>
                             </form>
                         </div>
@@ -57,30 +63,64 @@
         </div>
     </section>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Informacion Importante</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Para recuperar su contraseña, comuniquese con el administrador del sistema, por favor.
+                <br>
+                <br>
+                <strong>Administrador:</strong> <a href="mailto:mario@gmail.com" target="_blank">Malu</a>
+                <br>
+                <strong>Telefono:</strong> <a href="tel:+51 967922800">+51 967922800</a>
+                <br>
+                <strong>Correo:</strong> <a href="mailto:mario@gmail.com" target="_blank">mario@gmail.com</a>
+                <br>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
 {% if messages %}
-    {% for message in messages %}
-    {% if message.tags == 'success' %}
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: '¡Excelente!',
-            text: '{{ message }}',
-            showConfirmButton: false,
-            timer: 1500
-        })
-    </script>
-    {% endif %}
-    {% if message.tags == 'error' %}
-    <script>
-        Swal.fire({
-            icon: 'error',
-            title: '¡Error!',
-            text: '{{ message }}',
-            showConfirmButton: false,
-            timer: 1500
-        })
-    </script>
-    {% endif %}
-    {% endfor %}
+{% for message in messages %}
+{% if message.tags == 'success' %}
+<script>
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: '{{ message }}',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+    })
+</script>
+{% endif %}
+{% if message.tags == 'error' %}
+<script>
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'error',
+        title: '{{ message }}',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+    })
+</script>
+{% endif %}
+{% endfor %}
 {% endif %}
 {% endblock %}
