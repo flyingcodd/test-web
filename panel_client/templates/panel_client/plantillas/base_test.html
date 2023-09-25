@@ -18,7 +18,11 @@
     <div class="nav canvas-image-blending">
         <div class="nav__container">
             <div class="nav__logo">
-                <a href="{% url 'menu_preguntas' %}"><img src="{%  static 'panel_client_registro/img/logo1.png'  %}" alt="logo"></a>
+                {% if request.session.nombreAlumno == None %}
+                    <a><img src="{%  static 'panel_client_registro/img/logo1.png'  %}" alt="logo"></a>
+                {% else %}
+                    <a href="{% url 'menu_preguntas' %}"><img src="{%  static 'panel_client_registro/img/logo1.png'  %}" alt="logo"></a>
+                {% endif %}
             </div>
             <!--Nombre del colegio y boton cerrar session -->
             <div class="nav__user">

@@ -522,26 +522,50 @@ def configuracion(request):
         check_login(request)
         if request.method == 'GET':
             configuracion = TConfiguracion.objects.first()
-            return render(request, 'panel_admin/configuracion/configuracion.html', {'configuracion': configuracion})
+            # separar por el coma aa,adaa
+            dato1_psicologo = configuracion.datos_psicologo_configuracion.split(',')[0]
+            dato2_psicologo = configuracion.datos_psicologo_configuracion.split(',')[1]
+
+            context = {
+                'configuracion': configuracion,
+                'dato1_psicologo': dato1_psicologo,
+                'dato2_psicologo': dato2_psicologo
+            }
+            return render(request, 'panel_admin/configuracion/configuracion.html', context)
         else:
             if TConfiguracion.objects.exists():
                 configuracion = TConfiguracion.objects.first()
                 configuracion.telefono_configuracion = request.POST['telefono_conf']
                 configuracion.correo_configuracion = request.POST['correo_conf']
                 configuracion.direccion_configuracion = request.POST['direccion_conf']
+                configuracion.datos_psicologo_configuracion = request.POST['datos_psicologo']
+                is_manual, is_firma = False, False
                 if request.FILES != {}:
-                    if request.FILES['manual_configuracion']:
+                    if 'manual_configuracion' in request.FILES:
                         archivo_nuevo = request.FILES['manual_configuracion']
                         archivo_antiguo = configuracion.manual_configuracion
                         fs = FileSystemStorage()
                         fs.delete(archivo_antiguo.name)
                         fs.save(f'manual/{archivo_nuevo.name}', archivo_nuevo)
                         configuracion.manual_configuracion = f'manual/{archivo_nuevo.name}'
-                else:
+                        is_manual = True
+                        print('manual')
+                    elif 'img_firma' in request.FILES:
+                        archivo_nuevo = request.FILES['img_firma']
+                        archivo_antiguo = configuracion.img_firma_configuracion
+                        fs = FileSystemStorage()
+                        fs.delete(archivo_antiguo.name)
+                        fs.save(f'firma/{archivo_nuevo.name}', archivo_nuevo)
+                        configuracion.img_firma_configuracion = f'firma/{archivo_nuevo.name}'
+                        is_firma = True
+                        print('firma')
+                if is_manual == False:
                     configuracion.manual_configuracion = configuracion.manual_configuracion
+                if is_firma == False:
+                    configuracion.img_firma_configuracion = configuracion.img_firma_configuracion
                 configuracion.save()
                 messages.success(request, 'Configuracion actualizada con exito')
-                return render(request, 'panel_admin/configuracion/configuracion.html', {'configuracion': configuracion, 'mensaje': 'Configuracion actualizada'})
+                return redirect('configuracion')
             else:
                 configuracion = TConfiguracion()
                 configuracion.telefono_configuracion = request.POST['telefono_conf']
@@ -894,6 +918,11 @@ def usuarios_crear(request):
         check_login(request)
         # nuevo usuario
         if request.method == 'POST':
+            # comprobar
+            usuarioisExist = TUsuario.objects.filter(dni_usuario=request.POST['dni_usuario'])
+            if usuarioisExist:
+                messages.error(request, 'El DNI ya se encuentra registrado')
+                return redirect('usuarios')
             username_usuario = request.POST['username_usuario']
             password_usuario = request.POST['password_usuario']
             user = User.objects.create_user(username_usuario, '', password_usuario)
@@ -933,6 +962,11 @@ def usuarios_editar(request, id_usuario):
             user_permisos = usuario.usuario.user_permissions.all()
             return render(request, 'panel_admin/usuarios/editar.html', {'usuario': usuario, 'permisos': permisos, 'user_permisos': user_permisos})
         else:
+            # comprobar
+            usuarioisExist = TUsuario.objects.filter(dni_usuario=request.POST['dni_usuario'])
+            if usuarioisExist:
+                messages.error(request, 'El DNI ya se encuentra registrado')
+                return redirect('usuarios')
             usuario.nombre_usuario = request.POST['nombre_usuario']
             usuario.apellido_usuario = request.POST['apellido_usuario']
             usuario.dni_usuario = request.POST['dni_usuario']

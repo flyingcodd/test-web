@@ -76,7 +76,7 @@
             {% endfor %}
         </select>
         <div class="invalid-tooltip">
-            Porfavor selecione algo valido.
+            Por favor selecione algo valido.
         </div>
     </div>
     <div class="d-block justify-content-end mt-3">
@@ -108,3 +108,34 @@
     });
 </script>
 <!--validaciones :: fin-->
+
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <script>
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '{{ message }}',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+        })
+    </script>
+    {% endif %}
+    {% if message.tags == 'error' %}
+    <script>
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: '{{ message }}',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+        })
+    </script>
+    {% endif %}
+    {% endfor %}
+{% endif %}

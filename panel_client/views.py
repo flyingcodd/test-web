@@ -1,6 +1,10 @@
 from datetime import datetime
 import http
 from http.client import HTTPResponse
+###PDF
+from django.http import HttpResponse
+from django.template.loader import get_template
+###PDF
 import json
 from re import S
 from tkinter import Canvas
@@ -9,7 +13,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 
-from panel_admin.models import TColegio, TAlumno, TEncuesta, TPregunta, TRespuesta, TVocacion, TCarrera, TComunicado,TCategoria,TFicha_alumno,TFicha_alumno_detalle
+from panel_admin.models import TColegio, TAlumno, TEncuesta, TPregunta, TRespuesta, TVocacion, TCarrera, TComunicado,TCategoria,TFicha_alumno,TFicha_alumno_detalle,TConfiguracion
 
 from django.db import connection
 from django.contrib import messages
@@ -34,10 +38,15 @@ def iniciar_seccion(request):
         password_colegio = request.POST.get('password')
         dni_alumno = request.POST.get('dni_alumno')
         user = authenticate(username=username_colegio, password=password_colegio)
-        if user is not None and TColegio.objects.filter(usuario=user.id).exists():# and TAlumno.objects.filter(dni_alumno=dni_alumno).exists():
-            id_colegio = TColegio.objects.get(usuario=user.id).id_colegio
-            #id_alumno = TAlumno.objects.get(dni_alumno=dni_alumno).id_alumno
-            #if TAlumno.objects.get(id_alumno=id_alumno).id_colegio.id_colegio == id_colegio:
+        print(user)
+        if user is not None and TColegio.objects.filter(usuario=user.id).exists():
+            idColegio = TColegio.objects.get(usuario=user.id).id_colegio
+            if TColegio.objects.get(usuario=user.id).estado_colegio == 0:
+                messages.error(request, 'El colegio se encuentra desactivado')
+                return render(request, 'panel_client/login/iniciar_seccion.html')
+            if TAlumno.objects.filter(dni_alumno=dni_alumno).exists() and TAlumno.objects.get(dni_alumno=dni_alumno).id_colegio.id_colegio != idColegio:
+                messages.error(request, 'El alumno no pertenece a este colegio')
+                return render(request, 'panel_client/login/iniciar_seccion.html')
             login(request, user)
                 # Guardar el CORREO en la variable de sesión
             colegio = TColegio.objects.get(usuario=user.id)
@@ -94,6 +103,7 @@ def registro(request):
         # Verificar si el alumno ya se registro
         dni_alumno = request.session.get('dniAlumno')
         if TAlumno.objects.filter(dni_alumno=dni_alumno).exists():
+            messages.success(request, 'Bienvenido ' + TAlumno.objects.get(dni_alumno=dni_alumno).nombre_alumno + ', ' + TAlumno.objects.get(dni_alumno=dni_alumno).apellido_alumno)
             return redirect('menu_preguntas')
         else:
             return render(request, 'panel_client/login/registro.html')
@@ -242,18 +252,12 @@ def respuesta(request):
         return redirect('respuesta')
         ###########################################################
 
-import os
-from django.conf import settings
-from django.http import HttpResponse
-from django.template.loader import get_template
-from xhtml2pdf import pisa
-from django.contrib.staticfiles import finders
-
 
 @login_required
-def generar_pdf1(request, id_ficha_alumno):
+def generar_pdf(request, id_ficha_alumno):
+    #return render(request, 'panel_client/pdf2.html')
     if request.method == 'GET' and TFicha_alumno.objects.filter(id_ficha_alumno=id_ficha_alumno).exists():
-        template_path = 'panel_client/pdf2.html'
+        template = get_template('panel_client/pdf2.html')
         # Begin::Datos de la tabla
         ficha_alumno = TFicha_alumno.objects.get(id_ficha_alumno=id_ficha_alumno)
         ficha_alumno_detalle = TFicha_alumno_detalle.objects.filter(id_ficha_alumno=id_ficha_alumno)
@@ -268,92 +272,37 @@ def generar_pdf1(request, id_ficha_alumno):
             vocaciones.append(i.id_vocacion)
         # eliminar duplicados
         vocaciones = list(dict.fromkeys(vocaciones))
+        configuracion = TConfiguracion.objects.first()
+        datos_psicologo = {
+            'nombre_psicologo': configuracion.datos_psicologo_configuracion.split(',')[0],
+            'cargo_psicologo': configuracion.datos_psicologo_configuracion.split(',')[1],
+            'firma': 'http://' + request.get_host() + configuracion.img_firma_configuracion.url,
+        }
         
         url_logo = "http://" + request.get_host() + "/static/panel_client_registro/img/logo-ministerio.jpg"
         edad = (datetime.now().year)-(ficha_alumno.id_alumno.fecha_nacimiento_alumno.year)
-        # End::Datos de la tabla
         context = {
             'ficha_alumno': ficha_alumno,
             'vocaciones': vocaciones,
             'carreras': carreras,
             'id_ficha_alumno': id_ficha_alumno,
             'edad': edad,
-            'url_logo': url_logo
-        }
-        # Create a Django response object, and specify content_type as pdf
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-        # find the template and render it.
-        template = get_template(template_path)
-        html = template.render(context)
-
-        # create a pdf
-        pisa_status = pisa.CreatePDF(
-        html, dest=response, link_callback=link_callback)
-        # if error then show some funny view
-        if pisa_status.err:
-            return HttpResponse('Ocurrio un error interno, comunicarse con la oficina <pre>' + html + '</pre>')
-        return HttpResponse(response, content_type='application/pdf')
-    else:
-        messages.error(request, 'No se encontro el registro')
-        # retornar el mensaje error
-        return HttpResponse('No se encontro la ficha del alumno, El error se puede deber a que el test no existe "falta completar" o fue eliminado')
-
-@login_required
-def generar_pdf(request, id_ficha_alumno):
-    #return render(request, 'panel_client/pdf2.html')
-    if request.method == 'GET' and TFicha_alumno.objects.filter(id_ficha_alumno=id_ficha_alumno).exists():
-        template = get_template('panel_client/pdf2.html')
-        url_logo = "http://" + request.get_host() + "/static/panel_client_registro/img/logo-ministerio.jpg"
-        # Begin::Datos de la tabla
-        context = {
-            'nombre': 'd',
-            'fecha': 'd',
-            'url_logo': url_logo
+            'url_logo': url_logo,
+            'datos_psicologo': datos_psicologo
         }
         html = template.render(context)
         string = html.encode(encoding="UTF-8")
         # tamaño de una  hoja A4 210mm x 297mm
         pdf = HTML(string=string).write_pdf(stylesheets=[CSS(string='@page { size: A4; margin: 1cm }')])
         response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'filename="boleta.pdf"'
+        response['Content-Disposition'] = 'filename="report-{}.pdf"'.format(ficha_alumno.id_alumno.dni_alumno)
         return response
     else:
         messages.error(request, 'No se encontro el registro')
         # retornar el mensaje error
         return HttpResponse('No se encontro la ficha del alumno, El error se puede deber a que el test no existe "falta completar" o fue eliminado')
-    
 
-def link_callback(uri, rel):
-            """
-            Convert HTML URIs to absolute system paths so xhtml2pdf can access those
-            resources
-            """
-            result = finders.find(uri)
-            if result:
-                    if not isinstance(result, (list, tuple)):
-                            result = [result]
-                    result = list(os.path.realpath(path) for path in result)
-                    path=result[0]
-            else:
-                    sUrl = settings.STATIC_URL        # Typically /static/
-                    sRoot = settings.STATIC_ROOT      # Typically /home/userX/project_static/
-                    mUrl = settings.MEDIA_URL         # Typically /media/
-                    mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/media/
 
-                    if uri.startswith(mUrl):
-                            path = os.path.join(mRoot, uri.replace(mUrl, ""))
-                    elif uri.startswith(sUrl):
-                            path = os.path.join(sRoot, uri.replace(sUrl, ""))
-                    else:
-                            return uri
-
-            # make sure that file exists
-            if not os.path.isfile(path):
-                    raise Exception(
-                            'media URI must start with %s or %s' % (sUrl, mUrl)
-                    )
-            return path
 @login_required
 def menu_preguntas(request):
     check_login_col(request)

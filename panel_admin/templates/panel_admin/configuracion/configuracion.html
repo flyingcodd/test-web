@@ -58,8 +58,8 @@
                                 <label class="custom-file-label" for="as">Elija la firma</label>
                             </div>
                             <div class="col-6">
-                                <label for=" img_firma">Firma actual:</label>
-                                <img src="https://tusimagenesde.com/wp-content/uploads/2015/01/firmas-2.gif" alt="firma"
+                                <label for=" img_firma_actual">Firma actual:</label>
+                                <img src="{{configuracion.img_firma_configuracion.url}}" alt="firma"
                                     width="100px">
                             </div>
                         </div>
@@ -69,15 +69,15 @@
                                 <label for="img_firma">Datos del Psicologo:</label>
                                 <textarea name="datos_psicologo" id="datos_psicologo" cols="30"
                                     rows="3" class="form-control text-center" style="line-height: 1.1"
-                                    placeholder="Nombre del psicologo, Colegiatura"></textarea>
+                                    placeholder="Nombre del psicologo, Colegiatura">{{configuracion.datos_psicologo_configuracion}}</textarea>
                             </div>
                             <div class="col-6 d-flex flex-column justify-content-center align-items-center" style="line-height: 0.1">
-                                <img src="https://tusimagenesde.com/wp-content/uploads/2015/01/firmas-2.gif" alt="firma"
+                                <img src="{{configuracion.img_firma_configuracion.url}}" alt="firma"
                                     width="100px">
                                     <p>-------------------</p>
                                     <p class="font-weight-bold">Psicologo(a)</p>
-                                    <p id="name_psicologo" class="font-weight-bold">Nombre del Psicologo</p>
-                                    <p id="colegio_psicologo" class="font-weight-regular">Colegiatura</p>
+                                    <p id="name_psicologo" class="font-weight-bold">{{ dato1_psicologo }}</p>
+                                    <p id="colegio_psicologo" class="font-weight-regular">{{dato2_psicologo}}</p>
                             </div>
                         </div>
                         <hr>

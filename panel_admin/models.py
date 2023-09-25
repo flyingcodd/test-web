@@ -98,7 +98,7 @@ class TComunicado(models.Model):
         managed = False
         db_table = 't_comunicado'
         permissions = (
-            ('mispermisos_view_tcomunicado', 'Puede ver las comunicados'),
+            ('mispermisos_view_tcomunicado', 'Puede ver los comunicados'),
             ('mispermisos_add_tcomunicado', 'Puede agregar comunicados'),
             ('mispermisos_change_tcomunicado', 'Puede editar comunicados'),
             ('mispermisos_delete_tcomunicado', 'Puede eliminar comunicados'),

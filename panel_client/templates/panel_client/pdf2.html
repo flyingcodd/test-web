@@ -1,4 +1,9 @@
 {% load static %}
+<!-- Si alguien ve este codigo:
+El codigo esta echo por un estudiante de informatica de 8vo ciclo, por favor
+no juzgarlo, el codigo es horrible, pero funciona, si alguien quiere mejorarlo
+puede hacerlo, pero por favor no juzgarlo, gracias. 
+Atte: Flyingcodd -->
 <!DOCTYPE html>
 <html lang="es">
 
@@ -10,24 +15,52 @@
 
     <style>
         @page {
-            margin: 1cm 1cm 1cm 2.5cm;
+            margin: 1cm 2cm 1cm 2cm;
             font-family: Arial, Helvetica, sans-serif;
+            /* poner una cebecera que se repita en todas las paginas */
+        }
+        header {
+            position: running(header-content);
+        }
+        #header-content {
+            position: fixed;
+            top: 0cm;
+            left: 0cm;
+            right: 0cm;
         }
         .contenedor {
+            margin-top: 1.5cm;
         }
         .logo {
-            width: 6cm;
-            height: 1.5cm;
+            width: 5cm;
         }
         .titulo {
             text-align: center;
             font-weight: bold;
             font-size: 1.1rem;
             margin-top: 1cm;
-            margin-bottom: 10px;
+            margin-bottom: 0.5cm;
         }
         .row {
             width: 100%;
+            display: flex;
+            flex-direction: row;
+            padding: 5px 0px;
+        }
+        .row-6 {
+            width: 50%;
+            display: flex;
+            flex-direction: row;
+            padding: 10px 0px;
+        }
+        .row-7 {
+            width: 60%;
+            display: flex;
+            flex-direction: row;
+            padding: 10px 0px;
+        }
+        .row-5 {
+            width: 40%;
             display: flex;
             flex-direction: row;
             padding: 10px 0px;
@@ -81,19 +114,24 @@
         .firma{
             text-align: center;
             margin-top: 50px;
+            line-height: 0.1px;
         }
         .firma-logo{
-            width: 6cm;
-            height: 1.5cm;
+            width: 140px;
+            margin-bottom: -15px;
+        }
+        .text-firma {
+            font-weight: bolder;
         }
     </style>
 </head>
 
 <body>
-    <div class="contenedor">
-        <div class="container_logo">
+    <header id="header-content" class="container_logo">
             <img class="logo" src="{{url_logo}}" alt="logo.jpg">
-        </div>
+        </header>
+    <div class="contenedor">
+        
         <div class="titulo">
             INFORME CONFIDENCIAL DE SOVIO
         </div>
@@ -102,7 +140,7 @@
                 Nombre del evaluado(a):
             </div>
             <div class="col-6 caja">
-                JENIFER JULY ALCCA HUALLPAYUNCA
+                {{ficha_alumno.id_alumno.nombre_alumno}} {{ficha_alumno.id_alumno.apellido_alumno}}
             </div>
         </div>
         <div class="row">
@@ -111,7 +149,7 @@
                     DNI:
                 </div>
                 <div class="caja">
-                    75675675
+                    {{ficha_alumno.id_alumno.dni_alumno}}
                 </div>
             </div>
             <div class="row-4">
@@ -119,7 +157,7 @@
                     F. eval.:
                 </div>
                 <div class="caja">
-                    12/12/2021
+                    {{ficha_alumno.fecha_ficha_alumno | date:"d/m/Y"}}
                 </div>
             </div>
             <div class="row-2">
@@ -127,7 +165,7 @@
                     Edad:
                 </div>
                 <div class="caja">
-                    12
+                    {{edad}}
                 </div>
             </div>
             <div class="row-2">
@@ -135,50 +173,45 @@
                     Genero:
                 </div>
                 <div class="caja">
-                    F
-                </div>
-            </div>
-        </div>
-        <!--<div class="formulario">
-            <div class="form-group">
-                <label for="name">Nombre: </label>
-                <label class="res" for="">{{ficha_alumno.id_alumno.nombre_alumno}}</label>
-            </div>
-            <div class="form-group">
-                <label for="name">Apellido: </label>
-                <label class="res" for="" style="border: 10px;">{{ficha_alumno.id_alumno.apellido_alumno}}</label>
-            </div>
-            <div class="form-group">
-                <label for="name">Dni: </label>
-                <label class="res" for="" style="border: 10px;">{{ficha_alumno.id_alumno.dni_alumno}}</label>
-            </div>
-            <div class="form-group">
-                <label for="name">Edad: </label>
-                <label class="res" for="" style="border: 10px;">{{edad}} años</label>
-            </div>
-            <div class="form-group">
-                <label for="name">Genero: </label>
-                <label class="res" for="" style="border: 10px;">
                     {% if ficha_alumno.id_alumno.genero_alumno == 1 %}
-                    Masculino
+                    M
                     {% elif ficha_alumno.id_alumno.genero_alumno == 0 %}
-                    Femenino
+                    F
                     {% else %}
                     Otro
                     {% endif %}
-                </label>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="name">Grado de instruccion: </label>
-                <label class="res" for="" style="border: 10px;">{{ficha_alumno.id_alumno.grado_alumno}}º</label>
+        </div>
+        <div class="row">
+            <div class="row-5">
+                <div class="caja-label" style="width: 50%">
+                    Grado de instruc:
+                </div>
+                <div class="caja" style="width: 8%;">
+                    {{ficha_alumno.id_alumno.grado_alumno}}º
+                </div>
+                <div class="caja" style="width: 30%;">
+                    Grado
+                </div>
             </div>
-            <div class="form-group">
-                <label for="name">Inst. Educativa: </label>
-                <label class="res" for=""
-                    style="border: 10px;">{{ficha_alumno.id_alumno.id_colegio.nombre_colegio}}</label>
+            <div class="row-7" >
+                <div class="caja-label">
+                    Inst. Educativa:
+                </div>
+                <div class="caja">
+                    {{ficha_alumno.id_alumno.id_colegio.nombre_colegio}}
+                </div>
             </div>
-        </div>-->
-        
+        </div>
+        <div class="row">
+            <div class="caja-label" style="width: 20%;">
+                Evaluador(a):
+            </div>
+            <div class="caja" style="width: 80%;">
+                {{datos_psicologo.nombre_psicologo}} {{datos_psicologo.cargo_psicologo}}
+            </div>
+        </div>
         <p class="text-title">I. Descripcion de las areas medidas</p>
         <p class="text-subtitle">&gt; Habilidades básicas </p>
         <div class="text-container">
@@ -248,7 +281,8 @@
                 de observación, análisis y de aprendizaje constante.
             </span>
         </div>
-        <div class="text-container">
+        <div style="padding-bottom: 40px;">.</div>
+        <div class="text-container" >
             <span class="text-subtitle">7.- Tipo Emprendedor: </span>
             <span class="text">Las personas de este tipo tienen interés en actividades que implican tomar la
                 iniciativa, iniciar nuevas empresas y/o negocios. Por ello, tienen capacidades para vender, publicitar
@@ -280,7 +314,10 @@
             {% endfor %}
         </p>
         <div class="firma">
-            <img class="firma-logo" src="{{url_logo}}" alt="firma.jpg">
+            <img class="firma-logo" src="{{datos_psicologo.firma}}" alt="firma.jpg">
+            <p class="text-firma">--------------------------------------------</p>
+            <p class="text-firma">{{datos_psicologo.nombre_psicologo}}</p>
+            <p class="text-firma">{{datos_psicologo.cargo_psicologo}}</p>
         </div>
     </div>
 

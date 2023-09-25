@@ -100,7 +100,9 @@ id_configuracion int primary key auto_increment not null,
 telefono_configuracion varchar(12),
 direccion_configuracion varchar(50),
 correo_configuracion varchar(50),
-manual_configuracion varchar(100)
+manual_configuracion varchar(100),
+img_firma_configuracion varchar(100),
+datos_psicologo_configuracion varchar(100)
 );
 create table t_red_social(
 id_red_social int primary key auto_increment not null,

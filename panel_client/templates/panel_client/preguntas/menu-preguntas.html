@@ -109,5 +109,36 @@
         history.go(1);
     };
 </script>
-
+<!-- mensajes de swal :: BEGIN -->
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <script>
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '{{ message }}',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+        })
+    </script>
+    {% endif %}
+    {% if message.tags == 'error' %}
+    <script>
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: '{{ message }}',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+        })
+    </script>
+    {% endif %}
+    {% endfor %}
+{% endif %}
+<!-- mensajes de swal :: END -->
 {% endblock %}

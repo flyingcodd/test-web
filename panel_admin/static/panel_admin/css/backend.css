@@ -22430,7 +22430,8 @@ th .form-check-input {
     height: 46px;
     line-height: 45px;
     background: #fff;
-    border: 1px solid #f1f1f1;
+    /*border: 1px solid #f1f1f1; */
+    border: 1px solid #ced4da;
     font-size: 14px;
     color: #324253;
     border-radius: 5px;

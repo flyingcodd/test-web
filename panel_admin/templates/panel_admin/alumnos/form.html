@@ -87,14 +87,14 @@
 </script>
 <script>
     nombre_alumno.addEventListener('input', function (event) {
-        // valor solo letras y acentos
-        if (!/^[a-zA-ZáéíóúÁÉÍÓÚ ]*$/.test(nombre_alumno.value)) {
+        // valor solo letras y acentos y ñ
+        if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]*$/.test(nombre_alumno.value)) {
             nombre_alumno.value = nombre_alumno.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚ ]/g, "");
         }
     });
     apellido_alumno.addEventListener('input', function (event) {
         // valor solo letras y acentos
-        if (!/^[a-zA-ZáéíóúÁÉÍÓÚ ]*$/.test(apellido_alumno.value)) {
+        if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]*$/.test(apellido_alumno.value)) {
             apellido_alumno.value = apellido_alumno.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚ ]/g, "");
         }
     });
