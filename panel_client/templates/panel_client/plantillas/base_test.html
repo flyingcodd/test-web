@@ -19,9 +19,9 @@
         <div class="nav__container">
             <div class="nav__logo">
                 {% if request.session.nombreAlumno == None %}
-                    <a><img src="{%  static 'panel_client_registro/img/logo1.png'  %}" alt="logo"></a>
+                    <a><img src="{%  static 'panel_client_registro/img/Trabajo_logo horizontal_positivo.svg'  %}" alt="logo"></a>
                 {% else %}
-                    <a href="{% url 'menu_preguntas' %}"><img src="{%  static 'panel_client_registro/img/logo1.png'  %}" alt="logo"></a>
+                    <a href="{% url 'menu_preguntas' %}"><img src="{%  static 'panel_client_registro/img/Trabajo_logo horizontal_positivo.svg'  %}" alt="logo"></a>
                 {% endif %}
             </div>
             <!--Nombre del colegio y boton cerrar session -->

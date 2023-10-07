@@ -131,6 +131,35 @@
                             </div>
                         </div>
                         <hr>
+                        <h4 class="font-weight-bold p-3">Respuestas positivas por vocacion</h4>
+                        <div class="table-responsive">
+                            <table class="table data-table mb-0 table-hover">
+                                <thead class="table-color-heading">
+                                    <tr class="text-light">
+                                        <th scope="col">
+                                            <label class="text-muted m-0">Tipo Vocacional</label>
+                                        </th>
+                                        <!-- {% for categoria in categorias %}
+                                        <th scope="col">
+                                            <label class="text-muted mb-0">{{categoria.nombre_categoria}}</label>
+                                        </th>
+                                        {% endfor %} -->
+                                        <th scope="col">
+                                            <label class="text-muted mb-0">Suma Total</label>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in tablaVocacionCategoria %}
+                                    <tr class="white-space-no-wrap">
+                                        <td>{{item.nombre_vocacion}}</td>
+                                        <td>{{item.totalPreguntasPositivas}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
                         <h4 class="font-weight-bold p-3">Respuestas por categoria y vocacion</h4>
                         <div class="table-responsive">
                             <table class="table data-table mb-0 table-hover">

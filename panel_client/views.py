@@ -395,3 +395,4 @@ def check_login_registro(request):
             return redirect('registro')
     else:
         return redirect('iniciar_seccion')
+    

@@ -14,7 +14,7 @@ body{
     width: 100%;
     height: 50px;
     border: none;
-    background: #0d6efd;
+    background: #1B3F85;
     border-radius: 5px;
     font-size: 18px;
     color: #e9f4fb;
@@ -26,7 +26,7 @@ body{
     padding: 15px;
 }
 .btn:hover{
-    background: #8e44ad;
+    background: #3DA2DB;
     transition: .4s;
 }
 input[type="date" i]{
@@ -99,12 +99,12 @@ option {
 }
 /* btn disabled */
 .btn-disabled{
-    background: #0d6efd;
+    background: #1B3F85;
     opacity: 0.5;
     cursor: not-allowed;
 }
 .btn-disabled:hover{
-    background: #0d6efd;
+    background: #1B3F85;
     opacity: 0.5;
     cursor: not-allowed;
 }
@@ -146,7 +146,7 @@ option {
     margin-right: 10px;
 }
 .nav__logo a{
-    color: #0d6efd;
+    color: #1B3F85;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -163,8 +163,8 @@ option {
 .nav__user .nav__user__name p{
     margin-top: -20px;
     font-size: 15px;
-    color: #8e44ad;
-    border-bottom: 1px solid #8e44ad;
+    color: #3DA2DB;
+    border-bottom: 1px solid #3DA2DB;
     text-align: start;
 }
 .nav__user .nav__user__logo img{
@@ -469,7 +469,7 @@ form .txt_field select{
 .container__resultados h1{
     text-align: center;
     padding: 0 0 20px 0;
-    border-bottom: 2px solid #0d6efd;
+    border-bottom: 2px solid #1B3F85;
 }
 .container__resultados .container__resultados__body{
     padding: 0 30px
@@ -480,7 +480,7 @@ form .txt_field select{
     font-size: 24px;
 }
 .container__resultados .container__resultados__body h1{
-    color: #0d6efd;
+    color: #1B3F85;
 }
 .container__resultados .container__resultados__body p{
     color: #000;

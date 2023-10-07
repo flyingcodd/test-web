@@ -142,7 +142,7 @@ def colegios_crear(request):
             username_colegio = request.POST['username_colegio']
             password_colegio = request.POST['password_colegio']
             user = User.objects.create_user(username_colegio, '', password_colegio)
-            user.is_active = request.POST['estado_colegio']
+            user.is_active = True #request.POST['estado_colegio']
             user.is_staff = False
             user.save()
             colegio = TColegio()
@@ -201,7 +201,7 @@ def colegios_editar(request, id_colegio):
             # actualizando usuario
             user = User.objects.get(id=colegio.usuario.id)
             user.username = username_colegio
-            user.is_active = request.POST['estado_colegio']
+            user.is_active = True # request.POST['estado_colegio']
             if password_colegio != '':
                 user.set_password(password_colegio)
             user.save()
@@ -477,32 +477,39 @@ def respuestas(request):
     try:
         check_login(request)
         if request.method == 'POST':
-            # listar respuestas por dni
             dni_alumno = request.POST['dni_alumno']
             if TAlumno.objects.filter(dni_alumno=dni_alumno).exists():
                 id_alumno = TAlumno.objects.get(dni_alumno=dni_alumno)
                 id_encuesta = TEncuesta.objects.get(id_alumno=id_alumno)
                 respuestas = TRespuesta.objects.filter(id_encuesta=id_encuesta)
                 alumno = TAlumno.objects.get(dni_alumno=dni_alumno)
-                # cuadro de resultados resumen
-                # categoria
-                categoria = TCategoria.objects.all()
+                categorias = TCategoria.objects.all()
                 # vocacion
-                vocacion = TVocacion.objects.all()
+                vocaciones = TVocacion.objects.all()
                 # resultados
                 resultados = []
-                for c in categoria:
-                    for v in vocacion:
+                tablaVocacionCategoria = []
+                for c in categorias:
+                    for v in vocaciones:
                         # cantidad de respuestas por categoria y vocacion de un alumno con si y no
                         if TPregunta.objects.filter(id_categoria=c, id_vocacion=v).exists():
                             cantidad_si = TRespuesta.objects.filter(id_encuesta=id_encuesta, id_pregunta__id_categoria=c, id_pregunta__id_vocacion=v, valor_respuesta=1).count()
                             cantidad_no = TRespuesta.objects.filter(id_encuesta=id_encuesta, id_pregunta__id_categoria=c, id_pregunta__id_vocacion=v, valor_respuesta=0).count()
                             resultados.append({'categoria': c.nombre_categoria, 'vocacion': v.nombre_vocacion, 'si': cantidad_si, 'no': cantidad_no})
-                        
+
+                for v in vocaciones:
+                    tablaVocacionCategoria.append({'nombre_vocacion': v.nombre_vocacion, 'totalPreguntasPositivas': TRespuesta.objects.filter(id_encuesta=id_encuesta, id_pregunta__id_vocacion=v, valor_respuesta=1).count()})
                 estado_encuesta = TEncuesta.objects.get(id_alumno=id_alumno).estado_encuesta
-                # retornando con datos
+                context = {
+                    'categorias': categorias,
+                    'respuestas': respuestas,
+                    'alumno': alumno,
+                    'resultados': resultados,
+                    'estado_encuesta': estado_encuesta,
+                    'tablaVocacionCategoria': tablaVocacionCategoria
+                }
                 messages.success(request, 'Alumno encontrado')
-                return render(request, 'panel_admin/respuestas/listar.html', {'respuestas': respuestas, 'alumno': alumno, 'resultados': resultados, 'estado_encuesta': estado_encuesta})
+                return render(request, 'panel_admin/respuestas/listar.html', context)
             else:
                 # retornando con mensaje de error
                 messages.error(request, 'El alumno no existe')
